@@ -1,7 +1,7 @@
 // chain(fn, list)
-export function chain<A, B, T = never>(fn: (n: A) => readonly B[], list: readonly A[]): B[];
+export function chain<A, B>(fn: (n: A) => readonly B[], list: readonly A[]): B[];
 // chain(fn)(list)
-export function chain<A, B, T = never>(fn: (n: A) => readonly B[]): (list: readonly A[]) => B[];
+export function chain<A, B>(fn: (n: A) => readonly B[]): (list: readonly A[]) => B[];
 
 // chain(fn, monad)
 export function chain<A, Ma extends { chain: (fn: (a: A) => Mb) => Mb }, Mb>(fn: (a: A) => Mb, monad: Ma): Mb;

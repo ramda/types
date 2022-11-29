@@ -1,0 +1,7 @@
+{
+  // tsconfig.json supports comments!
+  "include": [
+    "test",
+    "types"
+  ]
+}

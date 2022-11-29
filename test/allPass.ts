@@ -1,18 +1,19 @@
-import { expectType, expectError } from "tsd";
-import * as R from "../es/index";
+import { expectType, expectError } from 'tsd';
+import { allPass } from '../types/allPass';
+import { propEq } from '../types/propEq';
 
-const isOld = R.propEq("age", 212);
-const isAllergicToGarlic = R.propEq("garlic_allergy", true);
-const isAllergicToSun = R.propEq("sun_allergy", true);
-const isFast = R.propEq("fast", null);
-const isAfraid = R.propEq("fear", undefined);
+const isOld = propEq('age', 212);
+const isAllergicToGarlic = propEq('garlic_allergy', true);
+const isAllergicToSun = propEq('sun_allergy', true);
+const isFast = propEq('fast', null);
+const isAfraid = propEq('fear', undefined);
 
-const isVampire = R.allPass([
+const isVampire = allPass([
   isOld,
   isAllergicToGarlic,
   isAllergicToSun,
   isFast,
-  isAfraid,
+  isAfraid
 ]);
 
 expectType<boolean>(
@@ -21,7 +22,7 @@ expectType<boolean>(
     garlic_allergy: true,
     sun_allergy: true,
     fast: null,
-    fear: undefined,
+    fear: undefined
   })
 );
 
@@ -31,20 +32,22 @@ expectType<boolean>(
     garlic_allergy: true,
     sun_allergy: true,
     fast: false,
-    fear: true,
+    fear: true
   })
 );
 
 expectError(
+  // @ts-expect-error
   isVampire({
     age: 40,
     garlic_allergy: true,
-    fear: false,
+    fear: false
   })
 );
 
 expectError(
   isVampire({
-    nickname: "Blade",
+    // @ts-expect-error
+    nickname: 'Blade'
   })
 );

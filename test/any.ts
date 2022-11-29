@@ -1,13 +1,20 @@
-import { expectType, expectError } from "tsd";
-import * as R from "../es/index";
+import { expectType, expectError } from 'tsd';
+import { any } from '../types/any';
+import { flip } from '../types/flip';
+import { is } from '../types/is';
+import { lt } from '../types/lt';
+import { isNil } from '../types/isNil';
+import { isNotNil } from '../types/isNotNil';
 
-expectType<boolean>(R.any(R.isNotNil, [1, 2, null]));
-expectType<boolean>(R.any(R.isNil, [null, 2, undefined]));
-expectType<boolean>(R.any(R.flip(R.lt)(0), [1, 2, -1]));
-expectType<boolean>(R.any(R.flip(R.lt)(0), [1, 2, -1]));
-expectType<boolean>(R.any(R.is(String), [1, 2, -1]));
-expectType<boolean>(R.any(R.is(Number), [1, 2, -1]));
+expectType<boolean>(any(isNotNil, [1, 2, null]));
+expectType<boolean>(any(isNil, [null, 2, undefined]));
+expectType<boolean>(any(flip(lt)(0), [1, 2, -1]));
+expectType<boolean>(any(flip(lt)(0), [1, 2, -1]));
+expectType<boolean>(any(is(String), [1, 2, -1]));
+expectType<boolean>(any(is(Number), [1, 2, -1]));
 
-expectError(R.any(R.flip(R.lt)(0), [null, 2, undefined]));
-expectError(R.any(R.flip(R.lt)(0), { a: 2, b: 3 }));
-expectError(R.any(R.flip(R.lt)(0), "error!"));
+expectError(any(flip(lt)(0), [null, 2, undefined]));
+// @ts-expect-error
+expectError(any(flip(lt)(0), { a: 2, b: 3 }));
+// @ts-expect-error
+expectError(any(flip(lt)(0), 'error!'));

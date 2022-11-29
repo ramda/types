@@ -34,7 +34,7 @@ export function assoc<T>(__: Placeholder, val: T) : {
     // assoc(__, val)(prop)(obj) when obj does not have key prop
     <U>(obj: U): U & Record<K, T>;
   }
-}
+};
 
 // assoc(prop, val)
 export function assoc<T, K extends string>(prop: K, val: T) : {
@@ -42,7 +42,7 @@ export function assoc<T, K extends string>(prop: K, val: T) : {
   <U extends Record<K, any>>(obj: U): U[K] extends T ? U : Record<K, T> & Omit<U, K>;
   // assoc(prop, val)(obj), when obj does not have key prop
   <U>(obj: U): U & Record<K, T>;
-}
+};
 
 // assoc(prop)
 export function assoc<K extends string>(prop: K): {

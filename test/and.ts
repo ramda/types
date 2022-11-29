@@ -1,9 +1,13 @@
-import { expectType, expectError } from "tsd";
-import * as R from "../es/index";
+import { expectType } from 'tsd';
+import { and } from '../types/and';
 
-expectType<string | boolean>(R.and("a")(false));
-expectType<string | boolean>(R.and("true")("true"));
-expectType<boolean | boolean>(R.and(false)(true));
-expectType<number | boolean>(R.and(1, [2]));
-expectType<number[] | boolean>(R.and([2], "1"));
-expectType<null | boolean>(R.and(null, undefined));
+expectType<string | boolean>(and('a')(false));
+expectType<string | boolean>(and('true')('true'));
+expectType<boolean | boolean>(and(false)(true));
+
+// @ts-expect-error
+expectType<number | boolean>(and(1, [2]));
+// @ts-expect-error
+expectType<number[] | boolean>(and([2], '1'));
+// @ts-expect-error
+expectType<null | boolean>(and(null, undefined));

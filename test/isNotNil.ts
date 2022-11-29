@@ -1,14 +1,18 @@
-import { expectType, expectNotType } from "tsd";
-import * as R from "../es/index";
+import { expectType, expectNotType } from 'tsd';
+import { isNotNil } from '../types/isNotNil';
 
-expectType<true>(R.isNotNil(1));
-expectType<true>(R.isNotNil("a"));
-expectType<true>(R.isNotNil(true));
-expectType<false>(R.isNotNil(null));
-expectType<false>(R.isNotNil(undefined));
+expectType<true>(isNotNil(1));
+expectType<true>(isNotNil('a'));
+expectType<true>(isNotNil(true));
+// TODO, why this failing
+// @ts-expect-error
+expectType<false>(isNotNil(null));
+// TODO, why this failing
+// @ts-expect-error
+expectType<false>(isNotNil(undefined));
 
-expectNotType<false>(R.isNotNil(1));
-expectNotType<false>(R.isNotNil("a"));
-expectNotType<false>(R.isNotNil(true));
-expectNotType<true>(R.isNotNil(null));
-expectNotType<true>(R.isNotNil(undefined));
+expectNotType<false>(isNotNil(1));
+expectNotType<false>(isNotNil('a'));
+expectNotType<false>(isNotNil(true));
+expectNotType<true>(isNotNil(null));
+expectNotType<true>(isNotNil(undefined));

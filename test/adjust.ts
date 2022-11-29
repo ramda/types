@@ -1,12 +1,16 @@
-import { expectType, expectError } from "tsd";
-import * as R from "../es/index";
+import { expectType, expectError } from 'tsd';
+import { adjust } from '../types/adjust';
+import { toUpper } from '../types/toUpper';
+import { isNil } from '../types/isNil';
 
-expectType<string[]>(R.adjust(1, R.toUpper, ["a", "b", "c"]));
-expectType<string[]>(R.adjust(2, R.toUpper)(["c", "d", "e"]));
+expectType<string[]>(adjust(1, toUpper, ['a', 'b', 'c']));
+expectType<string[]>(adjust(2, toUpper)(['c', 'd', 'e']));
 
-expectType<number[]>(R.adjust(2, (n: number) => n * 2)([1, 2, 3]));
-expectType<boolean[]>(R.adjust(2, (n: boolean) => !n)([true, false, true]));
+expectType<number[]>(adjust(2, (n: number) => n * 2)([1, 2, 3]));
+expectType<boolean[]>(adjust(2, (n: boolean) => !n)([true, false, true]));
 
-expectError(R.adjust(1, R.toString, [1, 2, 3]));
-expectError(R.adjust("1", R.toUpper, ["c", "d", "e"]));
-expectError(R.adjust(2, R.isNil)([2, 3, 4]));
+// @ts-expect-error
+expectError(adjust(1, toString, [1, 2, 3]));
+// @ts-expect-error
+expectError(adjust('1', toUpper, ['c', 'd', 'e']));
+expectError(adjust(2, isNil)([2, 3, 4]));

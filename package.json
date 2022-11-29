@@ -39,7 +39,9 @@
   "types": "./es/index.d.ts",
   "scripts": {
     "build": "node scripts/build-types.js",
-    "test": "tsd"
+    "lint": "eslint . --max-warnings=0",
+    "test": "tsd",
+    "typecheck": "tsc --noEmit"
   },
   "tsd": {
     "directory": "test/"
@@ -48,6 +50,10 @@
     "ts-toolbelt": "^6.15.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-import": "^2.26.0",
     "ramda": "^0.28.0",
     "tsd": "^0.24.1",
     "typescript": "next"

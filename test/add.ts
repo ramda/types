@@ -1,9 +1,11 @@
 import { expectType, expectError } from 'tsd';
-import * as R from '../es/index';
+import { add } from '../types/add';
 
-expectType<number>(R.add(2, 3));
-expectType<number>(R.add(7)(10));
-expectType<(a: number) => number>(R.add(7));
-expectError(R.add('foo', 'bar'));
-expectError(R.add('foo')('bar'));
+expectType<number>(add(2, 3));
+expectType<number>(add(7)(10));
+expectType<(a: number) => number>(add(7));
+// @ts-expect-error
+expectError(add('foo', 'bar'));
+// @ts-expect-error
+expectError(add('foo')('bar'));
 

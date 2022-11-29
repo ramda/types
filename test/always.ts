@@ -1,13 +1,13 @@
-import { expectType, expectError } from "tsd";
-import * as R from "../es/index";
+import { expectType, expectError } from 'tsd';
+import { always } from '../types/always';
 
-expectType<string>(R.always("a")());
-expectType<string[]>(R.always(["a"])());
-expectType<number>(R.always(2)());
+expectType<string>(always('a')());
+expectType<string[]>(always(['a'])());
+expectType<number>(always(2)());
 expectType<{ a: number; b: number; c: number }>(
-  R.always({ a: 2, b: 3, c: 4 })()
+  always({ a: 2, b: 3, c: 4 })()
 );
-expectType<null>(R.always(null)());
-expectType<(...args: unknown[]) => number>(R.always(1));
-
-expectError<(...args: unknown[]) => number>(R.always("a"));
+expectType<null>(always(null)());
+expectType<(...args: unknown[]) => number>(always(1));
+// @ts-expect-error
+expectError<(...args: unknown[]) => number>(always('a'));

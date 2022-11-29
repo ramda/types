@@ -1,5 +1,3 @@
-import * as _ from 'ts-toolbelt';
-
 import { Placeholder } from './util/tools';
 
 // with `addIndex<P, V>`, the `P` and `V` are just used to to constrain `fn` being passed to `addIndex`
@@ -9,7 +7,7 @@ import { Placeholder } from './util/tools';
 
 // Special case for forEach
 export function addIndex<P>(
-    fn: (f: (item: P) => void, list: readonly P[]) => P[],
+  fn: (f: (item: P) => void, list: readonly P[]) => P[],
 ): {
   <T>(a: (item: T, idx: number, list: T[]) => void, b: readonly T[]): T[];
   <T>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => void) => T[];
@@ -18,7 +16,7 @@ export function addIndex<P>(
 
 // Special case for filter
 export function addIndex<P>(
-    fn: (f: (item: P) => item is P, list: readonly P[]) => P[],
+  fn: (f: (item: P) => item is P, list: readonly P[]) => P[],
 ): {
   <T>(a: (item: T, idx: number, list: T[]) => void, b: readonly T[]): T[];
   <T>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => void) => T[];
@@ -27,7 +25,7 @@ export function addIndex<P>(
 
 // Special case for map
 export function addIndex<P, V>(
-    fn: (f: (item: P) => V, list: readonly P[]) => V[],
+  fn: (f: (item: P) => V, list: readonly P[]) => V[],
 ): {
   <T, U>(a: (item: T, idx: number, list: T[]) => U, b: readonly T[]): U[];
   <T, U>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => U) => U[];
@@ -36,7 +34,7 @@ export function addIndex<P, V>(
 
 // Special case for reduce
 export function addIndex<P, V>(
-    fn: (f: (acc: V, item: P) => V, aci: V, list: readonly P[]) => V,
+  fn: (f: (acc: V, item: P) => V, aci: V, list: readonly P[]) => V,
 ): {
   // addIndex(reducer)(f, aci, list)
   <T, U>(f: (acc: U, item: T) => U, aci: U, list: readonly T[]): U;
@@ -73,4 +71,4 @@ export function addIndex<P, V>(
     // addIndex(reducer)(f)(aci)(list)
     (aci: U): (list: readonly T[]) => U;
   };
-}
+};
