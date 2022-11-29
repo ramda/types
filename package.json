@@ -1,0 +1,48 @@
+{
+  "name": "@ramda/types",
+  "version": "0.28.0",
+  "description": "Dedicated types library for ramda",
+  "author": "Harris Miller <harrismillerconsulting@gmail.com>",
+  "contributors": [
+    {
+      "name": "Harris Miller",
+      "email": "harrismillerconsulting@gmail.com",
+      "web": "https://github.com/harris-miller"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ramda/ramda.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ramda",
+    "functional",
+    "utils",
+    "utilities",
+    "toolkit",
+    "fp",
+    "tacit",
+    "point-free",
+    "curried",
+    "pure",
+    "fantasy-land",
+    "typescript",
+    "types",
+    "ts",
+    "@types/ramda"
+  ],
+  "files": [
+    "es",
+    "src"
+  ],
+  "types": "./es/index.d.ts",
+  "scripts": {
+    "build:types": "node scripts/build-types.js",
+    "test:types": "tsd"
+  },
+  "dependencies": {
+    "ts-toolbelt": "^6.15.1"
+  },
+  "devDependencies": {}
+}
