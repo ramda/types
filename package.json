@@ -38,11 +38,18 @@
   ],
   "types": "./es/index.d.ts",
   "scripts": {
-    "build:types": "node scripts/build-types.js",
-    "test:types": "tsd"
+    "build": "node scripts/build-types.js",
+    "test": "tsd"
+  },
+  "tsd": {
+    "directory": "test/"
   },
   "dependencies": {
     "ts-toolbelt": "^6.15.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "ramda": "^0.28.0",
+    "tsd": "^0.24.1",
+    "typescript": "next"
+  }
 }
