@@ -9,5 +9,4 @@ expectType<{ a: number; b: number; c: number }>(
 );
 expectType<null>(always(null)());
 expectType<(...args: unknown[]) => number>(always(1));
-// @ts-expect-error
 expectError<(...args: unknown[]) => number>(always('a'));

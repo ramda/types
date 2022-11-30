@@ -37,7 +37,6 @@ expectType<boolean>(
 );
 
 expectError(
-  // @ts-expect-error
   isVampire({
     age: 40,
     garlic_allergy: true,
@@ -47,7 +46,6 @@ expectError(
 
 expectError(
   isVampire({
-    // @ts-expect-error
     nickname: 'Blade'
   })
 );

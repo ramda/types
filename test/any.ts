@@ -14,7 +14,5 @@ expectType<boolean>(any(is(String), [1, 2, -1]));
 expectType<boolean>(any(is(Number), [1, 2, -1]));
 
 expectError(any(flip(lt)(0), [null, 2, undefined]));
-// @ts-expect-error
 expectError(any(flip(lt)(0), { a: 2, b: 3 }));
-// @ts-expect-error
 expectError(any(flip(lt)(0), 'error!'));

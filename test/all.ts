@@ -8,8 +8,6 @@ expectType<boolean>(
   all((n) => n === 'hello')(['Goodbye', 'Ciao', 'Auf Wiedersehen'])
 );
 
-// @ts-expect-error
 expectError(all((n: number) => n, [1, 3, 4]));
-// @ts-expect-error
 expectError(all((n: string) => n, [5, 6, 7]));
 expectError(all((n: null | undefined) => n, [null, undefined, null]));

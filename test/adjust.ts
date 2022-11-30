@@ -9,8 +9,6 @@ expectType<string[]>(adjust(2, toUpper)(['c', 'd', 'e']));
 expectType<number[]>(adjust(2, (n: number) => n * 2)([1, 2, 3]));
 expectType<boolean[]>(adjust(2, (n: boolean) => !n)([true, false, true]));
 
-// @ts-expect-error
 expectError(adjust(1, toString, [1, 2, 3]));
-// @ts-expect-error
 expectError(adjust('1', toUpper, ['c', 'd', 'e']));
 expectError(adjust(2, isNil)([2, 3, 4]));

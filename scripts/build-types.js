@@ -4,7 +4,7 @@ const FS = require('fs');
 const Dox = require('dox');
 
 const TYPES_DIR = './types';
-const SOURCE_DIR = './source';
+const SOURCE_DIR = './node_modules/ramda/es';
 const OUTPUT_DIR = './es';
 
 const mk_type_file = (path) => {
