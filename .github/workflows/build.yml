@@ -13,15 +13,6 @@ jobs:
       - name: Installing Dependencies
         run: npm ci
 
-      # - name: Collecting Coverage
-      #   uses: paambaati/codeclimate-action@v2.6.0
-      #   env:
-      #     CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TOKEN }}
-      #   with:
-      #     coverageCommand: npm run coverage
-      #     coverageLocations: |
-      #       ${{github.workspace}}/coverage/lcov.info:lcov
-
   build:
     runs-on: ubuntu-latest
     strategy:
