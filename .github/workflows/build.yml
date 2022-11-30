@@ -19,8 +19,10 @@ jobs:
       - name: Linting Codebase
         run: npm run lint
 
-      - name: Unit Testing
-        run: npm run test
-
+      # build first
       - name: Building Artifacts
         run: npm run build
+
+      # then test
+      - name: Unit Testing
+        run: npm run test
