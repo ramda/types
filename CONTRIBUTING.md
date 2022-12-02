@@ -22,3 +22,5 @@
         $ git push origin <branch>
 
 6.  Open a pull request.
+
+TODO: Explain the convention for creating types for ramda
