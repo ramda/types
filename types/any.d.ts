@@ -18,4 +18,3 @@ export function any<T>(fn: (a: T) => boolean): {
   <U extends { any: (fn: (a: T) => boolean) => boolean }>(obj: U): boolean;
 };
 
-// TODO: transducer types
