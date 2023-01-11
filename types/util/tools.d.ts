@@ -68,6 +68,7 @@ export type CondPairTypeguard<T, TFiltered extends T, R> = [(value: T) => value 
 
 /**
  * Dictionary
+ * @deprecated use typescript utils `Record<>` instead
  * @param A The type of dictionary values
  */
 export interface Dictionary<A> {
