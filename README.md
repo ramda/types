@@ -12,3 +12,10 @@ this repo will house the types, be publish to `npm` where `@types/ramda` will re
 To get a sense of what migration back into the core repo will look like, check out `ts` branch that is there now.
 
 Please see the Github Issues page which is being used to define work left to do
+
+### Note about semver
+
+We cannot lock the semver to be the same as `ramda`'s since we plan on doing multiple releases to this library to progressively update the types
+until they are all correct. So for that reason, we are starting at `0.1.0` and will simply do Minor releases for new changes and Patch release for regression fixes.
+
+`@types/ramda` will be updated to latest of this package after every release
