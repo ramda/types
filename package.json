@@ -33,8 +33,7 @@
     "@types/ramda"
   ],
   "files": [
-    "es",
-    "src"
+    "es"
   ],
   "types": "./es/index.d.ts",
   "scripts": {
