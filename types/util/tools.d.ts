@@ -11,33 +11,6 @@ import { A, M, O, T } from 'ts-toolbelt';
 // - Types need proper descriptions, so that we know what they do
 
 /**
- * A function taking 0 arguments.
- * @deprecated Use `() => unknown` instead
- */
-export type Arity0Fn = () => any;
-
-/**
- * A function taking 1 argument.
- * @deprecated Use `(a: any) => unknown` instead
- */
-export type Arity1Fn = (a: any) => any;
-
-/**
- * A function taking 2 arguments.
- * @deprecated Use `(a: any, b: any) => unknown` instead
- */
-export type Arity2Fn = (a: any, b: any) => any;
-
-/**
- * <needs description>
- *
- * @deprecated Unknown purpose. If really needed, consider `{ nodeType: number; }` instead.
- */
-export interface ArrayLike {
-  nodeType: number;
-}
-
-/**
  * Array of functions to compose/pipe with.
  */
 export type AtLeastOneFunctionsFlow<TArgs extends any[], TResult> =
@@ -46,15 +19,6 @@ export type AtLeastOneFunctionsFlow<TArgs extends any[], TResult> =
 export type AtLeastOneFunctionsFlowFromRightToLeft<TArgs extends any[], TResult> =
     | [(...args: any) => TResult, ...Array<(args: any) => any>, (...args: TArgs) => any]
     | [(...args: TArgs) => TResult];
-
-/**
- * <needs description>
- *
- * @deprecated Unknown purpose. If really needed, consider `string & { push(x: string): void; }` instead.
- */
-export interface CharList extends String {
-  push(x: string): void;
-}
 
 /**
  * R.cond's [predicate, transform] pair.
@@ -137,18 +101,6 @@ type EvolveValue<V, E> = E extends (value: V) => any
  * and `document.all` is an object so it's probably not a good idea to add it either.
  */
 export type Falsy = undefined | null | 0 | '' | false;
-
-/**
- * The type of `R.find` and `R.findLast`
- *
- * @deprecated Inlined.
- */
-export interface Find {
-  <T, P extends T>(pred: (val: T) => val is P, list: readonly T[]): P | undefined;
-  <T>(pred: (val: T) => boolean, list: readonly T[]): T | undefined;
-  <T, P extends T>(pred: (val: T) => val is P): (list: readonly T[]) => P | undefined;
-  <T>(pred: (val: T) => boolean): (list: readonly T[]) => T | undefined;
-}
 
 /**
  * A functor satisfying the FantasyLand spec
@@ -512,13 +464,6 @@ export type InputTypesOfFns<A extends ReadonlyArray<Fn>> = A extends [infer H, .
   : [];
 
 /**
- * The type of the values of a record.
- * @param R The record.
- * @deprecated Use `T[keyof T]` instead.
- */
-export type ValueOfRecord<R> = R extends Record<any, infer T> ? T : never;
-
-/**
  * If `T` is a union, `T[keyof T]` (cf. `map` and `values` in `index.d.ts`) contains the types of object values that are common across the union (i.e., an intersection).
  * Because we want to include the types of all values, including those that occur in some, but not all members of the union, we first define `ValueOfUnion`.
  * @see https://stackoverflow.com/a/60085683
@@ -570,8 +515,6 @@ export type ToTupleOfFunction<R, Tuple extends any[]> = Tuple extends []
     ? [(arg: R) => X, ...ToTupleOfFunction<R, Xs>]
     : never;
 
-export {};
-
 /**
  * Getter of property from any value. Supports objects, arrays, tuples and maybe values
  *
@@ -590,5 +533,3 @@ export {};
 export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefined>
   ? T extends undefined ? undefined : T[Extract<P, keyof T>]
   : undefined;
-
-export {};
