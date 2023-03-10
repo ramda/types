@@ -8,19 +8,19 @@
 
 1.  If updating a type, add tests along with it
 
-2.  Make one or more atomic commits. Each commit should have a descriptive
+1.  Make one or more atomic commits. Each commit should have a descriptive
     commit message, wrapped at 72 characters.
 
-3.  Run `npm install` to install needed local dependencies.
+1.  Run `npm install` to install needed local dependencies.
 
-4.  Run `npm test` and address any errors.  Preferably, fix commits in place
+1.  Run `npm run build` first, then `npm run test` and address any errors.  Preferably, fix commits in place
     using `git rebase` or `git commit --amend` to make the changes easier to
     review and to keep the history tidy.
 
-5.  Push to your fork:
+1.  Push to your fork:
 
         $ git push origin <branch>
 
-6.  Open a pull request.
+2.  Open a pull request.
 
 TODO: Explain the convention for creating types for ramda
