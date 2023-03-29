@@ -31,15 +31,6 @@ export type CondPair<T extends any[], R> = [(...val: T) => boolean, (...val: T) 
 export type CondPairTypeguard<T, TFiltered extends T, R> = [(value: T) => value is TFiltered, (value: TFiltered) => R];
 
 /**
- * Dictionary
- * @deprecated use typescript utils `Record<>` instead
- * @param A The type of dictionary values
- */
-export interface Dictionary<A> {
-  [index: string]: A;
-}
-
-/**
  * Represents all objects evolvable with Evolver E
  * @param E
  */
