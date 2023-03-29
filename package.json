@@ -48,13 +48,13 @@
     "ts-toolbelt": "^6.15.1"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.48.1",
-    "@typescript-eslint/parser": "^5.48.1",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
     "dox": "^1.0.0",
-    "eslint": "^8.31.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-import": "^2.27.5",
     "ramda": "^0.28.0",
-    "tsd": "^0.25.0",
-    "typescript": "^4.9.4"
+    "tsd": "^0.28.1",
+    "typescript": "^5.0.2"
   }
 }
