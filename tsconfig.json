@@ -1,10 +1,15 @@
 {
   // tsconfig.json supports comments!
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
-    "test",
     "types"
+  ],
+  "exclude": [
+    // purposefully leave out `test` folder
+    // you cannot include it and have
+    "test"
   ]
 }
