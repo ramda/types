@@ -1,5 +1,5 @@
 {
-  "name": "@ramda/types",
+  "name": "types-ramda",
   "version": "0.1.0",
   "description": "Dedicated types library for ramda",
   "author": "Harris Miller <harrismillerconsulting@gmail.com>",
