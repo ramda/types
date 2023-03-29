@@ -33,5 +33,5 @@
 //                 Marcus Blättermann <https://github.com/essenmitsosse>
 //                 Harris Miller <https://github.com/harris-miller>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 4.2
+// TypeScript Version: 5.0
 
