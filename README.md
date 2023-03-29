@@ -1,4 +1,4 @@
-# `@ramda/types`
+# `types-ramda`
 
 **This Repo is very very much a Work in Progress**
 
