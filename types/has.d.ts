@@ -1,6 +1,7 @@
-import { Placeholder, ObjectHavingSome } from './util/tools';
+import { Placeholder } from './util/tools';
 
-export function has(__: Placeholder, obj: unknown): (s: string) => boolean;
-export function has(__: Placeholder): <P extends string>(obj: unknown, s: P) => obj is ObjectHavingSome<P>;
-export function has<P extends string>(s: P, obj: unknown): obj is ObjectHavingSome<P>;
-export function has<P extends string>(s: P): (obj: unknown) => obj is ObjectHavingSome<P>;
+// `has` is just `has = (prop, obj) => `Object.prototype.hasOwnProperty.call(obj, prop)`;
+// Go to Definition gives `hasOwnProperty(v: PropertyKey): boolean;`
+export function has(__: Placeholder, obj: unknown): (s: PropertyKey) => boolean;
+export function has(prop: PropertyKey, obj: unknown): boolean;
+export function has(prop: PropertyKey): (obj: unknown) => boolean;

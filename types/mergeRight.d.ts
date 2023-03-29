@@ -1,4 +1,5 @@
-import { Merge } from './util/tools';
+import * as _ from 'ts-toolbelt';
 
-export function mergeRight<O1 extends object, O2 extends object>(a: O1, b: O2): Merge<O2, O1, 'flat'>;
-export function mergeRight<O1 extends object>(a: O1): <O2 extends object>(b: O2) => Merge<O2, O1, 'flat'>;
+// Note: ramda `mergeLeft` uses `Object.assign` in code, so we need to use `O.Assign` here, and not `O.Merge`
+export function mergeRight<L extends object, R extends object>(l: L, r: R): _.O.Assign<L, [R], 'flat'>;
+export function mergeRight<L extends object>(l: L): <R extends object>(r: R) => _.O.Assign<L, [R], 'flat'>;

@@ -1,3 +1,3 @@
-import { MergeAll } from './util/tools';
+import * as _ from 'ts-toolbelt';
 
-export function mergeAll<Os extends readonly object[]>(list: Os): MergeAll<Os>;
+export function mergeAll<O extends object, Os extends readonly object[]>(list: [O, ...Os]): _.O.Assign<O, Os>;

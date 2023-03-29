@@ -306,43 +306,6 @@ LargestArgumentsList<T>
   : unknown;
 
 /**
- * Merge an object `O1` with `O2`
- * @param O1
- * @param O2
- * @param Depth
- *
- * `O1` & `O2` are intersected with `[]` so that we can
- * handle the scenario where we merge arrays (like ramda).
- * Ramda removes array props when merging arrays, and thus
- * only keeps own properties. This is what `ObjectOf` does.
- *
- * => ramda's `merge` functions are 100% properly typed.
- *
- * <created by @pirix-gh>
- */
-export type Merge<O1 extends object, O2 extends object, Depth extends 'flat' | 'deep'> = O.MergeUp<
-T.ObjectOf<O1>,
-T.ObjectOf<O2>,
-Depth,
-1
->;
-
-/**
- * Merge multiple objects `Os` with each other
- * @param Os
- *
- * It essentially works like [[Merge]], since the utility
- * `MergeUp` is used by `AssignUp` internally.
- *
- * <created by @pirix-gh>
- */
-export type MergeAll<Os extends readonly object[]> = O.AssignUp<{}, Os, 'flat', 1> extends infer M
-  ? {} extends M // nothing merged => bcs no `as const`
-    ? T.UnionOf<Os> // so we output the approximate types
-    : M // otherwise, we can get accurate types
-  : never;
-
-/**
  * Predicate for an object containing the key.
  */
 export type ObjPred<T = unknown> = (value: any, key: unknown extends T ? string : keyof T) => boolean;
@@ -369,23 +332,6 @@ export type GT = 1;
  * Represents two values' order
  */
 export type Ordering = LT | EQ | GT;
-
-/**
- * An object with at least one of its properties beeing of type `Key`.
- *
- * @example
- * ```
- * // $ExpectType { foo: unknown } | { bar: unknown }
- * type Foo = ObjectHavingSome<"foo" | "bar">
- * ```
- */
-// Implementation taken from
-// https://github.com/piotrwitek/utility-types/blob/df2502ef504c4ba8bd9de81a45baef112b7921d0/src/mapped-types.ts#L351-L362
-export type ObjectHavingSome<Key extends string> = A.Clean<
-{
-  [K in Key]: { [P in K]: unknown };
-}[Key]
->;
 
 /**
  * <needs description>
