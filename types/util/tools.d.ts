@@ -334,6 +334,21 @@ export type GT = 1;
 export type Ordering = LT | EQ | GT;
 
 /**
+ * An object with at least one of its properties beeing of type `Key`.
+ *
+ * @example
+ * ```
+ * // $ExpectType { foo: unknown } | { bar: unknown }
+ * type Foo = ObjectHavingSome<"foo" | "bar">
+ * ```
+ */
+// Implementation taken from
+// https://github.com/piotrwitek/utility-types/blob/df2502ef504c4ba8bd9de81a45baef112b7921d0/src/mapped-types.ts#L351-L362
+export type ObjectHavingSome<Key extends string> = {
+  [K in Key]: { [P in K]: unknown };
+}[Key];
+
+/**
  * <needs description>
  */
 export type PartialRecord<K extends keyof any, T> = {

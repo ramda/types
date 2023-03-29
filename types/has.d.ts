@@ -1,8 +1,4 @@
-import { Placeholder } from './util/tools';
-
-type ObjectHavingSome<Key extends string> = {
-  [K in Key]: { [P in K]: unknown };
-}[Key];
+import { Placeholder, ObjectHavingSome } from './util/tools';
 
 export function has(__: Placeholder, obj: unknown): <P extends string>(s: P) => obj is ObjectHavingSome<P>;
 export function has<P extends string>(s: P, obj: unknown): obj is ObjectHavingSome<P>;
