@@ -1,7 +1,7 @@
-const Path = require('path');
-const FS = require('fs');
+import { parse } from 'node:path';
+import { readFileSync, mkdirSync, writeFileSync, copyFileSync, existsSync, readdirSync } from 'node:fs';
 
-const Dox = require('dox');
+import { parseComments } from 'dox';
 
 const TYPES_DIR = './types';
 const SOURCE_DIR = './node_modules/ramda/es';
@@ -16,7 +16,7 @@ const mk_type_file = (path) => {
 };
 
 const mk_docs = (src) => {
-  const dox = Dox.parseComments(src, { raw: true })[0];
+  const dox = parseComments(src, { raw: true })[0];
   const desc = (dox.description && dox.description.full) || '';
   const tags = dox.tags || [];
   const see = get_tag_val(tags, 'see');
@@ -30,7 +30,7 @@ const get_tag_val = (tags, key) => {
 };
 
 const read_type_file = (x) => {
-  const lines = FS.readFileSync(x.path).toString().split('\n');
+  const lines = readFileSync(x.path).toString().split('\n');
 
   let i;
   for (i = 0; !/^export /.test(lines[i]); i += 1) {
@@ -44,20 +44,19 @@ const read_type_file = (x) => {
 };
 
 const attach_docs_from_js_file = (x) => {
-  const path = Path.parse(x.path);
+  const path = parse(x.path);
   const js_file = path.base.replace(/\.d\.ts$/, '.js');
   const js_path = `${SOURCE_DIR}/${js_file}`;
-  if (!FS.existsSync(js_path)) {
+  if (!existsSync(js_path)) {
     return null;
   }
-  const docs = mk_docs(FS.readFileSync(js_path).toString());
+  const docs = mk_docs(readFileSync(js_path).toString());
   return Object.assign({}, x, { docs });
 };
 
 const read = () => {
   return (
-    FS
-      .readdirSync(TYPES_DIR)
+    readdirSync(TYPES_DIR)
       .filter(x => /\.d\.ts$/.test(x))
       .map(filename => mk_type_file(`${TYPES_DIR}/${filename}`))
       .map(read_type_file)
@@ -69,8 +68,7 @@ const read = () => {
 
 const gen_imports = (tools_path) => {
   const tools_exports_as_imports = (
-    FS
-      .readFileSync(tools_path)
+    readFileSync(tools_path)
       .toString()
       .split('\n')
       .map(x => /^export \w+ (\w+)/.exec(x))
@@ -170,9 +168,9 @@ const write = (exports) => {
     other_exports
   ].join('\n');
 
-  FS.mkdirSync(OUTPUT_DIR, { recursive: true});
-  FS.writeFileSync(`${OUTPUT_DIR}/index.d.ts`, code);
-  FS.copyFileSync(tools_path, `${OUTPUT_DIR}/${tools_file}`);
+  mkdirSync(OUTPUT_DIR, { recursive: true});
+  writeFileSync(`${OUTPUT_DIR}/index.d.ts`, code);
+  copyFileSync(tools_path, `${OUTPUT_DIR}/${tools_file}`);
 };
 
 const main = () => {
