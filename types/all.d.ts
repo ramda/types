@@ -15,5 +15,5 @@ export function all<T>(fn: (a: T) => boolean): {
   // all (fn)(list)
   (list: readonly T[]): boolean;
   // all (fn)({ all })
-  <U extends { all: (fn: (a: T) => boolean) => boolean }>(obj: U): boolean;
+  // <U extends { all: (fn: (a: T) => boolean) => boolean }>(obj: U): boolean;gss
 };
