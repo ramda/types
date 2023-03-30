@@ -339,12 +339,12 @@ export type ObjectHavingSome<Key extends string> = {
   [K in Key]: { [P in K]: unknown };
 }[Key];
 
+type P = Record;
+
 /**
- * <needs description>
+ * Composition of `Partial` and `Record` types
  */
-export type PartialRecord<K extends keyof any, T> = {
-  [P in K]?: T;
-};
+export type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
 
 /**
  * <needs description>
