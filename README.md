@@ -13,6 +13,15 @@ To get a sense of what migration back into the core repo will look like, check o
 
 Please see the Github Issues page which is being used to define work left to do
 
+## Usage
+
+**`types-ramda` is not intended to be used directly!**
+
+`@types/ramda` should continued to be used. `@types/ramda` re-exports what is defined here. The type defintions were moved into those repo for 2 reasons
+
+* in-house control of all definitions
+* set up work such that this repo can eventually be moved into the core `ramda` repo
+
 ### Note about semver
 
 We cannot lock the semver to be the same as `ramda`'s since we plan on doing multiple releases to this library to progressively update the types
