@@ -17,7 +17,7 @@ Please see the Github Issues page which is being used to define work left to do
 
 **`types-ramda` is not intended to be used directly!**
 
-`@types/ramda` should continued to be used. `@types/ramda` re-exports what is defined here. The type defintions were moved into those repo for 2 reasons
+`@types/ramda` should continued to be used. `@types/ramda` re-exports what is defined here. The type definitions were moved into those repo for 2 reasons
 
 * in-house control of all definitions
 * set up work such that this repo can eventually be moved into the core `ramda` repo
