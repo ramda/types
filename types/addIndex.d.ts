@@ -28,7 +28,7 @@ export function addIndex<P, V>(
   fn: (f: (item: P) => V, list: readonly P[]) => V[],
 ): {
   <T, U>(a: (item: T, idx: number, list: T[]) => U, b: readonly T[]): U[];
-  <T, U>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => U) => U[];
+  <T>(__: Placeholder, b: readonly T[]): <U>(a: (item: T, idx: number, list: T[]) => U) => U[];
   <T, U>(a: (item: T, idx: number, list: T[]) => U): (b: readonly T[]) => U[];
 };
 
