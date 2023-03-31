@@ -5,6 +5,17 @@ import { Placeholder } from './util/tools';
 // those returning types need their own generics `T` and `U` to be separately determined
 // when those contracts are fulfilled, otherwise you just get `undefined` everywhere
 
+// WARNING, map MUST come before forEach for this to work! Overloading order is important!
+
+// Special case for map
+export function addIndex<P, V>(
+  fn: (f: (item: P) => V, list: readonly P[]) => V[],
+): {
+  <T, U>(a: (item: T, idx: number, list: T[]) => U, b: readonly T[]): U[];
+  <T>(__: Placeholder, b: readonly T[]): <U>(a: (item: T, idx: number, list: T[]) => U) => U[];
+  <T, U>(a: (item: T, idx: number, list: T[]) => U): (b: readonly T[]) => U[];
+};
+
 // Special case for forEach
 export function addIndex<P>(
   fn: (f: (item: P) => void, list: readonly P[]) => P[],
@@ -21,15 +32,6 @@ export function addIndex<P>(
   <T>(a: (item: T, idx: number, list: T[]) => void, b: readonly T[]): T[];
   <T>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => void) => T[];
   <T>(a: (item: T, idx: number, list: T[]) => void): (b: readonly T[]) => T[];
-};
-
-// Special case for map
-export function addIndex<P, V>(
-  fn: (f: (item: P) => V, list: readonly P[]) => V[],
-): {
-  <T, U>(a: (item: T, idx: number, list: T[]) => U, b: readonly T[]): U[];
-  <T>(__: Placeholder, b: readonly T[]): <U>(a: (item: T, idx: number, list: T[]) => U) => U[];
-  <T, U>(a: (item: T, idx: number, list: T[]) => U): (b: readonly T[]) => U[];
 };
 
 // Special case for reduce
