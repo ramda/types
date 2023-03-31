@@ -36,41 +36,41 @@ export function addIndex<P>(
 
 // Special case for reduce
 export function addIndex<P, V>(
-  fn: (f: (acc: V, item: P) => V, aci: V, list: readonly P[]) => V,
+  fn: (f: (acc: V, item: P) => V, acc: V, list: readonly P[]) => V,
 ): {
-  // addIndex(reducer)(f, aci, list)
-  <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U, aci: U, list: readonly T[]): U;
-  // addIndex(reducer)(__, aci, list)(f)
-  <T, U>(__: Placeholder, aci: U, list: readonly T[]): (f: (acc: U, item: T, idx: number, list: T[]) => U) => U;
-  // addIndex(reducer)(f, __, list)(aci)
-  <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U, _: Placeholder, list: readonly T[]): (aci: U) => U;
+  // addIndex(reducer)(f, acc, list)
+  <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U, acc: U, list: readonly T[]): U;
+  // addIndex(reducer)(__, acc, list)(f)
+  <T, U>(__: Placeholder, acc: U, list: readonly T[]): (f: (acc: U, item: T, idx: number, list: T[]) => U) => U;
+  // addIndex(reducer)(f, __, list)(acc)
+  <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U, _: Placeholder, list: readonly T[]): (acc: U) => U;
   // addIndex(reducer)(__, __, list)
   <T>(__: Placeholder, __2: Placeholder, list: readonly T[]): {
-    // addIndex(reducer)(__, __, list)(f, aci)
-    <U>(f: (acc: U, item: T, idx: number, list: T[]) => U, aci: U): U;
-    // addIndex(reducer)(__, __, list)(__, aci)(f)
-    <U>(__: Placeholder, aci: U): (f: (acc: U, item: T, idx: number, list: T[]) => U) => U;
-    // addIndex(reducer)(__, __, list)(f)(aci)
-    <U>(f: (acc: U, item: T, idx: number, list: T[]) => U): (aci: U) => U;
+    // addIndex(reducer)(__, __, list)(f, acc)
+    <U>(f: (acc: U, item: T, idx: number, list: T[]) => U, acc: U): U;
+    // addIndex(reducer)(__, __, list)(__, acc)(f)
+    <U>(__: Placeholder, acc: U): (f: (acc: U, item: T, idx: number, list: T[]) => U) => U;
+    // addIndex(reducer)(__, __, list)(f)(acc)
+    <U>(f: (acc: U, item: T, idx: number, list: T[]) => U): (acc: U) => U;
   };
-  // addIndex(reducer)(f, aci)(list)
-  <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U, aci: U): (list: readonly T[]) => U;
-  // addIndex(reducer)(__, aci)
-  <U>(__: Placeholder, aci: U): {
-    // addIndex(reducer)(__, aci)(f, list)
+  // addIndex(reducer)(f, acc)(list)
+  <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U, acc: U): (list: readonly T[]) => U;
+  // addIndex(reducer)(__, acc)
+  <U>(__: Placeholder, acc: U): {
+    // addIndex(reducer)(__, acc)(f, list)
     <T>(f: (acc: U, item: T, idx: number, list: T[]) => U, list: readonly T[]): U;
-    // addIndex(reducer)(__, aci)(__, list)(f)
+    // addIndex(reducer)(__, acc)(__, list)(f)
     <T>(__: Placeholder, list: readonly T[]): (f: (acc: U, item: T, idx: number, list: T[]) => U) => U;
-    // addIndex(reducer)(__, aci)(F)(list)
+    // addIndex(reducer)(__, acc)(F)(list)
     <T>(f: (acc: U, item: T, idx: number, list: T[]) => U): (list: readonly T[]) => U;
   };
   // addIndex(reducer)(f)
   <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U): {
-    // addIndex(reducer)(f)(aci, list)
-    (aci: U, list: readonly T[]): U;
-    // addIndex(reducer)(f)(__, list)(aci)
-    (__: Placeholder, list: readonly T[]): (aci: U) => U;
-    // addIndex(reducer)(f)(aci)(list)
-    (aci: U): (list: readonly T[]) => U;
+    // addIndex(reducer)(f)(acc, list)
+    (acc: U, list: readonly T[]): U;
+    // addIndex(reducer)(f)(__, list)(acc)
+    (__: Placeholder, list: readonly T[]): (acc: U) => U;
+    // addIndex(reducer)(f)(acc)(list)
+    (acc: U): (list: readonly T[]) => U;
   };
 };
