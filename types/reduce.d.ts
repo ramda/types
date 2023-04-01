@@ -7,7 +7,7 @@ export function reduce<T, U>(__: Placeholder, acc: U, list: readonly T[]): (f: (
 // reduce(f, _, list)(acc)
 export function reduce<T, U>(f: (acc: U, elem: T) => U | Reduced<U>, __: Placeholder, list: readonly T[]): (acc: U) => U;
 // reduce(_, _, list)
-export function reduce<T>(__: Placeholder, __: Placeholder, list: readonly T[]): {
+export function reduce<T>(__: Placeholder, __2: Placeholder, list: readonly T[]): {
   // reduce(__, __, list)(f, acc)
   <U>(f: (acc: U, elem: T) => U | Reduced<U>, acc: U): U | Reduced<U>;
   // reduce(__, __, list)(__, acc)(f)
