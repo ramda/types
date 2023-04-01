@@ -1,17 +1,13 @@
-import { Functor, Placeholder } from './util/tools';
+import { Functor, Placeholder, ValueOfUnion } from './util/tools';
 
 export function map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
-export function map<U extends object, O>(fn: (x: U[keyof U]) => O, dict: U): Record<keyof U, O>;
+export function map<O extends object, U>(fn: (x: ValueOfUnion<O>) => U, dict: U): Record<keyof O, U>;
 
 export function map<T>(__: Placeholder, list: readonly T[]): <U>(fn: (x: T) => U) => U[];
-export function map<U extends object>(__: Placeholder, dict: U): <O>(fn: (x: U[keyof U]) => O) => Record<keyof U, O>;
+export function map<O extends object>(__: Placeholder, dict: O): <U>(fn: (x: ValueOfUnion<O>) => U) => Record<keyof O, U>;
 
 export function map<T, U>(fn: (x: T) => U): (list: readonly T[]) => U[];
 export function map<T, O>(fn: (x: T) => O): <U extends Record<string, T>>(dict: U) => Record<keyof U, O>;
-
-// these were here, not sure what they are doing. They don't represent the obj case well
-// export function map<T, U>(fn: (x: T[keyof T & keyof U] | ValueOfUnion<T>) => U[keyof T & keyof U], list: T): U;
-// export function map<T, U>(fn: (x: T[keyof T & keyof U] | ValueOfUnion<T>) => U[keyof T & keyof U]): (list: T) => U;
 
 // used in functors
 export function map<T, U>(fn: (x: T) => U, obj: Functor<T>): Functor<U>;

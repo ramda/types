@@ -1,7 +1,6 @@
 import { Placeholder } from './util/tools';
 
-// `val as P` makes sense here for type narrowing
-// TODO: however, `P extends T` does not, need to look into that
+// `val as P` is for type narrowing
 // must have a `boolean` option as well for if predicate does not narrow
 // see for details:
 // https://www.typescriptlang.org/play?#code/C4TwDgpgBAysBOBLAdgcwPLwHIFcC2ARhPFALxQDOCKqUAPlMvkfANwCwAUFwMYD2yKlEQU4SNGSgAKAG4BDADYAuWNTSZchYgEoV8hcIqU1tUgD4ooSHwBmUfWVLkA5FXGpnHTv0HBDmlklZRRUxGg1mHT1FQ0ZIknNLcAhbexinFyYteE9eASERADFFChAg-VCTCOzdKAI+PgUIOWQyCwBCdv0vLgATCB4FOXhoGxxkHmBEASgbRAVgYgAeABUAGigABSgIAA9F5F6jFbMpMBHelWDlKBXtNrSDES2NhRFgFRG5XoEFMpWANoAXVqm2BXn6g2Go3Gk2mrTmC2WJzOFyuFVu90S9UazWQr3en2aP2Qf1uwNqgKBPW8+T8byolXc1RYwMkAIADBtnM4NgBGblyXlQABM3IIzmpXDyvig8D5kkRi3gUhEYTQBKo2i8AHodVADVAAHoAfhlQngIsV82VqooAWImuA2q4esNxrNtNl8AAzNakSqiiUQE6XZw3YbTVwgA
