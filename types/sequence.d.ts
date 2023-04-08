@@ -1,5 +1,5 @@
 export { Placeholder } from './util/tools';
 
 // Since typescript doesn't support Higher Kinded Types, it's virtually impossible to type sequence
-// Having some sort of type definition is need at least because
+// Having some sort of type definition is needed for typescript because other the function doesn't exist to tsc
 export function sequence<T, Of extends (a: any) => T = (a: any) => T>(of: Of, traversable: any[]): T;
