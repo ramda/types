@@ -483,3 +483,73 @@ export type ToTupleOfFunction<R, Tuple extends any[]> = Tuple extends []
 export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefined>
   ? T extends undefined ? undefined : T[Extract<P, keyof T>]
   : undefined;
+
+export type AddIndex = {
+  // Special case for map
+  <P, V>(
+    fn: (f: (item: P) => V, list: readonly P[]) => V[],
+  ): {
+    <T, U>(a: (item: T, idx: number, list: T[]) => U, b: readonly T[]): U[];
+    <T>(__: Placeholder, b: readonly T[]): <U>(a: (item: T, idx: number, list: T[]) => U) => U[];
+    <T, U>(a: (item: T, idx: number, list: T[]) => U): (b: readonly T[]) => U[];
+  };
+
+  // Special case for forEach
+  <P>(
+    fn: (f: (item: P) => void, list: readonly P[]) => P[],
+  ): {
+    <T>(a: (item: T, idx: number, list: T[]) => void, b: readonly T[]): T[];
+    <T>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => void) => T[];
+    <T>(a: (item: T, idx: number, list: T[]) => void): (b: readonly T[]) => T[];
+  };
+
+  // Special case for filter
+  <P>(
+    fn: (f: (item: P) => item is P, list: readonly P[]) => P[],
+  ): {
+    <T>(a: (item: T, idx: number, list: T[]) => void, b: readonly T[]): T[];
+    <T>(__: Placeholder, b: readonly T[]): (a: (item: T, idx: number, list: T[]) => void) => T[];
+    <T>(a: (item: T, idx: number, list: T[]) => void): (b: readonly T[]) => T[];
+  };
+
+  // Special case for reduce
+  <P, V>(
+    fn: (f: (acc: V, item: P) => V, acc: V, list: readonly P[]) => V,
+  ): {
+  // addIndex(reducer)(f, acc, list)
+    <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>, acc: U, list: readonly T[]): U;
+    // addIndex(reducer)(__, acc, list)(f)
+    <T, U>(__: Placeholder, acc: U, list: readonly T[]): (f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>) => U;
+    // addIndex(reducer)(f, __, list)(acc)
+    <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>, _: Placeholder, list: readonly T[]): (acc: U) => U;
+    // addIndex(reducer)(__, __, list)
+    <T>(__: Placeholder, __2: Placeholder, list: readonly T[]): {
+    // addIndex(reducer)(__, __, list)(f, acc)
+      <U>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>, acc: U): U;
+      // addIndex(reducer)(__, __, list)(__, acc)(f)
+      <U>(__: Placeholder, acc: U): (f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>) => U;
+      // addIndex(reducer)(__, __, list)(f)(acc)
+      <U>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>): (acc: U) => U;
+    };
+    // addIndex(reducer)(f, acc)(list)
+    <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>, acc: U): (list: readonly T[]) => U;
+    // addIndex(reducer)(__, acc)
+    <U>(__: Placeholder, acc: U): {
+    // addIndex(reducer)(__, acc)(f, list)
+      <T>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>, list: readonly T[]): U;
+      // addIndex(reducer)(__, acc)(__, list)(f)
+      <T>(__: Placeholder, list: readonly T[]): (f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>) => U;
+      // addIndex(reducer)(__, acc)(F)(list)
+      <T>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>): (list: readonly T[]) => U;
+    };
+    // addIndex(reducer)(f)
+    <T, U>(f: (acc: U, item: T, idx: number, list: T[]) => U | Reduced<U>): {
+    // addIndex(reducer)(f)(acc, list)
+      (acc: U, list: readonly T[]): U;
+      // addIndex(reducer)(f)(__, list)(acc)
+      (__: Placeholder, list: readonly T[]): (acc: U) => U;
+      // addIndex(reducer)(f)(acc)(list)
+      (acc: U): (list: readonly T[]) => U;
+    };
+  };
+};

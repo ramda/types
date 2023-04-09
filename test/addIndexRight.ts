@@ -1,7 +1,7 @@
 import { expectType } from 'tsd';
 
 import { __ } from '../types/__';
-import { addIndex } from '../types/addIndex';
+import { addIndexRight } from '../types/addIndexRight';
 import { filter } from '../types/filter';
 import { forEach } from '../types/forEach';
 import { map } from '../types/map';
@@ -9,7 +9,7 @@ import { reduce } from '../types/reduce';
 import { reject } from '../types/reject';
 
 //
-// Note about `addIndex`
+// Note about `addIndexRight`
 // The generics need to be set to help determine the return type
 // eg, if it's for filter or forEach or map or reduce
 // TODO: figure out how to infer that correctly
@@ -30,7 +30,7 @@ class Rectangle {
 const lastTwo = (_val: number, idx: number, list: number[]) => list.length - idx <= 2;
 
 // filter
-const filterIndexed = addIndex<number>(filter);
+const filterIndexed = addIndexRight<number>(filter);
 
 expectType<number[]>(filterIndexed(__, [8, 6, 7, 5, 3, 0, 9])(lastTwo)); // => [0, 9]
 expectType<number[]>(filterIndexed(lastTwo)([8, 6, 7, 5, 3, 0, 9])); // => [0, 9]
@@ -39,7 +39,7 @@ expectType<number[]>(filterIndexed(lastTwo)([8, 6, 7, 5, 3, 0, 9])); // => [0, 9
 expectType<number[]>(filterIndexed(__, [8, 6, 7, 5, 3, 0, 9])(lastTwo)); // => [0, 9]
 
 // forEach
-const forEachIndexed = addIndex<number>(forEach);
+const forEachIndexed = addIndexRight<number>(forEach);
 const plusFive = (num: number, idx: number, list: number[]) => {
   list[idx] = num + 5;
 };
@@ -49,7 +49,7 @@ expectType<number[]>(forEachIndexed(plusFive, [1, 2, 3])); // => [6, 7, 8]
 expectType<number[]>(forEachIndexed(plusFive)([1, 2, 3])); // => [6, 7, 8]
 
 // map
-const mapIndexed = addIndex<number, string>(map);
+const mapIndexed = addIndexRight<number, string>(map);
 const squareEnds = (elt: number, idx: number, list: number[]) =>
   idx === 0 || idx === list.length - 1
     ? elt * elt
@@ -69,7 +69,7 @@ expectType<number[]>(
 );
 
 // reduce
-const reduceIndexed = addIndex<string, { [elem: string]: number }>(reduce);
+const reduceIndexed = addIndexRight<string, { [elem: string]: number }>(reduce);
 const letters = ['a', 'b', 'c'];
 
 const objectify = (accObject: { [elem: string]: number }, elem: string, idx: number, _list: string[]) => {
@@ -83,6 +83,6 @@ expectType<{ [elem: string]: number; }>(reduceIndexed(objectify, {})(letters)); 
 expectType<{ [elem: string]: number; }>(reduceIndexed(objectify)({})(letters)); // => { 'a': 0, 'b': 1, 'c': 2 }
 
 // rejected
-const rejectIndexed = addIndex<number>(reject);
+const rejectIndexed = addIndexRight<number>(reject);
 expectType<number[]>(rejectIndexed(lastTwo, [8, 6, 7, 5, 3, 0, 9])); // => [8, 6, 7, 5, 3]
 expectType<number[]>(rejectIndexed(lastTwo)([8, 6, 7, 5, 3, 0, 9])); // => [8, 6, 7, 5, 3]
