@@ -54,7 +54,7 @@
     "dox": "^1.0.0",
     "eslint": "^8.37.0",
     "eslint-plugin-import": "^2.27.5",
-    "ramda": "^0.28.0",
+    "ramda": "^0.29.0",
     "tsd": "^0.28.1",
     "typescript": "^5.0.2"
   }
