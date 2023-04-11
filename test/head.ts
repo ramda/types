@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { head } from '../types/head';
+import { head } from '../es';
 
 // string always return string
 expectType<string>(head('abc'));

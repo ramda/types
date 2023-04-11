@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { mergeLeft } from '../types/mergeLeft';
+import { mergeLeft } from '../es';
 
 const foo = { foo: 'foo' };
 const bar = { bar: 'bar' };

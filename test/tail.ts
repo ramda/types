@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { tail } from '../types/tail';
+import { tail } from '../es';
 
 // string always return string
 expectType<string>(tail('abc'));

@@ -1,5 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { dropRepeatsBy } from '../types/dropRepeatsBy';
+import { dropRepeatsBy } from '../es';
 
 expectType<number[]>(dropRepeatsBy(Math.abs, [1, -1, -2, 2, 3, 100]));
 expectType<number[]>(dropRepeatsBy(Math.abs)([1, -1, -2, 2, 3, 100]));

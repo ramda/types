@@ -1,7 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { adjust } from '../types/adjust';
-import { toUpper } from '../types/toUpper';
-import { isNil } from '../types/isNil';
+import { adjust, isNil, toUpper } from '../es';
 
 expectType<string[]>(adjust(1, toUpper, ['a', 'b', 'c']));
 expectType<string[]>(adjust(2, toUpper)(['c', 'd', 'e']));

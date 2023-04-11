@@ -1,10 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { any } from '../types/any';
-import { flip } from '../types/flip';
-import { is } from '../types/is';
-import { lt } from '../types/lt';
-import { isNil } from '../types/isNil';
-import { isNotNil } from '../types/isNotNil';
+import { any, flip, is, lt, isNil, isNotNil } from '../es';
 
 expectType<boolean>(any(isNotNil, [1, 2, null]));
 expectType<boolean>(any(isNil, [null, 2, undefined]));

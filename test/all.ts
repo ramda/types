@@ -1,6 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { all } from '../types/all';
-import { equals } from '../types/equals';
+import { all, equals } from '../es';
 
 expectType<boolean>(all(equals(3), [3, 3, 3]));
 expectType<boolean>(all(equals(true))([false, false, false]));

@@ -1,5 +1,5 @@
 import { expectAssignable } from 'tsd';
-import { and } from '../types/and';
+import { and } from '../es';
 
 expectAssignable<string | boolean>(and('a')(false));
 expectAssignable<string | boolean>(and('true')('true'));

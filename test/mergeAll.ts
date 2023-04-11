@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { mergeAll } from '../types/mergeAll';
+import { mergeAll } from '../es';
 
 /*
  * `mergeAll` is just `mergeAll = (...os) => Object.assign({}, ...os);`

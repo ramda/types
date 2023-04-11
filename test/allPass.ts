@@ -1,6 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { allPass } from '../types/allPass';
-import { propEq } from '../types/propEq';
+import { allPass, propEq } from '../es';
 
 const isOld = propEq('age', 212);
 const isAllergicToGarlic = propEq('garlic_allergy', true);

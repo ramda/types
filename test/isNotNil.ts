@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { isNotNil } from '../types/isNotNil';
+import { isNotNil } from '../es';
 
 expectType<boolean>(isNotNil(1));
 expectType<boolean>(isNotNil('a'));

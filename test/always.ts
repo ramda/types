@@ -1,5 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { always } from '../types/always';
+import { always } from '../es';
 
 expectType<string>(always('a')());
 expectType<string[]>(always(['a'])());

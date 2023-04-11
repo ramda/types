@@ -1,6 +1,5 @@
 import { expectType } from 'tsd';
-import { has } from '../types/has';
-import { __ } from '../types/__';
+import { __, has } from '../es';
 
 expectType<boolean>(has(__, { foo: 'foo' })('foo'));
 expectType<boolean>(has(__, { foo: 'foo' })('bar'));

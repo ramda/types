@@ -1,6 +1,5 @@
 import { expectType } from 'tsd';
-import { whereAny } from '../types/whereAny';
-import { __ } from '../types/__';
+import { __, whereAny } from '../es';
 
 expectType<boolean>(
   whereAny({

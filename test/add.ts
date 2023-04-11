@@ -1,5 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { add } from '../types/add';
+import { add } from '../es';
 
 expectType<number>(add(2, 3));
 expectType<number>(add(7)(10));
