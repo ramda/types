@@ -1,15 +1,24 @@
-import { expectType, expectNotType } from 'tsd';
+import { expectType } from 'tsd';
 import { isNotNil } from '../types/isNotNil';
 
-expectType<true>(isNotNil(1));
-expectType<true>(isNotNil('a'));
-expectType<true>(isNotNil(true));
+expectType<boolean>(isNotNil(1));
+expectType<boolean>(isNotNil('a'));
+expectType<boolean>(isNotNil(true));
 
-expectType<false>(isNotNil(null));
-expectType<false>(isNotNil(undefined));
+expectType<boolean>(isNotNil(null));
+expectType<boolean>(isNotNil(undefined));
 
-expectNotType<false>(isNotNil(1));
-expectNotType<false>(isNotNil('a'));
-expectNotType<false>(isNotNil(true));
-expectNotType<true>(isNotNil(null));
-expectNotType<true>(isNotNil(undefined));
+const maybeNumber = (): number | null => {
+  if (Math.random() > 0.5) {
+    return null;
+  }
+  return 123;
+};
+
+expectType<number | null>(maybeNumber());
+
+const r = maybeNumber();
+
+if (isNotNil(r)) {
+  expectType<number>(r);
+}

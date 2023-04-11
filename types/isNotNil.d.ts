@@ -1,3 +1,5 @@
+import { U } from 'ts-toolbelt';
+
 export function isNotNil<T>(
   value: T
-): T extends null | undefined ? false : true;
+): value is U.NonNullable<T>;
