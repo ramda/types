@@ -1,7 +1,5 @@
 # `types-ramda`
 
-**This Repo is very very much a Work in Progress**
-
 ## Official types library for ramda
 
 `@types/ramda` has been community driven for a long time. It is however very incomplete. The goal is this library is to improve the overall types for ramda by moving ownership in-house
@@ -25,6 +23,6 @@ Please see the Github Issues page which is being used to define work left to do
 ### Note about semver
 
 We cannot lock the semver to be the same as `ramda`'s since we plan on doing multiple releases to this library to progressively update the types
-until they are all correct. So for that reason, we are starting at `0.1.0` and will simply do Minor releases for new changes and Patch release for regression fixes.
+until they are all correct. We will keep up with minor releases starting at `0.29.0` up until `1.0.0`.
 
 `@types/ramda` will be updated to latest of this package after every release
