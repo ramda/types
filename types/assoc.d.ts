@@ -13,7 +13,7 @@ export function assoc<K extends keyof U, U>(prop: K, __: Placeholder, obj: U): <
 // assoc(prop, __, obj)(val), when prop is not keyof obj
 export function assoc<K extends PropertyKey, U>(prop: K extends Placeholder ? never : K, __: Placeholder, obj: U): <T>(val: T) => U & Record<K, T>;
 // assoc (__, __, obj)
-export function assoc<K extends PropertyKey, U>(__: Placeholder, __2: Placeholder, obj: U): {
+export function assoc<U>(__: Placeholder, __2: Placeholder, obj: U): {
   // assoc(__, __, obj)(prop, val) when prop is keyof obj and val is same type
   <K extends keyof U>(prop: K, val: U[K]): U;
   // assoc(__, __, obj)(prop, val) when prop is keyof obj and val is not same type
