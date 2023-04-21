@@ -1,4 +1,4 @@
-import { A, M } from 'ts-toolbelt';
+import { A, M, O } from 'ts-toolbelt';
 
 // Here lies a loose collection of tools that compute types for the functions in "index.d.ts"
 // The goal of this file is to keep "index.d.ts" readable as well as hiding implementations
@@ -503,6 +503,28 @@ export type ToTupleOfFunction<R, Tuple extends any[]> = Tuple extends []
 export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefined>
   ? T extends undefined ? undefined : T[Extract<P, keyof T>]
   : undefined;
+
+/**
+ * A better collapse of types for Merging Two Objects
+ * MergeRight is just Object.assign in code, and MergeLeft is just MergeRight with the operands flipped
+ * What this Type does is better collapse the types together
+ * eg
+ * ```typescript
+ * type Foo = { foo: string };
+ * type Foobar = { foo: string; bar: string };
+ *
+ * Object.assign({}, {} as Foobar, {} as Foo); // Foobar & bar, a redundant intersection
+ * mergeRight({} as Foobar, {} as Foo); // Foobar, since Foobar extends Foobar
+ * mergeRight({} as Foobar, {} as Foo); // also Foobar, because regardless of the direction you merge, one type extends the other
+ * ```
+ */
+export type MergeObjects<L extends object, R extends object> = {
+  0: {
+    0: O.Assign<{}, [L, R]>,
+    1: R
+  }[A.Extends<R, L>],
+  1: L
+}[A.Extends<L, R>];
 
 /**
  * When you have `gt = <T extends Ord>(a: T, b: T) => boolean`, `a` and `b` are different strings, and `T` defaults to `string

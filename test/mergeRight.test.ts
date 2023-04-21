@@ -53,3 +53,13 @@ expectType<Foobar>(mergeRight({} as Foobar, bar));
 // however, when any of the prop types do not match, we get back a new object and not an intersection
 expectNotType<Foobar & { foo: number }>(mergeRight({} as Foobar, foo2));
 expectType<{ foo: number; bar: string; }>(mergeRight({} as Foobar, foo2));
+
+// these should also work both ways, as long as one type extends the other, choosing the more expansive type is ideal
+expectNotType<Foo & Foobar>(mergeRight({} as Foo, {} as Foobar));
+expectType<Foobar>(mergeRight({} as Foo, {} as Foobar));
+expectNotType<Bar & Foobar>(mergeRight({} as Bar, {} as Foobar));
+expectType<Foobar>(mergeRight({} as Bar, {} as Foobar));
+expectNotType<{ foo: string } & Foobar>(mergeRight(foo, {} as Foobar));
+expectType<Foobar>(mergeRight(foo, {} as Foobar));
+expectNotType<{ bar: string } & Foobar>(mergeRight(bar, {} as Foobar));
+expectType<Foobar>(mergeRight(bar, {} as Foobar));
