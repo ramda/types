@@ -504,8 +504,8 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
   ? T extends undefined ? undefined : T[Extract<P, keyof T>]
   : undefined;
 
-type KeyOfBoth<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof L ? K extends keyof R ? 1 : 0 : 0;
-type TakeRightToLeft<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof R ? R[K] : K extends keyof L ? L[K] : never;
+export type KeyOfBoth<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof L ? K extends keyof R ? 1 : 0 : 0;
+type TakeRightToLeft<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof R ? R[K] : (K extends keyof L ? L[K] : never);
 type AreBothObject<L extends any, R extends any> = L extends object ? R extends object ? 1 : 0 : 0;
 type IsPrimitive<T> = T extends M.Primitive ? 1 : 0;
 type AllValuesPrimitives<U extends object> = IsPrimitive<U[keyof U]>;
@@ -541,7 +541,7 @@ export type MergeObjects<L extends object, R extends object> = {
  * <created by @harris-miller>
  */
 // first we text if all the values in both `L` and `R`, if true, defer to `MergeObjects` (see last line), otherwise...
-export type MergeDeepObjects<L extends object, R extends object> = [AllValuesPrimitives<L> & AllValuesPrimitives<R>] extends [never] ? {
+export type MergeDeepObjects<L extends object, R extends object> = [AllValuesPrimitives<L> & AllValuesPrimitives<R>] extends [0 | never] ? {
   // for all keys in both `L` and `R`
   [K in (keyof (L & R))]: {
     // if both keys exists
