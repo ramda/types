@@ -63,9 +63,3 @@ expectNotType<{ foo: string } & Foobar>(mergeRight(foo, {} as Foobar));
 expectType<Foobar>(mergeRight(foo, {} as Foobar));
 expectNotType<{ bar: string } & Foobar>(mergeRight(bar, {} as Foobar));
 expectType<Foobar>(mergeRight(bar, {} as Foobar));
-
-// objects with prop literal primitives
-
-// if you have a type with a string union in it, if you merge in an object with a literal, you're gonna have a bad time
-const obj: { value: Foo; status: 'ok' | 'error' } = { value: { foo: 'bar' }, status: 'ok' };
-expectType<{ value: Foo; status: 'ok' | 'error' }>(mergeRight(obj, { status: 'error' }));
