@@ -15,7 +15,7 @@ expectType<{ foo: string; bar: string; }>(mergeRight(foobar, bar));
 // we also expect a direct collapse of the types to avoid the ugly `{ foo: string } & { bar: string }`
 expectNotType<{ foo: string } & { bar: string; }>(mergeRight(foo, bar));
 expectType<{ foo: string; bar: string; }>(mergeRight(foo, bar));
-// this is esspecially important when you merge objects with keys that have different types
+// this is especially important when you merge objects with keys that have different types
 expectNotType<{ foo: string } & { foo: number; }>(mergeRight(foo, bar));
 expectAssignable<{ foo: number; }>(mergeRight(foo, foo2));
 
@@ -63,3 +63,9 @@ expectNotType<{ foo: string } & Foobar>(mergeRight(foo, {} as Foobar));
 expectType<Foobar>(mergeRight(foo, {} as Foobar));
 expectNotType<{ bar: string } & Foobar>(mergeRight(bar, {} as Foobar));
 expectType<Foobar>(mergeRight(bar, {} as Foobar));
+
+// objects with prop literal primitives
+
+// if you have a type with a string union in it, if you merge in an object with a literal, you're gonna have a bad time
+const obj: { value: Foo; status: 'ok' | 'error' } = { value: { foo: 'bar' }, status: 'ok' };
+expectType<{ value: Foo; status: 'ok' | 'error' }>(mergeRight(obj, { status: 'error' }));

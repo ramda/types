@@ -504,6 +504,47 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
   ? T extends undefined ? undefined : T[Extract<P, keyof T>]
   : undefined;
 
+type KeyOfBoth<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof L ? K extends keyof R ? 1 : 0 : 0;
+type TakeFirstKey<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof L ? L[K] : K extends keyof R ? R[K] : never;
+type AreBothObject<L extends any, R extends any> = L extends object ? R extends object ? 1 : 0 : 0;
+type IsPrimitive<T> = T extends M.Primitive ? 1 : 0;
+type AreAllValuesPrimitives<U extends object> = IsPrimitive<U[keyof U]>;
+
+/**
+ * Takes the Lowest Common Denominator Type, right preferential
+ *
+ * When the types are differet, the right is always taken, eg
+ * ```typescript
+ * LCDT<string, number>; // number
+ * LCDT<number, string>; // string
+ * ```
+ *
+ * The important part happens when one types extends the other, but not the other way around.
+ * This is to say that all squares are rectangles but not all rectangles are squares
+ * ```typescript
+ * LCDT<'a', string>; // string
+ * LCDT<string, 'a'>; // string
+ * ```
+ * Also works with unions
+ * ```typescript
+ * LCDT<'a', 'a' | 'b'>; // 'a' | 'b'
+ * LCDT<'a' | 'b', 'a'>; // 'a' | 'b'
+ * ```
+ *
+ * Note:
+ * You'd think that `type LCDT<L, R> = L extends R ? (R extends L ? L : R) : R;` works, but it doesn't
+ * You have to re-infer R via `infer N` using this weird function syntax
+ */
+type LCDT<L, R> = (<L extends R>(v: L) => L) extends (<L extends R>(v: L) => infer N) ? N extends L ? L : N : R;
+
+type _MergeObjects<L extends object, R extends object> = {
+  [K in (keyof (L & R))]: {
+    // @ts-ignore
+    1: LCDT<L[K], R[K]>
+    0: TakeFirstKey<L, R, K>;
+  }[KeyOfBoth<L, R, K>];
+};
+
 /**
  * A better collapse of types for Merging Two Objects
  * MergeRight is just Object.assign in code, and MergeLeft is just MergeRight with the operands flipped
@@ -520,11 +561,27 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
  */
 export type MergeObjects<L extends object, R extends object> = {
   0: {
-    0: O.Assign<{}, [L, R]>,
+    0: _MergeObjects<L, R>,
     1: R
   }[A.Extends<R, L>],
   1: L
 }[A.Extends<L, R>];
+
+/**
+ * Deep version of MergeObjects
+ */
+type _MergeDeepObjects<L extends object, R extends object> = [AreAllValuesPrimitives<L> & AreAllValuesPrimitives<R>] extends [never] ? {
+  [K in (keyof (L & R))]: {
+    1: {
+      // @ts-ignore - typescript
+      1: _MergeDeepObjects<L[K], R[K]>;
+      // @ts-ignore
+      0: LCDT<L[K], R[K]>;
+      // @ts-ignore
+    }[AreBothObject<L[K], R[K]>];
+    0: TakeFirstKey<L, R, K>;
+  }[KeyOfBoth<L, R, K>];
+} : MergeObjects<L, R>;
 
 /**
  * When you have `gt = <T extends Ord>(a: T, b: T) => boolean`, `a` and `b` are different strings, and `T` defaults to `string
