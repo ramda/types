@@ -1,4 +1,6 @@
 import * as _ from 'ts-toolbelt';
 
-export function mergeDeepLeft<L extends object, R extends object>(l: L, r: R): _.O.Assign<R, [L], 'deep'>;
-export function mergeDeepLeft<L extends object>(l: L): <R extends object>(r: R) => _.O.Assign<R, [L], 'deep'>;
+import { MergeDeepObjects } from './util/tools';
+
+export function mergeDeepLeft<L extends object, R extends object>(l: L, r: R): MergeDeepObjects<R, L>;
+export function mergeDeepLeft<L extends object>(l: L): <R extends object>(r: R) => MergeDeepObjects<R, L>;
