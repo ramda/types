@@ -540,15 +540,21 @@ export type MergeObjects<L extends object, R extends object> = {
  *
  * <created by @harris-miller>
  */
+// first we text if all the values in both `L` and `R`, if true, defer to `MergeObjects` (see last line), otherwise...
 export type MergeDeepObjects<L extends object, R extends object> = [AllValuesPrimitives<L> & AllValuesPrimitives<R>] extends [never] ? {
+  // for all keys in both `L` and `R`
   [K in (keyof (L & R))]: {
+    // if both keys exists
     1: {
+      // merge them if they are both objects
       // @ts-ignore - typescript doesn't know `L[K]` and `R[K]` are both `object`, but `AreBothObject` guarantees that
       1: MergeDeepObjects<L[K], R[K]>;
+      // otherwise take the `R` value
       // @ts-ignore - typescript don't know that `K` is `keyof R`, but `KeyOfBoth` guarantees that
       0: R[K];
       // @ts-ignore - typescript don't know that `K` is both `keyof R` and `keyof L`, but `KeyOfBoth` guarantees that
     }[AreBothObject<L[K], R[K]>];
+    // if key only exists on one of the objects, try taking the `R` value, then the `L`
     0: TakeRightToLeft<L, R, K>;
   }[KeyOfBoth<L, R, K>];
 } : MergeObjects<L, R>;
