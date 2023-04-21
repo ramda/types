@@ -541,7 +541,7 @@ export type MergeObjects<L extends object, R extends object> = {
  * <created by @harris-miller>
  */
 // first we text if all the values in both `L` and `R`, if true, defer to `MergeObjects` (see last line), otherwise...
-export type MergeDeepObjects<L extends object, R extends object> = [AllValuesPrimitives<L> & AllValuesPrimitives<R>] extends [0 | never] ? {
+export type _MergeDeepObjects<L extends object, R extends object> = [AllValuesPrimitives<L> & AllValuesPrimitives<R>] extends [0 | never] ? {
   // for all keys in both `L` and `R`
   [K in (keyof (L & R))]: {
     // if both keys exists
@@ -558,6 +558,11 @@ export type MergeDeepObjects<L extends object, R extends object> = [AllValuesPri
     0: TakeRightToLeft<L, R, K>;
   }[KeyOfBoth<L, R, K>];
 } : MergeObjects<L, R>;
+
+export type MergeDeepObjects<L extends object, R extends object> = {
+  0: _MergeDeepObjects<L, R>,
+  1: L
+}[A.Extends<L, R>];
 
 /**
  * When you have `gt = <T extends Ord>(a: T, b: T) => boolean`, `a` and `b` are different strings, and `T` defaults to `string
