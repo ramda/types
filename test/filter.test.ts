@@ -69,7 +69,8 @@ expectType<Obj>(filter(gt5, { foo: 4, bar: 6 }));
 expectType<Obj>(filter(gt5)({ foo: 4, bar: 6 }));
 
 // pipe
-expectType<Obj>(pipe(filter(gt5))(typedO));
+expectType<Obj>(pipe(filter(gt5), map(identity))(typedO));
+expectType<Obj>(pipe(map(identity), filter(gt5))(typedO));
 
 // compose
 expectType<Obj>(compose(filter(gt5))(typedO));
