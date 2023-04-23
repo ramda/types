@@ -21,7 +21,7 @@ expectType<number[]>(filter(gt5)(typed));
 expectType<number[]>(filter(gt5, infered));
 expectType<number[]>(filter(gt5)(infered));
 // readonly
-expectType<number[]>(filter(gt5, readOnlyArr));
+expectType<readonly number[]>(filter(gt5, readOnlyArr));
 expectType<number[]>(filter(gt5)(readOnlyArr));
 // literal
 expectType<number[]>(filter(gt5, [1, 4, 6, 10]));

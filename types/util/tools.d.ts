@@ -487,11 +487,18 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
 export type AddIndex = {
   // Special case for map
   <P, V>(
-    fn: (f: (item: P) => V, list: readonly P[]) => V[],
+    fn: (f: (item: P) => V, list: P[]) => V[],
   ): {
-    <T, U>(a: (item: T, idx: number, list: T[]) => U, b: readonly T[]): U[];
-    <T>(__: Placeholder, b: readonly T[]): <U>(a: (item: T, idx: number, list: T[]) => U) => U[];
-    <T, U>(a: (item: T, idx: number, list: T[]) => U): (b: readonly T[]) => U[];
+    <T, U>(a: (item: T, idx: number, list: T[]) => U, b: T[]): U[];
+    <T>(__: Placeholder, b: T[]): <U>(a: (item: T, idx: number, list: T[]) => U) => U[];
+    <T, U>(a: (item: T, idx: number, list: T[]) => U): (b: T[]) => U[];
+  };
+  <P, V>(
+    fn: (f: (item: P) => V, list: readonly P[]) => readonly V[],
+  ): {
+    <T, U>(a: (item: T, idx: number, list: readonly T[]) => U, b: readonly T[]): readonly U[];
+    <T>(__: Placeholder, b: readonly T[]): <U>(a: (item: T, idx: number, list: readonly T[]) => U) => readonly U[];
+    <T, U>(a: (item: T, idx: number, list: readonly T[]) => U): (b: readonly T[]) => readonly U[];
   };
 
   // Special case for forEach
