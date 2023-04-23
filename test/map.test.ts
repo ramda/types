@@ -16,9 +16,9 @@ expectType<string[]>(map(toString)(arrRO));
 
 
 // object
-// expectType<Record<string, string>>(map(toString, {} as Record<string, number>));
-// expectType<Record<string, string>>(map(__, {} as Record<string, number>)(toString));
-// expectType<Record<string, string>>(map(toString)({} as Record<string, number>));
+expectType<Record<string, string>>(map(toString, {} as Record<string, number>));
+expectType<Record<string, string>>(map(__, {} as Record<string, number>)(toString));
+expectType<Record<string, string>>(map(toString)({} as Record<string, number>));
 
 
 // functor
