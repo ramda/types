@@ -28,10 +28,8 @@ expectType<number[]>(filter(gt5)(readOnlyArr));
 expectType<number[]>(filter(gt5)([1, 4, 6, 10]));
 // tuple
 expectNotType<number[]>(filter(gt5, tuple));
-// this works, but only if you generic the gt5 function to support tuple's `(1 | 4 | 6 | 10)[]` type
-expectType<(1 | 4 | 6 | 10)[]>(filter(<T extends number>(num: T) => num > 5, tuple));
-// but you don't have to do it for the curried type?
-expectType<(1 | 4 | 6 | 10)[]>(filter(gt5)(tuple));
+// when curried, you get -readonly [1, 4, 6, 10], need to figure out this one
+expectType<[1, 4, 6, 10]>(filter(gt5)(tuple));
 
 expectType<number[]>(pipe(filter(gt5))(typed));
 expectType<number[]>(compose(filter(gt5))(typed));

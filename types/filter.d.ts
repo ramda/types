@@ -18,5 +18,5 @@ export function filter<T>(__: Placeholder, dict: Record<PropertyKey, T>): (pred:
 
 // have yet to get `val is P` variety working here, if anyone knows please help!
 // export function filter<T, P extends T = T>(pred: (val: T) => val is P): <C extends readonly T[] | Record<PropertyKey, T>>(collection: C) => C extends readonly T[] ? P[] : Record<PropertyKey, P>;
-export function filter<T>(pred: (val: T) => boolean): <C extends readonly T[] | Record<PropertyKey, T>>(collection: C) => C extends readonly T[] ? _.L.Writable<T[]> : C;
-// export function filter<T>(pred: (val: T) => boolean): <C extends readonly T[] | Record<PropertyKey, T>>(collection: C) => _.L.Writable<C>;
+// export function filter<T>(pred: (val: T) => boolean): <C extends readonly T[] | Record<PropertyKey, T>>(collection: C) => C extends readonly T[] ? _.L.Writable<T[]> : C;
+export function filter<T>(pred: (val: T) => boolean): <C extends readonly T[] | Record<PropertyKey, T>>(collection: C) => C extends readonly T[] ? _.L.Writable<C> : C;
