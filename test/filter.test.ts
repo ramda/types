@@ -1,5 +1,5 @@
-import {  expectNotType, expectType } from 'tsd';
-import { compose, filter, identity, isNotNil, pipe, map } from '../es';
+import { expectNotType, expectType } from 'tsd';
+import { __, compose, filter, identity, isNotNil, pipe, map } from '../es';
 
 type Foobar = 'foo' | 'bar' | undefined;
 
@@ -7,6 +7,8 @@ type Foobar = 'foo' | 'bar' | undefined;
 expectType<Array<'foo' | 'bar'>>(filter(isNotNil, [] as Foobar[]));
 // filter(isNotNil)(lint)
 expectType<Foobar[]>(filter(isNotNil)([] as Foobar[]));
+// filter(__, list)(isNotNil)
+expectType<Array<'foo' | 'bar'>>(filter(__, [] as Foobar[])(isNotNil));
 
 const gt5 = (num: number) => num > 5;
 const typed: number[] = [];
@@ -38,6 +40,13 @@ expectType<number[]>(pipe(filter(gt5), map(identity))(typed));
 // compose
 expectType<number[]>(compose(filter(gt5))(typed));
 expectType<number[]>(compose(map(identity), filter(gt5))(typed));
+
+// typed variables
+expectType<number[]>(filter(__, typed)(gt5));
+// un-typed variable
+expectType<number[]>(filter(__, infered)(gt5));
+// readonly
+expectType<number[]>(filter(__, readOnlyArr)(gt5));
 
 //
 // object
