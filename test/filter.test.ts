@@ -9,7 +9,6 @@ expectType<Array<'foo' | 'bar'>>(filter(isNotNil, [] as Foobar[]));
 expectType<Foobar[]>(filter(isNotNil)([] as Foobar[]));
 
 const gt5 = (num: number) => num > 5;
-// const gt5 = <T extends number>(num: T) => num > 5;
 const typed: number[] = [];
 const infered = [1, 4, 6, 10];
 const readOnlyArr: readonly number[] = [1, 4, 6, 10];
@@ -25,16 +24,20 @@ expectType<number[]>(filter(gt5)(infered));
 expectType<number[]>(filter(gt5, readOnlyArr));
 expectType<number[]>(filter(gt5)(readOnlyArr));
 // literal
+expectType<number[]>(filter(gt5, [1, 4, 6, 10]));
 expectType<number[]>(filter(gt5)([1, 4, 6, 10]));
 // tuple
 expectNotType<number[]>(filter(gt5, tuple));
 // when curried, you get -readonly [1, 4, 6, 10], need to figure out this one
 expectType<[1, 4, 6, 10]>(filter(gt5)(tuple));
 
-expectType<number[]>(pipe(filter(gt5))(typed));
-expectType<number[]>(compose(filter(gt5))(typed));
+// pipe
 
+expectType<number[]>(pipe(filter(gt5))(typed));
 expectType<number[]>(pipe(filter(gt5), map(identity))(typed));
+
+// compose
+expectType<number[]>(compose(filter(gt5))(typed));
 expectType<number[]>(compose(map(identity), filter(gt5))(typed));
 
 //
@@ -42,7 +45,26 @@ expectType<number[]>(compose(map(identity), filter(gt5))(typed));
 //
 
 type Dictionary = Record<string, 'foo' | 'bar' | undefined>;
-
-expectType<Record<PropertyKey, 'foo' | 'bar'>>(filter(isNotNil, {} as Dictionary));
-// curried doesn't get the benefit of type narrows :-(
+// filter(isNotNil, dict)
+expectType<Record<keyof Dictionary, 'foo' | 'bar'>>(filter(isNotNil, {} as Dictionary));
+// // filter(isNotNil)(dict),  doesn't get the benefit of type narrows :-(
 expectType<Dictionary>(filter(isNotNil)({} as Dictionary));
+
+type Obj = { foo: number; bar: number; };
+
+const typedO: Obj = { foo: 4, bar: 6 };
+const inferedO = { foo: 4, bar: 6 };
+const asConst = { foo: 4, bar: 6 } as const;
+
+// typed variables
+expectType<Record<keyof Obj, number>>(filter(gt5, typedO));
+expectType<Obj>(filter(gt5)(typedO));
+// un-typed variable
+expectType<Obj>(filter(gt5, inferedO));
+expectType<Obj>(filter(gt5)(inferedO));
+// readonly
+expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(gt5, asConst));
+expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(gt5)(asConst));
+// literal
+expectType<Obj>(filter(gt5, { foo: 4, bar: 6 }));
+expectType<Obj>(filter(gt5)({ foo: 4, bar: 6 }));
