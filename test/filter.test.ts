@@ -32,7 +32,6 @@ expectNotType<number[]>(filter(gt5, tuple));
 expectType<[1, 4, 6, 10]>(filter(gt5)(tuple));
 
 // pipe
-
 expectType<number[]>(pipe(filter(gt5))(typed));
 expectType<number[]>(pipe(filter(gt5), map(identity))(typed));
 
@@ -57,7 +56,7 @@ const inferedO = { foo: 4, bar: 6 };
 const asConst = { foo: 4, bar: 6 } as const;
 
 // typed variables
-expectType<Record<keyof Obj, number>>(filter(gt5, typedO));
+expectType<Obj>(filter(gt5, typedO));
 expectType<Obj>(filter(gt5)(typedO));
 // un-typed variable
 expectType<Obj>(filter(gt5, inferedO));
@@ -68,3 +67,10 @@ expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(gt5)(asConst));
 // literal
 expectType<Obj>(filter(gt5, { foo: 4, bar: 6 }));
 expectType<Obj>(filter(gt5)({ foo: 4, bar: 6 }));
+
+// pipe
+expectType<Obj>(pipe(filter(gt5))(typedO));
+
+// compose
+expectType<Obj>(compose(filter(gt5))(typedO));
+
