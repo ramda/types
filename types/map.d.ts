@@ -1,6 +1,7 @@
 import { Functor, Placeholder, ValueOfUnion } from './util/tools';
 
-export function map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
+export function map<T, U>(fn: (x: T) => U, list: T[]): U[];
+export function map<T, U>(fn: (x: T) => U, list: readonly T[]): readonly U[];
 export function map<O extends object, U>(fn: (x: ValueOfUnion<O>) => U, dict: U): Record<keyof O, U>;
 
 export function map<T>(__: Placeholder, list: readonly T[]): <U>(fn: (x: T) => U) => U[];
