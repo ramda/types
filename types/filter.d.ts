@@ -11,12 +11,17 @@ export function filter<T extends U[keyof U], P extends T = T, U = any>(pred: (va
 export function filter<T>(pred: (val: T) => boolean, list: T[]): T[];
 export function filter<T>(pred: (val: T) => boolean, list: readonly T[]): readonly T[];
 export function filter<T, U extends Record<PropertyKey, T>>(pred: (val: T) => boolean, dict: U): U;
-
-export function filter<T>(__: Placeholder, list: readonly T[]): <P extends T>(pred: (val: T) => val is P) => P[];
-export function filter<T>(__: Placeholder, list: readonly T[]): (pred: (val: T) => boolean) => T[];
-export function filter<T>(__: Placeholder, dict: Record<PropertyKey, T>): <P extends T>(pred: (val: T) => val is P) => Record<PropertyKey, P>;
-export function filter<T>(__: Placeholder, dict: Record<PropertyKey, T>): (pred: (val: T) => boolean) => Record<PropertyKey, T>;
-
+// filter(__, list)(pred)
+export function filter<T>(__: Placeholder, list: readonly T[]): {
+  <P extends T>(pred: (val: T) => val is P): P[];
+  (pred: (val: T) => boolean): T[];
+};
+// filter(__, dict)(pred)
+export function filter<U extends object>(__: Placeholder, dict: U): {
+  <T extends U[keyof U], P extends T>(pred: (val: T) => val is P): Record<keyof U, P>
+  <T extends U[keyof U]>(pred: (val: T) => boolean): U;
+};
+// filter(pred)(listOrDict)
 // have yet to get `val is P` variety working here, if anyone knows please help!
 export function filter<T>(pred: (val: T) => boolean): <C extends readonly T[] | Record<PropertyKey, T>>(collection: C) => C extends readonly T[] ? _.L.Writable<C> : C;
 // export function filter<T>(pred: (val: T) => boolean): {

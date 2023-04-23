@@ -41,6 +41,7 @@ expectType<number[]>(pipe(filter(gt5), map(identity))(typed));
 expectType<number[]>(compose(filter(gt5))(typed));
 expectType<number[]>(compose(map(identity), filter(gt5))(typed));
 
+// curried
 // typed variables
 expectType<number[]>(filter(__, typed)(gt5));
 // un-typed variable
@@ -84,3 +85,12 @@ expectType<Obj>(pipe(map(identity), filter(gt5))(typedO));
 // compose
 expectType<Obj>(compose(filter(gt5))(typedO));
 
+// curried
+// typed variables
+expectType<Record<keyof Obj, number>>(filter(__, typedO)(gt5));
+// un-typed variable
+expectType<Obj>(filter(__, inferedO)(gt5));
+// readonly
+expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(__, asConst)(gt5));
+// literal
+expectType<Obj>(filter(__, { foo: 4, bar: 6 })(gt5));
