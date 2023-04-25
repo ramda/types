@@ -1,5 +1,5 @@
 import { expectType, expectAssignable } from 'tsd';
-import { __, FunctorMap, map, toString } from '../es';
+import { __, FunctorMap, map, toString, pipe, compose } from '../es';
 
 const arr: number[] = [];
 const arrRO: readonly number[] = [];
@@ -13,6 +13,8 @@ expectType<string[]>(map(__, arrRO)(toString));
 
 expectType<string[]>(map(toString)(arr));
 expectType<string[]>(map(toString)(arrRO));
+
+// expectType<(list: readonly number[]) => string>(pipe(map(toString)));
 
 
 // object
