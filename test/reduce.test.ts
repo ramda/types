@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { __, reduce } from '../es';
+import { __, reduce, pipe, compose } from '../es';
 
 const sum = (acc: number, val: number) => acc + val;
 
@@ -35,3 +35,8 @@ expectType<number>(reduce(sum)(0, [] as number[]));
 expectType<number>(reduce(sum)(__, [] as number[])(0));
 // reduce(f)(acc)(list)
 expectType<number>(reduce(sum)(0)([] as number[]));
+
+
+// sanity checks for compose and pipe
+expectType<(list: readonly number[]) => number>(pipe(reduce(sum, 0)));
+expectType<(list: readonly number[]) => number>(compose(reduce(sum, 0)));
