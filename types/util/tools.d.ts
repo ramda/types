@@ -108,6 +108,20 @@ export type Functor<A> =
     | { map: <B>(fn: (a: A) => B) => Functor<B>; [key: string]: any };
 
 /**
+ * A Functor - a simple type representing a Functor that used `map` is the method prop name
+ */
+export type FunctorMap<A> = {
+  map<B>(fn: (a: A) => B): FunctorMap<B>;
+};
+
+/**
+ * A FantasyLand Functor - a simple type representing a Functor wiih the fantasy-land specific prop name
+ */
+export type FunctorFantasyLand<A> = {
+  ['fantasy-land/map']<B>(fn: (a: A) => B): FunctorFantasyLand<B>;
+};
+
+/**
  * R.any dispatches to `.any` of the second argument, if present.
  * This type infers the type of the first argument of that method and returns it
  */
