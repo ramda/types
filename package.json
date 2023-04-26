@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/ramda/ramda.git"
+    "url": "git://github.com/ramda/types.git"
   },
   "license": "MIT",
   "keywords": [
@@ -32,6 +32,7 @@
     "ts",
     "@types/ramda"
   ],
+  "sideEffects": false,
   "files": [
     "es"
   ],
@@ -56,6 +57,7 @@
     "eslint-plugin-import": "^2.27.5",
     "ramda": "^0.29.0",
     "tsd": "^0.28.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "xyz": "^4.0.0"
   }
 }
