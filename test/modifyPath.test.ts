@@ -1,4 +1,4 @@
-import { expectAssignable } from 'tsd';
+import { expectAssignable, expectType } from 'tsd';
 import { modifyPath, reverse, identity } from '../es';
 
 // test paths 1 to 7
@@ -62,3 +62,11 @@ expectAssignable<
 >(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], parseInt, {} as T7));
 expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], reverse, {} as T7));
 expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], identity, {} as T7));
+
+
+// directly assignable input and return type
+expectType<{ foo: { bar: number } }>(modifyPath<{ foo: { bar: number } }>(['foo', 'bar'], parseInt, { foo: { bar: '1234' } }));
+expectType<{ foo: { bar: number } }>(modifyPath<{ foo: { bar: number } }, { foo: { bar: string } }>(['foo', 'bar'], parseInt, { foo: { bar: '1234' } }));
+// this variation allows the ability to assign the return type directly, regardless of the input type or how the modify function alters it
+// this is simply here to allow for this manual control when needed, however rare it may be needed
+expectType<{ biz: string }>(modifyPath<{ biz: string }>(['foo', 'bar'], identity, { foo: { bar: '1234' } }));
