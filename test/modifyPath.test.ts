@@ -57,6 +57,7 @@ expectAssignable<
 expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6'], reverse, {} as T6));
 expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6'], identity, {} as T6));
 
+// we only have types up to 6, this one is to make sure that the backup type catches when there is more
 expectAssignable<
 { t0: string, d0: { t1: string, d1: { t2: string, d3: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: string, d6: { t7: number } } } } } } } }
 >(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], parseInt, {} as T7));
