@@ -25,10 +25,17 @@ expectNotType<{ foo: string } & { foo: number; }>(mergeRight(foo)(bar));
 expectAssignable<{ foo: number; }>(mergeRight(foo, foo2));
 expectAssignable<{ foo: number; }>(mergeRight(foo)(foo2));
 
+// if L extends R, just return L
+expectType<{ foobar: 'foo' | 'bar' }>(mergeRight({} as { foobar: 'foo' | 'bar' }, {} as { foobar: 'foo' }));
+expectType<{ foo: string; bar: number; }>(mergeRight({} as { foo: string, bar: number }, {} as { foo: string }));
+expectType<{ foo: string; bar: number; }>(mergeRight({} as { foo: string, bar: number }, {} as { foo: string }));
+// because left is string and number, right, which are unions, L extends R
+expectType<{ foo: string; bar: number; }>(mergeRight({} as { foo: string, bar: number }, {} as { foo: 'foo' | 'bar', bar: 1 | 2 | 3 }));
+
 // typed objects
 
 type Foo = {
-  foo: string
+  foo: string;
 };
 
 type Bar = {

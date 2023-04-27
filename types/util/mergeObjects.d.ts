@@ -7,7 +7,9 @@ type IsPrimitive<T> = T extends M.Primitive ? 1 : 0;
 type AllValuesPrimitives<U extends object> = IsPrimitive<U[keyof U]>;
 
 /**
- * Takes the Lowest Common Denominator Type, right preferential
+ * LCDFT )Lowest Common Denominator Type)
+ *
+ * Right preferential
  *
  * When the types are different, the right is always taken, eg
  * ```typescript
@@ -32,13 +34,25 @@ type AllValuesPrimitives<U extends object> = IsPrimitive<U[keyof U]>;
  * Note:
  * You'd think that `type LCDT<L, R> = L extends R ? (R extends L ? L : R) : R;` works, but it doesn't
  * You have to re-infer R via `infer N` using this weird function syntax
+ *
+ * <created by @harris-miller>
  */
 type LCDT<L, R> = (<L extends R>(v: L) => L) extends (<L extends R>(v: L) => infer N) ? N extends L ? L
   : (L extends string ? N extends string ? L | N : N : (L extends number ? N extends number ? L | N : N : (L extends boolean ? N extends boolean ? L | N : N : N)))
   : R;
 
+export type _MergeObjects<L extends object, R extends object> = {
+  [K in (keyof (L & R))]: {
+    0: TakeRightToLeft<L, R, K>;
+    // @ts-ignore
+    1: LCDT<L[K], R[K]>
+  }[KeyOfBoth<L, R, K>];
+};
+
+
 /**
  * MergeObjects
+ *
  * A better collapse of types for Merging Two Objects
  * MergeRight is just Object.assign in code, and MergeLeft is just MergeRight with the operands flipped
  * What this Type does is better collapse the types together
@@ -54,17 +68,10 @@ type LCDT<L, R> = (<L extends R>(v: L) => L) extends (<L extends R>(v: L) => inf
  *
  * <created by @harris-miller>
  */
-// export type MergeObjects<L extends object, R extends object> = {
-//   0: _MergeObjects<L, R>,
-//   1: R
-// }[A.Extends<R, L>];
 export type MergeObjects<L extends object, R extends object> = {
-  [K in (keyof (L & R))]: {
-    0: TakeRightToLeft<L, R, K>;
-    // @ts-ignore
-    1: LCDT<L[K], R[K]>
-  }[KeyOfBoth<L, R, K>];
-};
+  0: _MergeDeepObjects<L, R>,
+  1: L
+}[A.Extends<L, R>];
 
 // first we text if all the values in both `L` and `R`, if true, defer to `MergeObjects` (see last line), otherwise...
 export type _MergeDeepObjects<L extends object, R extends object> = [AllValuesPrimitives<L> & AllValuesPrimitives<R>] extends [0 | never] ? {
