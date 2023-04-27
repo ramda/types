@@ -154,7 +154,6 @@ const write = (exports) => {
   const tools_file = 'tools.d.ts';
   const tools_path = `${TYPES_DIR}/util/tools.d.ts`;
 
-  const preamble = FS.readFileSync(`${TYPES_DIR}/util/index-preamble.d.ts`).toString();
   const imports_code = gen_imports(tools_path);
   const exports_code = gen_exports(exports);
   const other_exports = [
@@ -163,7 +162,6 @@ const write = (exports) => {
   ].join('\n');
 
   const code = [
-    preamble,
     imports_code,
     '',
     exports_code,
