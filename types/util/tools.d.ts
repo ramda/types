@@ -520,7 +520,9 @@ export type WidenLiterals<T> =
       ? string
       : T extends number
         ? number
-        : T;  /**
+        : T;
+
+/**
  * Recursively Update a deep property from a given path
  *
  * @param Keys array of keeps into the object
