@@ -32,6 +32,10 @@ expectType<{ foo: string; bar: number; }>(mergeRight({} as { foo: string, bar: n
 // because left is string and number, right, which are unions, L extends R
 expectType<{ foo: string; bar: number; }>(mergeRight({} as { foo: string, bar: number }, {} as { foo: 'foo' | 'bar', bar: 1 | 2 | 3 }));
 
+// when merging into an object to set a union, `as const` is required
+// Note: we can fix this in Typescript 5 with "`const` Type Parameters" (https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#const-type-parameters)
+expectType<{ foo: 'ok' | 'error' }>(mergeRight({} as { foo: 'ok' | 'error' }, { foo: 'error' } as const));
+
 // typed objects
 
 type Foo = {
@@ -116,5 +120,6 @@ expectNotType<Entry>(pipe(mergeRight({ status: 'foobar' }))(getEntry()));
 // expectNotType<Entry>(pipe(mergeRight({ status: 'foobar' })(getEntry())));
 // since `status: string`, the return object's`status` type needs to be made `string` as well
 // otherwise status is still ``ok' | 'error'` but with an actual value of '`foobar'`!
+// Note: we can fix this in Typescript 5 with "`const` Type Parameters" (https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#const-type-parameters)
 expectType<{ type: string; payload: object; status: string; }>(pipe(mergeRight({ status: 'foobar' }))(getEntry()));
 expectType<{ type: string; payload: object; status: 'ok' | 'error' | 'foobar'; }>(pipe(mergeRight({ status: 'foobar' } as const))(getEntry()));
