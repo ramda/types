@@ -32,7 +32,7 @@ export function reduce<T>(__: Placeholder, __2: Placeholder, list: readonly T[])
 // reduce(f, _, list)(acc)
 export function reduce<T, U>(f: (acc: U, elem: T) => U | Reduced<U>, __: Placeholder, list: readonly T[]): (acc: U) => U;
 // reduce(__, acc, list)(f)
-export function reduce<T, U>(__: Placeholder, acc: U extends Placeholder ? never : U, list: readonly T[]): (f: (acc: U, elem: T) => U | Reduced<U>) => U;
+export function reduce<T, U>(__: Placeholder, acc: U, list: readonly T[]): (f: (acc: U, elem: T) => U | Reduced<U>) => U;
 // reduce(f, acc, list)
 export function reduce<T, U>(f: (acc: U, elem: T) => U | Reduced<U>, acc: U, list: readonly T[]): U;
 
