@@ -1,5 +1,5 @@
 import { expectType, expectAssignable } from 'tsd';
-import { __, FunctorMap, map, toString, pipe, compose } from '../es';
+import { __, FunctorMap, map, toString, pipe } from '../es';
 
 const arr: number[] = [];
 const arrRO: readonly number[] = [];
@@ -14,7 +14,13 @@ expectType<string[]>(map(__, arrRO)(toString));
 expectType<string[]>(map(toString)(arr));
 expectType<string[]>(map(toString)(arrRO));
 
-// expectType<(list: readonly number[]) => string>(pipe(map(toString)));
+// when the first argument of the fn passed to map is not a generic, the type is preserved when passed into pipe
+expectType<(list: readonly string[]) => number[]>(pipe(map(parseInt)));
+// because first argument of `toString` is a generic, running through `pipe` gives us `(list: readonly unknown[])`
+// this is a limitation of typescript
+expectType<(list: readonly unknown[]) => string[]>(pipe(map(toString)));
+// that only mapped is map is the first in line
+expectType<(list: readonly string[]) => string[]>(pipe(map(parseInt), map(toString)));
 
 
 // object
