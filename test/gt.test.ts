@@ -1,7 +1,6 @@
 import { expectType } from 'tsd';
 
-import { __ } from '../types/__';
-import { gt } from '../types/gt';
+import { __, gt, pipe, Ord } from '../es';
 
 expectType<boolean>(gt(1, 2));
 expectType<boolean>(gt('a', 'b'));
@@ -17,3 +16,5 @@ expectType<boolean>(gt(1)(2));
 expectType<boolean>(gt('a')('b'));
 expectType<boolean>(gt(false)(true));
 expectType<boolean>(gt(new Date(0))(new Date(Date.now())));
+
+expectType<(a: Ord, b: Ord) => boolean>(pipe(gt));
