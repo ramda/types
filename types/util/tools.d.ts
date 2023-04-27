@@ -512,6 +512,8 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
  * * `1` -> `number`
  * * `true` -> `boolean
  * @see https://stackoverflow.com/a/56333836/10107466
+ *
+ * <created by @harris-miller>
  */
 export type WidenLiterals<T> =
   T extends boolean
