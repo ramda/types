@@ -153,6 +153,7 @@ const gen_exports = (exports) => {
 const write = (exports) => {
   const tools_file = 'tools.d.ts';
   const tools_path = `${TYPES_DIR}/util/tools.d.ts`;
+  const util_files = FS.readdirSync(`${TYPES_DIR}/util`);
 
   const imports_code = gen_imports(tools_path);
   const exports_code = gen_exports(exports);
@@ -172,6 +173,7 @@ const write = (exports) => {
 
   FS.mkdirSync(OUTPUT_DIR, { recursive: true});
   FS.writeFileSync(`${OUTPUT_DIR}/index.d.ts`, code);
+  util_files.forEach(file => FS.copyFileSync(`${TYPES_DIR}/util/${file}`, `${OUTPUT_DIR}/${file}`));
   FS.copyFileSync(tools_path, `${OUTPUT_DIR}/${tools_file}`);
 };
 

@@ -504,6 +504,26 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
   ? T extends undefined ? undefined : T[Extract<P, keyof T>]
   : undefined;
 
+/**
+ * Recursively Update a deep property from a given path
+ *
+ * @param Keys array of keeps into the object
+ * @param U The object to change
+ * @param T the next type at the key path
+ *
+ * <created by @harris-miller>
+ */
+export type DeepModify<Keys extends readonly PropertyKey[], U, T> =
+  Keys extends [infer K, ...infer Rest]
+    ? K extends keyof U
+      ? Rest extends readonly []
+        ? Omit<U, K> & Record<K, T>
+        : Rest extends readonly PropertyKey[]
+          ? Omit<U, K> & Record<K, DeepModify<Rest, U[K], T>>
+          : never
+      : never
+    : never;
+
 type KeyOfBoth<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof L ? K extends keyof R ? 1 : 0 : 0;
 type TakeRightToLeft<L extends object, R extends Object, K extends (keyof (L & R))> = K extends keyof R ? R[K] : (K extends keyof L ? L[K] : never);
 type AreBothObject<L extends any, R extends any> = L extends object ? R extends object ? 1 : 0 : 0;
@@ -639,3 +659,4 @@ export type DeepModify<Keys extends readonly PropertyKey[], U, T> =
           : never
       : never
     : never;
+ export * from './mergeObjects'; 
