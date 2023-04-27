@@ -1,5 +1,3 @@
-import * as _ from 'ts-toolbelt';
-
 import { MergeDeepObjects } from './util/tools';
 
 export function mergeDeepLeft<L extends object, R extends object>(l: L, r: R): MergeDeepObjects<R, L>;

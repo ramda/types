@@ -1,4 +1,4 @@
-import { A, M, O } from 'ts-toolbelt';
+import { A, M } from 'ts-toolbelt';
 
 // Here lies a loose collection of tools that compute types for the functions in "index.d.ts"
 // The goal of this file is to keep "index.d.ts" readable as well as hiding implementations
