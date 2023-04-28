@@ -6,9 +6,6 @@ export function map<T, U>(fn: (x: T) => U): (list: readonly T[]) => U[];
 export function map<H extends 'o' | 'f' | 'fl', T, U>(fn: (x: T) => U): {
   // the first 4 overloads work for `map(fn)(a)` or `const mapF = map(fn); mapF(a)` usages
   // in these circumstances `a` will auto pic the correct overload
-  (obj: FunctorMap<T>): FunctorMap<U>;
-  (obj: FunctorFantasyLand<T>): FunctorFantasyLand<U>;
-  <O extends Record<PropertyKey, T>>(dict: O): Record<keyof O, U>;
   // that doesn't work when passing the function as an argument to another function
   // this fallback takes over in that case, and lets you use the generic helper `H` to set what the expected param type needs to be
   <O extends Record<PropertyKey, T>>(functor: {
@@ -35,6 +32,4 @@ export function map<T, U>(fn: (x: T) => U, obj: FunctorMap<T>): FunctorMap<U>;
 export function map<O extends object, U>(fn: (x: ValueOfUnion<O>) => U, dict: O): Record<keyof O, U>;
 // it also needs to be here when you pass map as an argument to a function, eg `flip(map)`
 export function map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
-
-
 

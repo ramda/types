@@ -61,6 +61,8 @@ expectType<TestFunctorMap<string>>(map(__, {} as TestFunctorMap<number>)(toStrin
 expectType<TestFunctorMap<string>>(map<'f', unknown, string>(toString)({} as TestFunctorMap<number>));
 expectType<TestFunctorMap<number>>(map<'f', string, number>(parseInt)({} as TestFunctorMap<string>));
 
+
+// fantasy-land specific
 type TestFunctorFantasyLand<A> = {
   ['fantasy-land/map']: <B>(fn: (a: A) => B) => TestFunctorFantasyLand<B>;
 };
