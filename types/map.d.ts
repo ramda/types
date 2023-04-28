@@ -41,4 +41,3 @@ export function map<T, U>(fn: (x: T) => U, obj: FunctorMap<T>): FunctorMap<U>;
 export function map<O extends object, U>(fn: (x: ValueOfUnion<O>) => U, dict: O): Record<keyof O, U>;
 // it also needs to be here when you pass map as an argument to a function, eg `flip(map)`
 export function map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
-
