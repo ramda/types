@@ -14,7 +14,7 @@ This means that you cannot do this
 ```typescript
 map(parseInt)(['1', '2']) // ok
 map(parseInt)({ foo: '1', bar :'2' }) // errors
-map(praseInt)(Just('1')) // errors
+map(parseInt)(Just('1')) // errors
 ```
 
 To fix this, a single function returns an overload of functions
