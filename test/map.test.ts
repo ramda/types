@@ -1,5 +1,5 @@
-import { expectType } from 'tsd';
-import { __, FunctorMap, map, toString, pipe } from '../es';
+import { expectType, expectError } from 'tsd';
+import { __, FunctorMap, map, toString, pipe, FunctorFantasyLand, identity } from '../es';
 
 const arr: number[] = [];
 const arrRO: readonly number[] = [];
@@ -16,18 +16,35 @@ expectType<string[]>(map(toString)(arrRO));
 
 // when the first argument of the fn passed to map is not a generic, the type is preserved when passed into pipe
 expectType<(list: readonly string[]) => number[]>(pipe(map(parseInt)));
-// because first argument of `toString` is a generic, running through `pipe` gives us `(list: readonly unknown[])`
-// this is a limitation of typescript
 expectType<(list: readonly unknown[]) => string[]>(pipe(map(toString)));
-// that only mapped is map is the first in line
 expectType<(list: readonly string[]) => string[]>(pipe(map(parseInt), map(toString)));
+// when the input arg is a generic, it defaults to unknown
+expectType<(list: readonly unknown[]) => unknown[]>(pipe(map(identity)));
+// can be overwritten by setting the generic
+expectType<(list: readonly number[]) => number[]>(pipe(map<number, number>(identity)));
 
 
 // object
 expectType<Record<string, string>>(map(toString, {} as Record<string, number>));
 expectType<Record<string, string>>(map(__, {} as Record<string, number>)(toString));
-// must set first generic to designate something other that `list: readonly T[]`
-expectType<Record<string, string>>(map<'o'>(toString)({} as Record<string, number>));
+// for other than `list: readonly T[]`, must set generics
+expectType<Record<string, string>>(map<'o', unknown, string>(toString)({} as Record<string, number>));
+expectType<Record<string, number>>(map<'o', string, number>(parseInt)({} as Record<string, string>));
+
+// make sure that `fn` is a union of the types for an object
+type Foobar = {
+  foo: string;
+  bar: number;
+};
+
+declare function numFunc(val: number): string;
+declare function strFunc(val: string): string;
+declare function unionFunc(val: string | number): string;
+
+expectError(map(numFunc, {} as Foobar));
+expectError(map(strFunc, {} as Foobar));
+expectType<Record<keyof Foobar, string>>(map(unionFunc, {} as Foobar));
+
 
 
 // functor
@@ -35,16 +52,24 @@ type TestFunctorMap<A> = {
   map: <B>(fn: (a: A) => B) => TestFunctorMap<B>;
 };
 
-expectType<FunctorMap<string>>(map(toString, {} as TestFunctorMap<number>));
+expectType<FunctorMap<number>>(map(parseInt, {} as TestFunctorMap<string>));
+expectType<TestFunctorMap<number>>(map(parseInt, {} as TestFunctorMap<string>));
+expectType<TestFunctorMap<string>>(map(toString, {} as TestFunctorMap<number>));
+expectType<TestFunctorMap<number>>(map(__, {} as TestFunctorMap<string>)(parseInt));
 expectType<TestFunctorMap<string>>(map(__, {} as TestFunctorMap<number>)(toString));
 // must set first generic to designate something other that `list: readonly T[]`
-expectType<TestFunctorMap<string>>(map<'f'>(toString)({} as TestFunctorMap<number>));
+expectType<TestFunctorMap<string>>(map<'f', unknown, string>(toString)({} as TestFunctorMap<number>));
+expectType<TestFunctorMap<number>>(map<'f', string, number>(parseInt)({} as TestFunctorMap<string>));
 
 type TestFunctorFantasyLand<A> = {
   ['fantasy-land/map']: <B>(fn: (a: A) => B) => TestFunctorFantasyLand<B>;
 };
 
-expectType<TestFunctorFantasyLand<string>>(map(__, {} as TestFunctorFantasyLand<number>)(toString));
+expectType<FunctorFantasyLand<number>>(map(parseInt, {} as TestFunctorFantasyLand<string>));
+expectType<TestFunctorFantasyLand<number>>(map(parseInt, {} as TestFunctorFantasyLand<string>));
 expectType<TestFunctorFantasyLand<string>>(map(toString, {} as TestFunctorFantasyLand<number>));
+expectType<TestFunctorFantasyLand<number>>(map(__, {} as TestFunctorFantasyLand<string>)(parseInt));
+expectType<TestFunctorFantasyLand<string>>(map(__, {} as TestFunctorFantasyLand<number>)(toString));
 // must set first generic to designate something other that `list: readonly T[]`
-expectType<TestFunctorFantasyLand<string>>(map<'fl'>(toString)({} as TestFunctorFantasyLand<number>));
+expectType<TestFunctorFantasyLand<number>>(map<'fl', string, number>(parseInt)({} as TestFunctorFantasyLand<string>));
+expectType<TestFunctorFantasyLand<string>>(map<'fl', unknown, string>(toString)({} as TestFunctorFantasyLand<number>));

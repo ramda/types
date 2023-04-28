@@ -3,14 +3,14 @@ import { FunctorMap, FunctorFantasyLand, Placeholder, ValueOfUnion } from './uti
 // map(fn)
 export function map<T, U>(fn: (x: T) => U): (list: readonly T[]) => U[];
 // see readme for details
-export function map<H extends 'o' | 'f' | 'fl', T = any, U = any>(fn: (x: T) => U): {
+export function map<H extends 'o' | 'f' | 'fl', T, U>(fn: (x: T) => U): {
   // the first 4 overloads work for `map(fn)(a)` or `const mapF = map(fn); mapF(a)` usages
   // in these circumstances `a` will auto pic the correct overload
   (obj: FunctorMap<T>): FunctorMap<U>;
   (obj: FunctorFantasyLand<T>): FunctorFantasyLand<U>;
   <O extends Record<PropertyKey, T>>(dict: O): Record<keyof O, U>;
-  // that doesn't when passing `map` as a prop to another function like `pipe` or `compose`
-  // this fallback takes over in those cases, and lets you use the generic helper `H` to set what the expected param type needs to be
+  // that doesn't work when passing the function as an argument to another function
+  // this fallback takes over in that case, and lets you use the generic helper `H` to set what the expected param type needs to be
   <O extends Record<PropertyKey, T>>(functor: {
     'o': O;
     'f': FunctorMap<T>;
