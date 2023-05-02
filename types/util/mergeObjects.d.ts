@@ -7,7 +7,7 @@ type IsPrimitive<T> = T extends M.Primitive ? 1 : 0;
 type AllValuesPrimitives<U extends object> = IsPrimitive<U[keyof U]>;
 
 /**
- * LCDFT )Lowest Common Denominator Type)
+ * LCDT (Lowest Common Denominator Type)
  *
  * Right preferential
  *
