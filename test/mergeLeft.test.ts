@@ -1,7 +1,8 @@
 import { expectType, expectNotType } from 'tsd';
 import { map, mergeLeft } from '../es';
 
-// the major use case for mergeLeft is behavior in mapping
+// the `mergeRight` tests cover most everything here
+// however, will test `map` since it's the largest useCase
 type Entry = {
   type: string;
   payload: object;
