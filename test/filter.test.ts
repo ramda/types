@@ -6,7 +6,7 @@ type Foobar = 'foo' | 'bar' | undefined;
 // filter(isNotNil, list)
 expectType<Array<'foo' | 'bar'>>(filter(isNotNil, [] as Foobar[]));
 // filter(isNotNil)(lint)
-expectType<Foobar[]>(filter(isNotNil)([] as Foobar[]));
+expectType<Array<'foo' | 'bar'>>(filter(isNotNil)([] as Foobar[]));
 // filter(__, list)(isNotNil)
 expectType<Array<'foo' | 'bar'>>(filter(__, [] as Foobar[])(isNotNil));
 
@@ -23,15 +23,14 @@ expectType<number[]>(filter(gt5)(typed));
 expectType<number[]>(filter(gt5, infered));
 expectType<number[]>(filter(gt5)(infered));
 // readonly
-expectType<readonly number[]>(filter(gt5, readOnlyArr));
+expectType<number[]>(filter(gt5, readOnlyArr));
 expectType<number[]>(filter(gt5)(readOnlyArr));
 // literal
 expectType<number[]>(filter(gt5, [1, 4, 6, 10]));
 expectType<number[]>(filter(gt5)([1, 4, 6, 10]));
 // tuple
 expectNotType<number[]>(filter(gt5, tuple));
-// when curried, you get -readonly [1, 4, 6, 10], need to figure out this one
-expectType<[1, 4, 6, 10]>(filter(gt5)(tuple));
+expectType<number[]>(filter(gt5)(tuple));
 
 // pipe
 expectType<number[]>(pipe(filter(gt5))(typed));
@@ -52,12 +51,11 @@ expectType<number[]>(filter(__, readOnlyArr)(gt5));
 //
 // object
 //
-
-type Dictionary = Record<string, 'foo' | 'bar' | undefined>;
+type Dictionary = Record<'a' | 'b', 'foo' | 'bar' | undefined>;
 // filter(isNotNil, dict)
-expectType<Record<keyof Dictionary, 'foo' | 'bar'>>(filter(isNotNil, {} as Dictionary));
+expectType<Partial<Record<keyof Dictionary, 'foo' | 'bar'>>>(filter(isNotNil, {} as Dictionary));
 // // filter(isNotNil)(dict),  doesn't get the benefit of type narrows :-(
-expectType<Dictionary>(filter(isNotNil)({} as Dictionary));
+expectType<Partial<Record<keyof Dictionary, 'foo' | 'bar'>>>(filter<'o', 'foo' | 'bar' | undefined, 'foo' | 'bar'>(isNotNil)({} as Dictionary));
 
 type Obj = { foo: number; bar: number; };
 
@@ -66,7 +64,7 @@ const inferedO = { foo: 4, bar: 6 };
 const asConst = { foo: 4, bar: 6 } as const;
 
 // typed variables
-expectType<Obj>(filter(gt5, typedO));
+expectType<Obj>(filter<'o'>(gt5, typedO));
 expectType<Obj>(filter(gt5)(typedO));
 // un-typed variable
 expectType<Obj>(filter(gt5, inferedO));
