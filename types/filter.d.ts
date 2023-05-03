@@ -1,15 +1,6 @@
 import * as _ from 'ts-toolbelt';
 import { Placeholder } from './util/tools';
 
-// `val as P` is for type narrowing
-// must have a `boolean` option as well for if predicate does not narrow
-// see for details:
-// https://www.typescriptlang.org/play?#code/C4TwDgpgBAysBOBLAdgcwPLwHIFcC2ARhPFALxQDOCKqUAPlMvkfANwCwAUFwMYD2yKlEQU4SNGSgAKAG4BDADYAuWNTSZchYgEoV8hcIqU1tUgD4ooSHwBmUfWVLkA5FXGpnHTv0HBDmlklZRRUxGg1mHT1FQ0ZIknNLcAhbexinFyYteE9eASERADFFChAg-VCTCOzdKAI+PgUIOWQyCwBCdv0vLgATCB4FOXhoGxxkHmBEASgbRAVgYgAeABUAGigABSgIAA9F5F6jFbMpMBHelWDlKBXtNrSDES2NhRFgFRG5XoEFMpWANoAXVqm2BXn6g2Go3Gk2mrTmC2WJzOFyuFVu90S9UazWQr3en2aP2Qf1uwNqgKBPW8+T8byolXc1RYwMkAIADBtnM4NgBGblyXlQABM3IIzmpXDyvig8D5kkRi3gUhEYTQBKo2i8AHodVADVAAHoAfhlQngIsV82VqooAWImuA2q4esNxrNtNl8AAzNakSqiiUQE6XZw3YbTVwgA
-export function filter<T, P extends T = T>(pred: (val: T) => val is P, list: T[]): P[];
-export function filter<T, P extends T = T>(pred: (val: T) => val is P, list: readonly T[]): readonly P[];
-export function filter<T extends U[keyof U], P extends T = T, U = any>(pred: (val: T) => val is P, dict: U): Record<keyof U, P>;
-export function filter<T>(pred: (val: T) => boolean, list: T[]): T[];
-export function filter<T>(pred: (val: T) => boolean, list: readonly T[]): readonly T[];
 export function filter<T, U extends Record<PropertyKey, T>>(pred: (val: T) => boolean, dict: U): U;
 // filter(__, list)(pred)
 export function filter<T>(__: Placeholder, list: readonly T[]): {
@@ -28,3 +19,14 @@ export function filter<T>(pred: (val: T) => boolean): <C extends readonly T[] | 
 //   <U extends readonly T[]>(list: U extends readonly T[] ? U : never): U extends readonly T[] ? _.L.Writable<U> : never;
 //   <U extends Record<PropertyKey, T>>(dict: U extends readonly T[] ? never : U): U extends T[] ? never : U;
 // };
+
+// filter(pred, list)
+// do the object variant first
+export function filter<T extends U[keyof U], P extends T = T, U = any>(pred: (val: T) => val is P, dict: U): Record<keyof U, P>;
+// this overload is to support when the predicate returns``val is p`, otherwise you'd lose that bit on the
+// See for details: https://tsplay.dev/WoYjeN
+export function filter<T, P extends T = T>(pred: (val: T) => val is P, list: T[]): P[];
+export function filter<T, P extends T = T>(pred: (val: T) => val is P, list: readonly T[]): readonly P[];
+// and finally, the regular `(val: T) => boolean` overload
+export function filter<T>(pred: (val: T) => boolean, list: T[]): T[];
+export function filter<T>(pred: (val: T) => boolean, list: readonly T[]): readonly T[];
