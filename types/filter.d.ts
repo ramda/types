@@ -5,7 +5,9 @@ export function filter<T, P extends T>(pred: (val: T) => val is P): (list: reado
 export function filter<T>(pred: (val: T) => boolean): (list: readonly T[]) => T[];
 
 // see `map` for details
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function filter<H extends 'o', T = unknown, P extends T = T>(pred: (val: T) => val is P): <U extends Record<PropertyKey, T>>(dict: U) => Partial<Record<keyof U, P>>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function filter<H extends 'o', T>(pred: (val: T) => boolean): <U extends Record<PropertyKey, T>>(dict: U) => Partial<U>;
 
 // filter(__, list)(pred)
@@ -15,7 +17,7 @@ export function filter<T>(__: Placeholder, list: readonly T[]): {
 };
 // filter(__, dict)(pred)
 export function filter<U extends object>(__: Placeholder, dict: U): {
-  <T extends U[keyof U], P extends T>(pred: (val: T) => val is P): Record<keyof U, P>
+  <T extends U[keyof U], P extends T>(pred: (val: T) => val is P): Record<keyof U, P>;
   <T extends U[keyof U]>(pred: (val: T) => boolean): U;
 };
 
