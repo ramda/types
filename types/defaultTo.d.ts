@@ -1,2 +1,5 @@
-export function defaultTo<T, U>(a: T, b: U | null | undefined): T | U;
-export function defaultTo<T>(a: T): <U>(b: U | null | undefined) => T | U;
+import { DefaultTo, Placeholder } from './util/tools';
+
+export function defaultTo<Fallback>(a: Fallback): <Value>(b: Value) => DefaultTo<Fallback, Value>;
+export function defaultTo<Value>(__: Placeholder, b: Value): <Fallback>(a: Fallback) => DefaultTo<Fallback, Value>;
+export function defaultTo<Fallback, Value>(a: Fallback, b: Value): DefaultTo<Fallback, Value>;

@@ -31,6 +31,12 @@ export type CondPair<T extends any[], R> = [(...val: T) => boolean, (...val: T) 
 export type CondPairTypeguard<T, TFiltered extends T, R> = [(value: T) => value is TFiltered, (value: TFiltered) => R];
 
 /**
+ * A conditional type to use with default values. (defaultTo, propOr, etc)
+ * <created by @lax4mike>
+ */
+export type DefaultTo<Fallback, Value> = (Value extends (null | undefined) ? Fallback | Exclude<Value, null | undefined> : Value);
+
+/**
  * Represents all objects evolvable with Evolver E
  * @param E
  */
