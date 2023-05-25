@@ -1,5 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { __, assoc } from '../es';
+import { __, assoc, map } from '../es';
 
 type BasicObj = {
   str: string;
@@ -96,3 +96,14 @@ expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 
 expectType<BasicObj>(assoc('str', 'bar', obj));
 expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', 2, obj));
 expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 'foo', {} as { other: string }));
+
+
+//
+// map tests for sanity
+//
+
+expectType<BasicObj[]>([obj].map(assoc('str', 'bar')));
+expectType<(Omit<BasicObj, 'str'> & Record<'str', number>)[]>([obj].map(assoc('str', 2)));
+
+expectType<BasicObj[]>(map(assoc('str', 'bar'), [obj]));
+expectType<(Omit<BasicObj, 'str'> & Record<'str', number>)[]>(map(assoc('str', 2), [obj]));
