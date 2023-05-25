@@ -46,3 +46,12 @@ expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'ba
 expectType<BasicObj>(assoc(__, 'bar')('str', obj));
 expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, 2)('str', obj));
 expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'bar')('str', { other: 'whatever'}));
+
+//
+// assoc(key, val)
+//
+
+// assoc(key, val)(obj)
+expectType<BasicObj>(assoc('str', 'bar')(obj));
+expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', 2)(obj));
+expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 'foo')({ other: 'whatever' }));
