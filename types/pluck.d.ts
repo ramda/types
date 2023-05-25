@@ -1,4 +1,5 @@
-export function pluck<P extends string>(p: P): <T>(list: Array<Record<P, T>>) => T[];
-export function pluck(p: number): <T>(list: Array<{ [k: number]: T }>) => T[];
-export function pluck<K extends keyof T, T>(p: K, list: readonly T[]): Array<T[K]>;
-export function pluck<T>(p: number, list: Array<{ [k: number]: T }>): T[];
+import { Placeholder } from 'ramda';
+
+export function pluck<K extends PropertyKey>(prop: K extends Placeholder ? never : K): <U extends Record<K, any>>(list: U[]) => Array<U[K]>;
+export function pluck<U>(__: Placeholder, list: U[]): <K extends keyof U>() => Array<U[K]>;
+export function pluck<K extends keyof U, U>(p: K, list: readonly U[]): Array<U[K]>;
