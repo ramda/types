@@ -55,9 +55,7 @@ export function assoc<T>(__: Placeholder, val: T) : {
 // assoc(prop, val)
 export function assoc<K extends PropertyKey, T>(prop: K extends Placeholder ? never : K, val: T): {
   // assoc(prop, val)(obj), when obj has key prop, tests if val is typeof obj[prop] for best return type
-  <U extends Record<K, any>>(obj: U): T extends U[K] ? U : Omit<U, K> & Record<K, T>;
-  // assoc(prop, val)(obj), when obj does not have key prop
-  <U>(obj: U): U & Record<K, T>;
+  <U>(obj: U): U extends Record<K, any> ? T extends U[K] ? U : Omit<U, K> & Record<K, T> : Omit<U, K> & Record<K, T>;
 };
 
 // assoc (__, __, obj)
