@@ -11,22 +11,7 @@ export function map<T, U>(fn: (x: T) => U): {
   // it also needs to be here when you pass map as an argument to a function, eg `compose(map(fn))`
   (list: readonly T[]): U[];
 };
-// see readme for details
-export function map<H extends 'o' | 'f' | 'fl', T, U>(fn: (x: T) => U): {
-  // the first 4 overloads work for `map(fn)(a)` or `const mapF = map(fn); mapF(a)` usages
-  // in these circumstances `a` will auto pic the correct overload
-  // that doesn't work when passing the function as an argument to another function
-  // this fallback takes over in that case, and lets you use the generic helper `H` to set what the expected param type needs to be
-  <O extends Record<PropertyKey, T>>(functor: {
-    'o': O;
-    'f': FunctorMap<T>;
-    'fl': FunctorFantasyLand<T>;
-  }[H extends infer H_ ? H_ : never]): {
-    'o': Record<keyof O, U>;
-    'f': FunctorMap<U>;
-    'fl': FunctorFantasyLand<U>;
-  }[H extends infer H_ ? H_ : never];
-};
+
 // map(__, list)
 export function map<T>(__: Placeholder, list: readonly T[]): <U>(fn: (x: T) => U) => U[];
 export function map<A>(__: Placeholder, obj: FunctorFantasyLand<A>): <B>(fn: (a: A) => B) => FunctorFantasyLand<B>;
