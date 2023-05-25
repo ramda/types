@@ -44,18 +44,14 @@ export function assoc<K extends PropertyKey, T>(prop: K extends Placeholder ? ne
 
 // assoc (__, __, obj)
 export function assoc<U>(__: Placeholder, __2: Placeholder, obj: U): {
-  // assoc(__, __, obj)(prop, val) when prop is keyof obj and val is same type
-  <K extends keyof U>(prop: K, val: U[K]): U;
-  // assoc(__, __, obj)(prop, val) when prop is keyof obj and val is not same type
-  <K extends keyof U, T>(prop: K, val: T extends Placeholder ? never : T): Omit<U, K> & Record<K, T>;
-  // assoc(__, __, obj)(prop, val) when prop is not keyof obj
-  <K extends PropertyKey, T>(prop: K extends Placeholder ? never : K, val: T extends Placeholder ? never : T): U & Record<K, T>;
+  // assoc(__, __, obj)(prop)(val)
+  <K extends PropertyKey>(prop: K extends Placeholder ? never : K): <T>(val: T) => AssocResults<K, T, U>;
+
   // assoc(__, __, obj)(__, val)(prop)
-  <T>(__: Placeholder, val: T extends Placeholder ? never : T): <K extends keyof U>(prop: K) => T extends U[K] ? U : Omit<U, K> & Record<K, T>;
-  // assoc(__, __, obj)(prop)(val) prop is keyof obj
-  <K extends keyof U>(prop: K): <T>(val: T extends Placeholder ? never : T) => T extends U[K] ? U : Omit<U, K> & Record<K, T>;
-  // assoc(__, __, obj)(prop)(val) prop is not keyof obj
-  <K extends PropertyKey>(prop: K extends Placeholder ? never : K): <T>(val: T extends Placeholder ? never : T) => U & Record<K, T>;
+  <T>(__: Placeholder, val: T): <K extends PropertyKey>(key: K) => AssocResults<K, T, U>;
+
+  // assoc(__, __, obj)(prop, val)
+  <K extends PropertyKey, T>(prop: K, val: T): AssocResults<K, T, U>;
 };
 
 // assoc(prop, __, obj)(val), when prop is not keyof obj
