@@ -13,6 +13,7 @@ const obj: BasicObj = { str: 'foo', num: 1 };
 //
 
 // assoc(key)(__, obj)(val)
+expectError(assoc(__));
 expectType<BasicObj>(assoc('str')(__, obj)('bar'));
 expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str')(__, obj)(2));
 expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str')(__, {} as { other: string })('foo'));
@@ -61,7 +62,7 @@ expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 
 //
 
 // assoc(__, __, obj)(key)(val)
-expectError(assoc(__, __, obj)(__)('bar'));
+expectError(assoc(__, __, obj)(__));
 expectType<BasicObj>(assoc(__, __, obj)('str')('bar'));
 expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, __, obj)('str')(2));
 expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, __, {} as { other: string })('str')('bar'));
@@ -75,3 +76,23 @@ expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, __,
 expectType<BasicObj>(assoc(__, __, obj)('str', 'bar'));
 expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, __, obj)('str', 2));
 expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, __, {} as { other: string })('str', 'bar'));
+
+//
+// rest
+//
+
+// assoc(__, val, obj)(prop)
+expectError(assoc(__,'bar', obj)(__));
+expectType<BasicObj>(assoc(__,'bar', obj)('str'));
+expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, 2, obj)('str'));
+expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'bar', {} as { other: string })('str'));
+
+// assoc(key, __, obj)(__, val)
+expectType<BasicObj>(assoc('str', __, obj)('bar'));
+expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', __, obj)(2));
+expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', __, {} as { other: string })('bar'));
+
+// assoc(key, val, obj)
+expectType<BasicObj>(assoc('str', 'bar', obj));
+expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', 2, obj));
+expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 'foo', {} as { other: string }));
