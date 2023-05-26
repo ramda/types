@@ -505,6 +505,26 @@ export type Prop<T, P extends keyof never> = P extends keyof Exclude<T, undefine
   : undefined;
 
 /**
+ * When you have `gt = <T extends Ord>(a: T, b: T) => boolean`, `a` and `b` are different strings, and `T` defaults to `string
+ * However, `gt = <T extends Ord>(a: T) => (b: T) => boolean`, because `a` is evaluated without `b`, `T` is the literal of `a`
+ * `WidenLiteral` exists to go from a literal type to its base type, eg
+ * * `"foobar"` -> `string`
+ * * `1` -> `number`
+ * * `true` -> `boolean
+ * @see https://stackoverflow.com/a/56333836/10107466
+ *
+ * <created by @harris-miller>
+ */
+export type WidenLiterals<T> =
+  T extends boolean
+    ? boolean
+    : T extends string
+      ? string
+      : T extends number
+        ? number
+        : T;
+
+/**
  * Recursively Update a deep property from a given path
  *
  * @param Keys array of keeps into the object

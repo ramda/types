@@ -1,7 +1,5 @@
-import { Placeholder } from './util/tools';
+import { Ord, Placeholder, WidenLiterals } from './util/tools';
 
-export function gte(__: Placeholder, b: number): (a: number) => boolean;
-export function gte(__: Placeholder): (b: number, a: number) => boolean;
-export function gte(a: number, b: number): boolean;
-export function gte(a: string, b: string): boolean;
-export function gte(a: number): (b: number) => boolean;
+export function gte<T extends Ord>(a: T): (b: WidenLiterals<T>) => boolean;
+export function gte<T extends Ord>(__: Placeholder, b: T): (a: WidenLiterals<T>) => boolean;
+export function gte<T extends Ord>(a: T, b: T): boolean;

@@ -1,7 +1,5 @@
-import { Placeholder } from './util/tools';
+import { Ord, Placeholder, WidenLiterals } from './util/tools';
 
-export function lt(__: Placeholder, b: number): (a: number) => boolean;
-export function lt(__: Placeholder): (b: number, a: number) => boolean;
-export function lt(a: number, b: number): boolean;
-export function lt(a: string, b: string): boolean;
-export function lt(a: number): (b: number) => boolean;
+export function lt<T extends Ord>(a: T): (b: WidenLiterals<T>) => boolean;
+export function lt<T extends Ord>(__: Placeholder, b: T): (a: WidenLiterals<T>) => boolean;
+export function lt<T extends Ord>(a: T, b: T): boolean;
