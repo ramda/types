@@ -434,6 +434,12 @@ export type InputTypesOfFns<A extends ReadonlyArray<Fn>> = A extends [infer H, .
   : [];
 
 /**
+ * When you have a union type, `keyof T` is not sufficient
+ * <created by @harris-miller>
+ */
+export type KeysOfUnion<T> = T extends infer U ? keyof U : never;
+
+/**
  * If `T` is a union, `T[keyof T]` (cf. `map` and `values` in `index.d.ts`) contains the types of object values that are common across the union (i.e., an intersection).
  * Because we want to include the types of all values, including those that occur in some, but not all members of the union, we first define `ValueOfUnion`.
  * @see https://stackoverflow.com/a/60085683
