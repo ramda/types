@@ -355,7 +355,7 @@ export type Ordering = LT | EQ | GT;
  */
 // Implementation taken from
 // https://github.com/piotrwitek/utility-types/blob/df2502ef504c4ba8bd9de81a45baef112b7921d0/src/mapped-types.ts#L351-L362
-export type ObjectHavingSome<Key extends string> = {
+export type ObjectHavingSome<Key extends PropertyKey> = {
   [K in Key]: { [P in K]: unknown };
 }[Key];
 
