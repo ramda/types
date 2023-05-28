@@ -1,6 +1,6 @@
 import { expectError, expectType } from 'tsd';
 
-import { __, prop } from '../es';
+import { __, find, pipe, prop } from '../es';
 
 type Foo = {
   a: string;
@@ -40,3 +40,23 @@ expectError(prop('a', { c: 'error' }));
 expectType<number>(prop(0, [1, 2, 3, 4]));
 // all numbers work as keys, no guarantee it will return a value
 expectType<number>(prop(10, [1, 2, 3, 4]));
+
+//
+// testing and example of unions with `undefined`
+//
+
+type Todo = { description: string; isDone: boolean };
+
+const todos: Todo[] = [/* ... */];
+
+// the find return `Todo | undefined`, so `prop` errors
+expectError(pipe(
+  find((todo: Todo) => todo.isDone),
+  prop('description')
+));
+
+// add in non-null assertion to have it pass
+expectType<string>(pipe(
+  (todos: Todo[]) => find(todo => todo.isDone, todos)!,
+  prop('description')
+)(todos));
