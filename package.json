@@ -41,7 +41,7 @@
     "build": "node scripts/build-types.js",
     "lint": "eslint . --max-warnings=0",
     "test": "tsd",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -p tsconfig.types.json --noEmit"
   },
   "tsd": {
     "directory": "test/"

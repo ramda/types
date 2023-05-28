@@ -1,16 +1,8 @@
 {
   // tsconfig.json supports comments!
-  "compilerOptions": {
-    "strict": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true
-  },
+  "extends": "./tsconfig.types.json",
   "include": [
     "types",
-  ],
-  "exclude": [
-    // purposefully leave out `test` folder
-    // you cannot include it and have
     "test"
   ]
 }

@@ -1,6 +1,10 @@
 {
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": [
+      "tsconfig.json",
+      "tsconfig.test.json"
+    ]
   },
   "env": {
     "node": true,

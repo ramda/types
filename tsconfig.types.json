@@ -1,0 +1,11 @@
+{
+  // tsconfig.json supports comments!
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "types",
+  ]
+}
