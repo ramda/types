@@ -21,6 +21,15 @@ export type AtLeastOneFunctionsFlowFromRightToLeft<TArgs extends any[], TResult>
     | [(...args: TArgs) => TResult];
 
 /**
+ * An Applicative satisfying the FantasyLand spec
+ * Note: `of` is static method, not an instance method
+ * @param A
+ */
+export type Applicative<T> = {
+  of: (value: T) => Applicative<T>;
+};
+
+/**
  * R.cond's [predicate, transform] pair.
  */
 export type CondPair<T extends any[], R> = [(...val: T) => boolean, (...val: T) => R];
