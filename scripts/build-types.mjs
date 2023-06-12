@@ -121,9 +121,9 @@ const genExample = (example) => {
   }
 };
 
-const asComment = (lines, opts = { first_comment: false }) => {
+const asComment = (lines, opts = { firstComment: false }) => {
   let comments = lines.map(x => ` * ${x}`);
-  if (!opts.first_comment && lines.length > 0) {
+  if (!opts.firstComment && lines.length > 0) {
     comments = [' *', ... comments];
   }
   return comments;
@@ -135,7 +135,7 @@ const genExport = (x) => {
   const example = genExample(x.docs.example);
   const docs = [
     '/**',
-    ...asComment(desc, { first_comment: true }),
+    ...asComment(desc, { firstComment: true }),
     ...asComment(see),
     ...asComment(example),
     ' */'
