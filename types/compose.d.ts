@@ -1,54 +1,75 @@
-export function compose<TArgs extends any[], R1>(f1: (...args: TArgs) => R1): (...args: TArgs) => R1;
-export function compose<TArgs extends any[], R1, R2>(
-  f2: (a: R1) => R2,
-  f1: (...args: TArgs) => R1,
-): (...args: TArgs) => R2;
-export function compose<TArgs extends any[], R1, R2, R3>(
-  f3: (a: R2) => R3,
-  f2: (a: R1) => R2,
-  f1: (...args: TArgs) => R1,
-): (...args: TArgs) => R3;
-export function compose<TArgs extends any[], R1, R2, R3, R4>(
-  f4: (a: R3) => R4,
-  f3: (a: R2) => R3,
-  f2: (a: R1) => R2,
-  f1: (...args: TArgs) => R1,
-): (...args: TArgs) => R4;
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5>(
-  f5: (a: R4) => R5,
-  f4: (a: R3) => R4,
-  f3: (a: R2) => R3,
-  f2: (a: R1) => R2,
-  f1: (...args: TArgs) => R1,
-): (...args: TArgs) => R5;
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6>(
-  f6: (a: R5) => R6,
-  f5: (a: R4) => R5,
-  f4: (a: R3) => R4,
-  f3: (a: R2) => R3,
-  f2: (a: R1) => R2,
-  f1: (...args: TArgs) => R1,
-): (...args: TArgs) => R6;
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7>(
-  f7: (a: R6) => R7,
-  f6: (a: R5) => R6,
-  f5: (a: R4) => R5,
-  f4: (a: R3) => R4,
-  f3: (a: R2) => R3,
-  f2: (a: R1) => R2,
-  f1: (...args: TArgs) => R1,
-): (...args: TArgs) => R7;
-// fallback overload that covers anything greater than 7, but doesn't type check between functions
-export function compose<TArgs extends any[], R1, R2, R3, R4, R5, R6, R7, TResult>(
-  ...func: [
-    fnLast: (a: any) => TResult,
-    ...func: Array<(a: any) => any>,
-    f7: (a: R6) => R7,
-    f6: (a: R5) => R6,
-    f5: (a: R4) => R5,
-    f4: (a: R3) => R4,
-    f3: (a: R2) => R3,
-    f2: (a: R1) => R2,
-    f1: (...args: TArgs) => R1
-  ]
-): (...args: TArgs) => TResult;
+export function pipe<A extends ReadonlyArray<unknown>, B>(
+  fn1: (...args: A) => B,
+): (...args: A) => B;
+
+export function pipe<A extends ReadonlyArray<unknown>, B, C>(
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => C;
+
+export function pipe<A extends ReadonlyArray<unknown>, B, C, D>(
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => D;
+
+export function pipe<A extends ReadonlyArray<unknown>, B, C, D, E>(
+  fn4: (arg: D) => E,
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => E;
+
+export function pipe<A extends ReadonlyArray<unknown>, B, C, D, E, F>(
+  fn5: (arg: E) => F,
+  fn4: (arg: D) => E,
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => F;
+
+export function pipe<
+  A extends ReadonlyArray<unknown>, B, C, D, E, F, G>(
+  fn6: (arg: F) => G,
+  fn5: (arg: E) => F,
+  fn4: (arg: D) => E,
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => G;
+
+export function pipe<
+  A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H>(
+  fn7: (arg: G) => H,
+  fn6: (arg: F) => G,
+  fn5: (arg: E) => F,
+  fn4: (arg: D) => E,
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => H;
+
+export function pipe<
+  A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I>(
+  fn8: (arg: H) => I,
+  fn7: (arg: G) => H,
+  fn6: (arg: F) => G,
+  fn5: (arg: E) => F,
+  fn4: (arg: D) => E,
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => I;
+
+export function pipe<
+  A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I, J>(
+  fn9: (arg: I) => J,
+  fn8: (arg: H) => I,
+  fn7: (arg: G) => H,
+  fn6: (arg: F) => G,
+  fn5: (arg: E) => F,
+  fn4: (arg: D) => E,
+  fn3: (arg: C) => D,
+  fn2: (arg: B) => C,
+  fn1: (...args: A) => B,
+): (...args: A) => J;
