@@ -1,13 +1,14 @@
-import { parse } from 'node:path';
+import { basename, join, parse } from 'node:path';
 import { readFileSync, mkdirSync, writeFileSync, copyFileSync, existsSync, readdirSync } from 'node:fs';
 
 import { parseComments } from 'dox';
 
 const TYPES_DIR = './types';
+const UTIL_DIR = './types/util';
 const SOURCE_DIR = './node_modules/ramda/es';
 const OUTPUT_DIR = './es';
 
-const mk_type_file = (path) => {
+const mkTypeFile = (path) => {
   return {
     path,
     exports: null,
@@ -15,21 +16,21 @@ const mk_type_file = (path) => {
   };
 };
 
-const mk_docs = (src) => {
-  const dox = parseComments(src, { raw: true })[0];
-  const desc = (dox.description && dox.description.full) || '';
-  const tags = dox.tags || [];
-  const see = get_tag_val(tags, 'see');
-  const example = get_tag_val(tags, 'example');
-  return { desc, see, example };
-};
-
-const get_tag_val = (tags, key) => {
+const getTagVal = (tags, key) => {
   const maybe_tag = tags.find(x => x.type == key);
   return ((maybe_tag && maybe_tag.string) || '').trim();
 };
 
-const read_type_file = (x) => {
+const mkDocs = (src) => {
+  const dox = parseComments(src, { raw: true })[0];
+  const desc = (dox.description && dox.description.full) || '';
+  const tags = dox.tags || [];
+  const see = getTagVal(tags, 'see');
+  const example = getTagVal(tags, 'example');
+  return { desc, see, example };
+};
+
+const readTypeFile = (x) => {
   const lines = readFileSync(x.path).toString().split('\n');
 
   let i;
@@ -43,14 +44,14 @@ const read_type_file = (x) => {
   };
 };
 
-const attach_docs_from_js_file = (x) => {
+const attachDocsFromJsFile = (x) => {
   const path = parse(x.path);
-  const js_file = path.base.replace(/\.d\.ts$/, '.js');
-  const js_path = `${SOURCE_DIR}/${js_file}`;
-  if (!existsSync(js_path)) {
+  const jsFile = path.base.replace(/\.d\.ts$/, '.js');
+  const jsPath = `${SOURCE_DIR}/${jsFile}`;
+  if (!existsSync(jsPath)) {
     return null;
   }
-  const docs = mk_docs(readFileSync(js_path).toString());
+  const docs = mkDocs(readFileSync(jsPath).toString());
   return Object.assign({}, x, { docs });
 };
 
@@ -58,18 +59,17 @@ const read = () => {
   return (
     readdirSync(TYPES_DIR)
       .filter(x => /\.d\.ts$/.test(x))
-      .map(filename => mk_type_file(`${TYPES_DIR}/${filename}`))
-      .map(read_type_file)
-      .map(attach_docs_from_js_file)
+      .map(filename => mkTypeFile(`${TYPES_DIR}/${filename}`))
+      .map(readTypeFile)
+      .map(attachDocsFromJsFile)
       .filter(x => x != null)
       .sort((a, b) => a.path.localeCompare(b.path))
   );
 };
 
-const gen_imports = (tools_path) => {
-  const tools_exports_as_imports = (
-    readFileSync(tools_path)
-      .toString()
+const genImports = (utilPath) => {
+  const utilExportsAsImports = (
+    readFileSync(utilPath, 'utf8')
       .split('\n')
       .map(x => /^export \w+ (\w+)/.exec(x))
       .filter(x => x != null)
@@ -77,22 +77,21 @@ const gen_imports = (tools_path) => {
       .join('\n')
   );
   return [
-    'import * as _ from \'ts-toolbelt\';',
     'import {',
-    tools_exports_as_imports,
-    '} from \'./tools\';'
+    utilExportsAsImports,
+    `} from './${basename(utilPath, '.d.ts')}';`
   ].join('\n');
 };
 
-const gen_desc = (desc) => {
+const genDesc = (desc) => {
   return desc.split('\n');
 };
 
-const gen_see = (see) => {
+const genSee = (see) => {
   if (see == '') {
     return [];
   } else {
-    const ts_see = (
+    const tsSee = (
       see
         .split(',')
         .map(x => x.trim())
@@ -100,11 +99,11 @@ const gen_see = (see) => {
         .map(x => `{@link ${x}}`)
         .join(', ')
     );
-    return [`See also ${ts_see}`];
+    return [`See also ${tsSee}`];
   }
 };
 
-const gen_example = (example) => {
+const genExample = (example) => {
   if (example == '') {
     return [];
   } else {
@@ -122,7 +121,7 @@ const gen_example = (example) => {
   }
 };
 
-const as_comment = (lines, opts = { first_comment: false }) => {
+const asComment = (lines, opts = { first_comment: false }) => {
   let comments = lines.map(x => ` * ${x}`);
   if (!opts.first_comment && lines.length > 0) {
     comments = [' *', ... comments];
@@ -130,51 +129,48 @@ const as_comment = (lines, opts = { first_comment: false }) => {
   return comments;
 };
 
-const gen_export = (x) => {
-  const desc = gen_desc(x.docs.desc);
-  const see = gen_see(x.docs.see);
-  const example = gen_example(x.docs.example);
+const genExport = (x) => {
+  const desc = genDesc(x.docs.desc);
+  const see = genSee(x.docs.see);
+  const example = genExample(x.docs.example);
   const docs = [
     '/**',
-    ...as_comment(desc, { first_comment: true }),
-    ...as_comment(see),
-    ...as_comment(example),
+    ...asComment(desc, { first_comment: true }),
+    ...asComment(see),
+    ...asComment(example),
     ' */'
   ].join('\n');
   return `${docs}\n${x.exports}`;
 };
 
-const gen_exports = (exports) => {
-  return exports.map(gen_export).join('\n\n');
+const genExports = (exports) => {
+  return exports.map(genExport).join('\n\n');
 };
 
 const write = (exports) => {
-  const tools_file = 'tools.d.ts';
-  const tools_path = `${TYPES_DIR}/util/tools.d.ts`;
+  const utilPaths = readdirSync(UTIL_DIR).map(p => join(UTIL_DIR, p));
 
-  const imports_code = gen_imports(tools_path);
-  const exports_code = gen_exports(exports);
-  const other_exports = [
-    'export * from \'./tools\';',
+  const importsCode = utilPaths.map(genImports);
+
+  const exportsCode = genExports(exports);
+
+  const otherExports = [
+    ...utilPaths.map(p => `export * from './${basename(p, '.d.ts')}';`),
     'export as namespace R;'
   ].join('\n');
 
   const code = [
-    imports_code,
+    'import * as _ from \'ts-toolbelt\';',
+    ...importsCode,
     '',
-    exports_code,
+    exportsCode,
     '',
-    '',
-    other_exports
+    otherExports
   ].join('\n');
 
   mkdirSync(OUTPUT_DIR, { recursive: true});
   writeFileSync(`${OUTPUT_DIR}/index.d.ts`, code);
-  copyFileSync(tools_path, `${OUTPUT_DIR}/${tools_file}`);
+  utilPaths.forEach(p => copyFileSync(p, `${OUTPUT_DIR}/${basename(p)}`));
 };
 
-const main = () => {
-  write(read());
-};
-
-main();
+write(read());
