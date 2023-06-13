@@ -34,11 +34,12 @@
   ],
   "sideEffects": false,
   "files": [
-    "es"
+    "es",
+    "src"
   ],
   "types": "./es/index.d.ts",
   "scripts": {
-    "build": "node scripts/build-types.js",
+    "build": "node scripts/buildTypes.mjs",
     "lint": "eslint . --max-warnings=0",
     "test": "tsd",
     "typecheck": "tsc -p tsconfig.types.json --noEmit"
