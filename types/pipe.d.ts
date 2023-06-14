@@ -82,7 +82,7 @@ export function pipe<A extends readonly unknown[], B, C, D, E, F, G, H, I, J>(
   fn9: (arg: I) => J,
 ): (...args: A) => J;
 export function pipe<A extends readonly unknown[], B, C, D, E, F, G, H, I, R>(
-  ...funcs: [
+  ...funcs: readonly [
     fn1: (...args: A) => B,
     fn2: (arg: B) => C,
     fn3: (arg: C) => D,
@@ -91,7 +91,7 @@ export function pipe<A extends readonly unknown[], B, C, D, E, F, G, H, I, R>(
     fn6: (arg: F) => G,
     fn7: (arg: G) => H,
     fn8: (arg: H) => I,
-    ...func: Array<(a: any) => any>,
+    ...func: ReadonlyArray<(a: any) => any>,
     fnLast: (a: any) => R
   ]
 ): (...args: A) => R;

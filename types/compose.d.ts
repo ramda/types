@@ -71,9 +71,9 @@ export function compose<A extends readonly unknown[], B, C, D, E, F, G, H, I, J>
 ): (...args: A) => J;
 
 export function compose<A extends readonly unknown[], B, C, D, E, F, G, H, I, R>(
-  ...funcs: [
+  ...funcs: readonly [
     fnLast: (arg: any) => R,
-    ...func: Array<(a: any) => any>,
+    ...func: ReadonlyArray<(a: any) => any>,
     fn8: (arg: H) => I,
     fn7: (arg: G) => H,
     fn6: (arg: F) => G,
