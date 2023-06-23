@@ -13,7 +13,7 @@
 
 1.  Run `npm install` to install needed local dependencies.
 
-1.  Run `npm run build` first, then `npm run test` and address any errors.  Preferably, fix commits in place
+1.  Run `npm run build` first, then `npm run test` and `npm run lint` and address any errors. Preferably, fix commits in place
     using `git rebase` or `git commit --amend` to make the changes easier to
     review and to keep the history tidy.
 
@@ -21,6 +21,6 @@
 
         $ git push origin <branch>
 
-2.  Open a pull request.
+1.  Open a pull request.
 
 TODO: Explain the convention for creating types for ramda
