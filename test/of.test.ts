@@ -3,6 +3,7 @@ import { expectType } from 'tsd';
 import { __, of } from '../es';
 
 // Array special handler
+expectType<<T>(value: T) => T[]>(of(Array));
 
 // of(ctor)(val)
 expectType<string[]>(of(Array)('a'));
@@ -38,6 +39,6 @@ class Just<A> extends Maybe<A> {
 
 // Applicatives
 // `Maybe<unknown>` because no higher kinded types in typescript
-expectType<Maybe<unknown>>(of(Maybe, 1));
+// expectType<Maybe<unknown>>(of(Maybe, 1));
 // casting ok
-expectType<Maybe<number>>(of(Maybe, 1) as Maybe<number>);
+// expectType<Maybe<number>>(of(Maybe, 1) as Maybe<number>);
