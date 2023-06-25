@@ -67,15 +67,15 @@ expectType<Partial<Record<keyof Dictionary, string>>>(filter(isNotNil, {} as Dic
 type Obj = { foo: number; bar: number; };
 
 const typedO: Obj = { foo: 4, bar: 6 };
-const inferedO = { foo: 4, bar: 6 };
+const inferredO = { foo: 4, bar: 6 };
 const asConst = { foo: 4, bar: 6 } as const;
 
 // typed variables
 // expectType<Obj>(filter<'o'>(gt5, typedO));
 // expectType<Obj>(filter(gt5)(typedO));
 // un-typed variable
-// expectType<Obj>(filter(gt5, inferedO));
-// expectType<Obj>(filter(gt5)(inferedO));
+// expectType<Obj>(filter(gt5, inferredO));
+// expectType<Obj>(filter(gt5)(inferredO));
 // readonly
 // expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(gt5, asConst));
 // expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(gt5)(asConst));
@@ -94,7 +94,7 @@ const asConst = { foo: 4, bar: 6 } as const;
 // typed variables
 expectType<Record<keyof Obj, number>>(filter(__, typedO)(gt5));
 // un-typed variable
-expectType<Obj>(filter(__, inferedO)(gt5));
+expectType<Obj>(filter(__, inferredO)(gt5));
 // readonly
 expectType<{ readonly foo: 4, readonly bar: 6 }>(filter(__, asConst)(gt5));
 // literal
