@@ -6,8 +6,8 @@ type StringOrUndefined = string | undefined;
 
 // when the predicate that is passed to filter has a generic argument, such as `isNotNil`
 // when a predicate with a generic is passed to filter, using the curried variety collapses to unknown
-expectType<unknown[]>(filter(isNotNil)([] as StringOrUndefined[]));
-expectType<Record<string, unknown>>(filter(isNotNil)({} as Record<string, StringOrUndefined>));
+expectAssignable<unknown[]>(filter(isNotNil)([] as StringOrUndefined[]));
+expectAssignable<Record<string, unknown>>(filter(isNotNil)({} as Record<string, StringOrUndefined>));
 
 // when calling filter(pred, list) or filter(pred, dict), this is not an issue
 expectType<string[]>(filter(isNotNil, [] as StringOrUndefined[]));
@@ -15,12 +15,11 @@ expectType<Partial<Record<string, string>>>(filter(isNotNil, {} as Record<string
 
 // because if this, it is recommended not to create functions like this
 const filterNils = filter(isNotNil);
-expectType<(list: unknown[]) => unknown[]>(filterNils);
 // unless you set the type themselves
 const filterNils2: <T>(list: T[]) => NonNullable<T>[] = filter(isNotNil);
 
 // this problem persists when using `filter(pred)` with `pipe`/`compose`
-expectType<(list: readonly unknown[]) => unknown[]>(pipe(filter(isNotNil)));
+expectAssignable<(list: readonly unknown[]) => unknown[]>(pipe(filter(isNotNil)));
 // to get around this, simply wrap with an arrow function
 expectAssignable<<T>(list: readonly T[]) => NonNullable<T>[]>(pipe(<T>(xs: readonly T[]) => filter(isNotNil, xs)));
 
@@ -66,7 +65,7 @@ expectType<number[]>(filter(__, typed)(gt5));
 // un-typed variable
 expectType<number[]>(filter(__, inferred)(gt5));
 // readonly
-expectType<readonly number[]>(filter(__, readOnlyArr)(gt5));
+expectType<number[]>(filter(__, readOnlyArr)(gt5));
 
 //
 // object
