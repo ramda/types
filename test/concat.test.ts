@@ -1,4 +1,4 @@
-import { expectType } from 'tsd';
+import { expectError, expectType } from 'tsd';
 
 import { __, concat } from '../es';
 
@@ -30,3 +30,7 @@ expectType<number[]>(concat([1, 2, 3], [4, 5, 6] as const));
 expectType<number[]>(concat([1, 2, 3])([4, 5, 6]));
 expectType<number[]>(concat(__, [4, 5, 6])([1, 2, 3]));
 expectType<number[]>(concat([1, 2, 3], [4, 5, 6]));
+
+expectError(concat([] as number[])([] as { foo: string }[]));
+expectError(concat(__, [] as { foo: string }[])([] as number[]));
+expectError(concat([] as number[], [] as { foo: string }[]));
