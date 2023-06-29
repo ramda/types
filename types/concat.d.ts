@@ -1,5 +1,6 @@
 import { Placeholder } from './util/tools';
 
+// The array types are done in such a way to match native `Array#concat` behavior
 // concat(string)(string)
 export function concat<S1 extends string>(s1: S1): <S2 extends string>(s2: S2) => string extends (S1 | S2) ? string : `${S1}${S2}`;
 // concat(list)(list)
