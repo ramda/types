@@ -1,28 +1,28 @@
-import { FunctorMap, FunctorFantasyLand, Placeholder, ValueOfUnion, KeysOfUnion } from './util/tools';
+import { FunctorMap, FunctorFantasyLand, Placeholder, ValueOfUnion } from './util/tools';
 
 // map(fn)
-export function map<T, U>(fn: (x: T) => U): {
+export function map<A, B>(fn: (x: A) => B): {
   // first and last def are the same and are here on purpose
   // the list variant needs to come before the FunctorMap ones, because `T[]` is a `FunctorMap<T>`
-  (list: readonly T[]): U[];
-  (functor: FunctorFantasyLand<T>): FunctorFantasyLand<U>;
-  (functor: FunctorMap<T>): FunctorMap<U>;
-  <O extends Record<PropertyKey, T>>(dict: O): Record<KeysOfUnion<O>, U>;
+  (list: readonly A[]): B[];
+  (functor: FunctorFantasyLand<A>): FunctorFantasyLand<B>;
+  (functor: FunctorMap<A>): FunctorMap<B>;
+  <U extends Record<PropertyKey, A>>(dict: U): Record<keyof U, B>;
   // it also needs to be here when you pass map as an argument to a function, eg `compose(map(fn))`
-  (list: readonly T[]): U[];
+  (list: readonly A[]): B[];
 };
 
 // map(__, list)
-export function map<T>(__: Placeholder, list: readonly T[]): <U>(fn: (x: T) => U) => U[];
+export function map<A>(__: Placeholder, list: readonly A[]): <B>(fn: (x: A) => B) => B[];
 export function map<A>(__: Placeholder, obj: FunctorFantasyLand<A>): <B>(fn: (a: A) => B) => FunctorFantasyLand<B>;
 export function map<A>(__: Placeholder, obj: FunctorMap<A>): <B>(fn: (a: A) => B) => FunctorMap<B>;
-export function map<O extends object>(__: Placeholder, dict: O): <U>(fn: (x: ValueOfUnion<O>) => U) => Record<KeysOfUnion<O>, U>;
+export function map<U extends object>(__: Placeholder, dict: U): <B>(fn: (x: ValueOfUnion<B>) => B) => Record<keyof U, B>;
 // map(fn, list)
 // first and last def are the same and are here on purpose
 // the list variant needs to come before the FunctorMap ones, because `T[]` is a `FunctorMap<T>`
-export function map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
-export function map<T, U>(fn: (x: T) => U, obj: FunctorFantasyLand<T>): FunctorFantasyLand<U>;
-export function map<T, U>(fn: (x: T) => U, obj: FunctorMap<T>): FunctorMap<U>;
-export function map<O extends object, U>(fn: (x: ValueOfUnion<O>) => U, dict: O): Record<KeysOfUnion<O>, U>;
+export function map<A, B>(fn: (x: A) => B, list: readonly A[]): B[];
+export function map<A, B>(fn: (x: A) => B, obj: FunctorFantasyLand<A>): FunctorFantasyLand<B>;
+export function map<A, B>(fn: (x: A) => B, obj: FunctorMap<A>): FunctorMap<B>;
+export function map<U extends object, B>(fn: (x: ValueOfUnion<U>) => B, dict: U): Record<keyof U, B>;
 // it also needs to be here when you pass map as an argument to a function, eg `flip(map)`
-export function map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
+export function map<A, B>(fn: (x: A) => B, list: readonly A[]): B[];
