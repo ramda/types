@@ -1,4 +1,4 @@
-import { expectType } from 'tsd';
+import { expectError, expectType } from 'tsd';
 
 import { __, min } from '../es';
 
@@ -19,3 +19,6 @@ expectType<Date>(min(new Date(Date.now() - 1), new Date(Date.now())));
 expectType<number>(min(__, b)(a));
 // curried
 expectType<(b: number) => number>(min(a));
+
+// don't allow different types
+expectError(min(1, '2'));
