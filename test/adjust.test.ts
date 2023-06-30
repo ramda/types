@@ -16,7 +16,7 @@ expectType<string[]>(adjust(__, toUpper)(__, ['a', 'b', 'c'])(1));
 expectType<string[]>(adjust(__, toUpper)(1, ['a', 'b', 'c']));
 
 // adjust(index, fn)(index)
-expectType<string[]>(adjust(2, toUpper)(['c', 'd', 'e']));
+expectType<string[]>(adjust(2, toUpper)(['a', 'b', 'c']));
 
 // adjust(__, __, list)(index)(fn)
 expectType<string[]>(adjust(__, __, ['a', 'b', 'c'])(1)(toUpper));

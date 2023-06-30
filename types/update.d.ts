@@ -23,6 +23,16 @@ export function update<T>(__: Placeholder, value: T): {
 // update(index, value)(list)
 export function update<T>(index: number, value: T): (list: readonly T[]) => T[];
 
+// update(__, __, list)
+export function update<T>(__: Placeholder, __2: Placeholder, list: readonly T[]): {
+  // update(__, __, list)(index)(value)
+  (index: number): (value: T) => T[];
+  // update(__, __, list)(__, value)(index)
+  (__3: Placeholder, value: T): (index: number) => T[];
+  // update(__, __, list)(index, value)
+  (index: number, value: T): T[];
+};
+
 // update(__, value, list)(index)
 export function update<T>(__: Placeholder, value: T, list: readonly T[]): (index: number) => T[];
 

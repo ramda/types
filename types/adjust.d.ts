@@ -35,6 +35,7 @@ export function adjust<T>(__: Placeholder, __2: Placeholder, list: readonly T[])
 
 // adjust(__, fn, list)(index)
 export function adjust<T>(__: Placeholder, fn: (a: T) => T, list: readonly T[]): (index: number) => T[];
+
 // adjust(index, __, list)(fn)
 export function adjust<T>(index: number, __: Placeholder, list: readonly T[]): (fn: (a: T) => T) => T[];
 
