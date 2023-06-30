@@ -1,5 +1,3 @@
-import { KeyValuePair } from './util/tools';
-
-export function fromPairs<V>(
-  pairs: ReadonlyArray<Readonly<KeyValuePair<string, V>>> | ReadonlyArray<Readonly<KeyValuePair<number, V>>>,
-): { [index: string]: V };
+export function fromPairs<K extends string | number, V>(
+  pairs: readonly [K, V][]
+): { [P in K]: V };
