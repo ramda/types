@@ -500,3 +500,9 @@ export type WidenLiterals<T> =
       : T extends number
         ? number
         : T;
+
+/**
+ * Extract the types from an array
+ * Works with Tuples, eg `ElementOf<typeof ['p1', 'p2']>` => `'p1' | 'p2'`
+ */
+export type ElementOf<Type extends readonly any[]> = Type extends readonly (infer Values)[] ? Values : never;
