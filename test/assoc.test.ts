@@ -13,20 +13,31 @@ const obj: BasicObj = { str: 'foo', num: 1 };
 //
 
 // assoc(key)(__, obj)(val)
-expectError(assoc(__));
 expectType<BasicObj>(assoc('str')(__, obj)('bar'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str')(__, obj)(2));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str')(__, {} as { other: string })('foo'));
+// fails for wrong value type
+expectError(assoc('str')(__, obj)(2));
+// fails if key not unknown
+expectError(assoc('what')(__, obj)('bar'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc('what')(__, {} as Record<string, number>)(2));
 
 // assoc(key)(val, obj)
 expectType<BasicObj>(assoc('str')('bar', obj));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str')(2, obj));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str')('foo', {} as { other: string }));
+// fails for wrong value type
+expectError(assoc('str')(2, obj));
+// fails if key not unknown
+expectError(assoc('what')('bar', obj));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc('what')(2, {} as Record<string, number>));
 
 // assoc(key)(val)(obj)
 expectType<BasicObj>(assoc('str')('bar')(obj));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str')(2)(obj));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str')('foo')({} as { other: string }));
+// fails for wrong value type
+expectError(assoc('str')(2)(obj));
+// fails if key not unknown
+expectError(assoc('what')('foo')(obj));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc('what')(2)({} as Record<string, number>));
 
 
 //
@@ -35,18 +46,30 @@ expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str')(
 
 // assoc(__, val)(key)(obj)
 expectType<BasicObj>(assoc(__, 'bar')('str')(obj));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, 2)('str')(obj));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'bar')('str')({ other: 'whatever'}));
+// fails for wrong value type
+expectError(assoc(__, 2)('str')(obj));
+// fails if key not unknown
+expectError(assoc(__, 'bar')('what')(obj));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, 2)('what')({} as Record<string, number>));
 
 // assoc(__, val)(__, key)(obj)
 expectType<BasicObj>(assoc(__, 'bar')(__, obj)('str'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, 2)(__, obj)('str'));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'bar')(__, { other: 'whatever'})('str'));
+// fails for wrong value type
+expectError(assoc(__, 2)(__, obj)('str'));
+// fails if key not unknown
+expectError(assoc(__, 'bar')(__, obj)('what'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, 2)(__, {} as Record<string, number>)('str'));
 
 // assoc(__, val)(key, obj)
 expectType<BasicObj>(assoc(__, 'bar')('str', obj));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, 2)('str', obj));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'bar')('str', { other: 'whatever'}));
+// fails for wrong value type
+expectError(assoc(__, 2)('str', obj));
+// fails if key not unknown
+expectError(assoc(__, 'bar')('what', obj));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, 2)('str', {} as Record<string, number>));
 
 //
 // assoc(key, val)
@@ -54,56 +77,78 @@ expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'ba
 
 // assoc(key, val)(obj)
 expectType<BasicObj>(assoc('str', 'bar')(obj));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', 2)(obj));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 'foo')({} as { other: string }));
+// fails for wrong value type
+expectError(assoc('str', 2)(obj));
+// fails if key not unknown
+expectError(assoc('what', 'bar')(obj));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc('str', 2)({} as Record<string, number>));
 
 //
 // assoc__, __, obj)
 //
 
 // assoc(__, __, obj)(key)(val)
-expectError(assoc(__, __, obj)(__));
 expectType<BasicObj>(assoc(__, __, obj)('str')('bar'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, __, obj)('str')(2));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, __, {} as { other: string })('str')('bar'));
+// fails for wrong value type
+expectError(assoc(__, __, obj)('str')(2));
+// fails if key not unknown
+expectError(assoc(__, __, obj)('what')('bar'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, __, {} as Record<string, number>)('str')(2));
 
 // assoc(__, __, obj)(__, val)(key)
 expectType<BasicObj>(assoc(__, __, obj)(__, 'bar')('str'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, __, obj)(__, 2)('str'));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, __, {} as { other: string })(__, 'bar')('str'));
+// fails for wrong value type
+expectError(assoc(__, __, obj)(__, 2)('str'));
+// fails if key not unknown
+expectError(assoc(__, __, obj)(__, 'bar')('what'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, __, {} as Record<string, number>)(__, 2)('str'));
 
 // assoc(__, __, obj)(key, val)
 expectType<BasicObj>(assoc(__, __, obj)('str', 'bar'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, __, obj)('str', 2));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, __, {} as { other: string })('str', 'bar'));
+// fails for wrong value type
+expectError(assoc(__, __, obj)('str', 2));
+// fails if key not unknown
+expectError(assoc(__, __, obj)('what', 'bar'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, __, {} as Record<string, number>)('str', 2));
 
 //
 // rest
 //
 
 // assoc(__, val, obj)(prop)
-expectError(assoc(__,'bar', obj)(__));
 expectType<BasicObj>(assoc(__,'bar', obj)('str'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc(__, 2, obj)('str'));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc(__, 'bar', {} as { other: string })('str'));
+// fails for wrong value type
+expectError(assoc(__, 2, obj)('str'));
+// fails if key not unknown
+expectError(assoc(__, 'bar', obj)('what'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc(__, 2, {} as Record<string, number>)('str'));
 
 // assoc(key, __, obj)(__, val)
 expectType<BasicObj>(assoc('str', __, obj)('bar'));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', __, obj)(2));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', __, {} as { other: string })('bar'));
+// fails for wrong value type
+expectError(assoc('str', __, obj)(2));
+// fails if key not unknown
+expectError(assoc('what', __, obj)('bar'));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc('str', __, {} as Record<string, number>)(2));
 
 // assoc(key, val, obj)
 expectType<BasicObj>(assoc('str', 'bar', obj));
-expectType<Omit<BasicObj, 'str'> & Record<'str', number>>(assoc('str', 2, obj));
-expectType<Omit<{ other: string }, 'str'> & Record<'str', string>>(assoc('str', 'foo', {} as { other: string }));
-
+// fails for wrong value type
+expectError(assoc('str', 2, obj));
+// fails if key not unknown
+expectError(assoc('what', 'bar', obj));
+// Record<string, number> works as expected
+expectType<Record<string, number>>(assoc('str', 2, {} as Record<string, number>));
 
 //
 // map tests for sanity
 //
 
 expectType<BasicObj[]>([obj].map(assoc('str', 'bar')));
-expectType<(Omit<BasicObj, 'str'> & Record<'str', number>)[]>([obj].map(assoc('str', 2)));
-
 expectType<BasicObj[]>(map(assoc('str', 'bar'), [obj]));
-expectType<(Omit<BasicObj, 'str'> & Record<'str', number>)[]>(map(assoc('str', 2), [obj]));
