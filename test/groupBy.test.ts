@@ -14,9 +14,7 @@ const students = [
 ];
 
 const grouped = byGrade(students);
-expectType<{ score: number; name: string }[] | undefined>(grouped.C);
-(grouped.C ?? []).length;
-// @ts-expect-error
+expectType<{ score: number; name: string }[]>(grouped.C);
 grouped.C.length;
 
 // accepts a placeholder and later specifying the grouping function
@@ -26,4 +24,4 @@ const grouped2 = byGrade2((student: { score: number; name: string }) => {
   const score = student.score;
   return score < 65 ? 'F' : score < 70 ? 'D' : score < 80 ? 'C' : score < 90 ? 'B' : 'A';
 });
-expectType<{ score: number; name: string }[] | undefined>(grouped2.C);
+expectType<{ score: number; name: string }[]>(grouped2.C);
