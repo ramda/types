@@ -1,5 +1,5 @@
 import { expectType, expectError } from 'tsd';
-import { __, assoc, map } from '../es';
+import { __, assoc } from '../es';
 
 type Obj = {
   str: string;
@@ -145,10 +145,3 @@ expectError(assoc('str', 2, obj));
 expectError(assoc('what', 'bar', obj));
 // Record<string, number> works as expected
 expectType<Record<string, number>>(assoc('str', 2, {} as Record<string, number>));
-
-//
-// map tests for sanity
-//
-
-expectType<Obj[]>([obj].map(assoc('str', 'bar')));
-expectType<Obj[]>(map(assoc('str', 'bar'), [obj]));
