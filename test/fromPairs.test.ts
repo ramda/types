@@ -1,6 +1,6 @@
 import { expectType } from 'tsd';
 
-import { fromPairs } from '../es';
+import { fromPairs, toPairs } from '../es';
 
 const symbolKey = Symbol('key');
 
@@ -12,3 +12,9 @@ expectType<{ foo: number; bar: number; 0: number; [symbolKey]: number; }>(fromPa
 expectType<{ [x: string]: number }>(fromPairs([] as [string, number][]));
 // 'foo' | 'bar' | string collapses to string, this is expected
 expectType<{ [x: string]: number }>(fromPairs([] as ['foo' | 'bar' | string, number][]));
+
+// should be able to go fromPairs -> toPairs and get original type back
+const pairs: (['foo', number] | ['bar', number])[] = [['foo', 1], ['bar', 2]];
+const obj = fromPairs(pairs);
+const backAgain = toPairs(obj);
+expectType<(['foo', number] | ['bar', number])[]>(backAgain);
