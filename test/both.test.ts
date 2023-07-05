@@ -21,3 +21,10 @@ const is2To5 = (x: number): x is 2 | 3 | 4 | 5 => true;
 
 expectType<(x: number) => 2 | 3>(both(is1To3, is2To5));
 expectType<(x: number) => 2 | 3>(both(is1To3)(is2To5));
+
+// 2+ arity
+const areBothGt10 = (x: number, y: number) => x > 10 && y > 10;
+const areBothLt20 = (x: number, y: number) => x < 20 && y < 20;
+
+expectType<(x: number, y: number) => boolean>(both(areBothGt10, areBothLt20));
+expectType<(x: number, y: number) => boolean>(both(areBothGt10)(areBothLt20));
