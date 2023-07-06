@@ -15,7 +15,7 @@ export function allPass<T, TF1 extends T, TF2 extends T, TF3 extends T, TF4 exte
     (a: T) => a is TF4,
     (a: T) => a is TF5
   ],
-): (a: T) => TF1 & TF2 & TF3 & TF4 & TF5;
+): (a: T) => a is TF1 & TF2 & TF3 & TF4 & TF5;
 export function allPass<T, TF1 extends T, TF2 extends T, TF3 extends T, TF4 extends T, TF5 extends T, TF6 extends T>(
   predicates: [
     (a: T) => a is TF1,
@@ -25,5 +25,5 @@ export function allPass<T, TF1 extends T, TF2 extends T, TF3 extends T, TF4 exte
     (a: T) => a is TF5,
     (a: T) => a is TF6
   ],
-): (a: T) => TF1 & TF2 & TF3 & TF4 & TF5 & TF6;
+): (a: T) => a is TF1 & TF2 & TF3 & TF4 & TF5 & TF6;
 export function allPass<F extends (...args: any[]) => boolean>(predicates: readonly F[]): F;
