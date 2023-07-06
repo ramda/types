@@ -1,4 +1,2 @@
-import { Pred } from './util/tools';
-
-export function either<T extends Pred>(pred1: T): (pred2: T) => T;
-export function either<T extends Pred>(pred1: T, pred2: T): T;
+export function either<Fn extends (...args: any[]) => boolean>(f: Fn): (g: Fn) => Fn;
+export function either<Fn extends (...args: any[]) => boolean>(f: Fn, g: Fn): Fn;
