@@ -34,6 +34,12 @@ expectType<number>(prop('b', {} as Foo));
 expectError(prop('c', {} as Foo));
 expectError(prop('a', { c: 'error' }));
 
+// `Record` always works because of the nature of record
+expectType<number>(prop('foo', {} as Record<string, number>));
+expectType<number>(prop('bar', {} as Record<string, number>));
+expectType<number>(prop('biz', {} as Record<string, number>));
+expectType<number>(prop('baz', {} as Record<string, number>));
+
 //
 // testing and example of unions with `undefined`
 //
