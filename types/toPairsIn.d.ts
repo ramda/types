@@ -1,4 +1,1 @@
-export function toPairsIn<O extends object, K extends Extract<keyof O, string | number>>(
-  obj: O,
-): Array<{ [key in K]: [`${key}`, O[key]] }[K]>;
-export function toPairsIn<S>(obj: Record<string | number, S>): Array<[string, S]>;
+export function toPairsIn<O extends object>(obj: O): Array<{ [key in keyof O]: [key, O[key]] }[keyof O]>;
