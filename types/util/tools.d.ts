@@ -375,29 +375,6 @@ export type Path = Array<number | string>;
 export type Placeholder = A.x & { '@@functional/placeholder': true };
 
 /**
- * Takes a lists of arguments and returns either `true` or `false`.
- *
- * Classical predicates only take one argument, but since ramda
- * supports multiple arguments, we also use them like that.
- *
- * Note that these predicates, don't represent typeguards,
- * meaning when this type is used, we can't get type narrowing.
- *
- * @see {@link PredTypeguard} for the typeguard version of this.
- */
-export type Pred<T extends any[] = any[]> = (...a: T) => boolean;
-
-/**
- * Takes an argument and returns either `true` or `false`.
- *
- * This is usually used as an overload before {@link Pred}.
- * If you would this type alone, the function would **required**
- * to be a typeguard, meaning a simple function just returning
- * a `boolean` wouldn't satisfy this constrain.
- */
-export type PredTypeguard<T, TTypeguarded extends T> = (a: T) => a is TTypeguarded;
-
-/**
  * A runtime-branded value used to stop `reduce` and `transduce` early.
  * @param A The type of the contained value
  */
