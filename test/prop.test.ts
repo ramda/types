@@ -9,28 +9,22 @@ type Foo = {
 
 const foo: Foo = { a: '1', b: 2 };
 
-// prop(key)(obj)
 // support objects
 foo.a;
 expectType<string>(prop('a')({} as Foo));
 expectType<number>(prop('b')({} as Foo));
+expectType<string>(prop(__, {} as Foo)('a'));
+expectType<number>(prop(__, {} as Foo)('b'));
+expectType<string>(prop('a', {} as Foo));
+expectType<number>(prop('b', {} as Foo));
+
 // reject keys unknown in either direction
 // @ts-expect-error
 foo.c;
 expectError(prop('c')({} as Foo));
 expectError(prop('a')({ c: 'error' }));
-
-// prop(__, obj)(key)
-expectType<string>(prop(__, {} as Foo)('a'));
-expectType<number>(prop(__, {} as Foo)('b'));
-// reject keys unknown in either direction
 expectError(prop(__, {} as Foo)('c'));
 expectError(prop(__, { c: 'error' })('a'));
-
-// prop(prop, obj)
-expectType<string>(prop('a', {} as Foo));
-expectType<number>(prop('b', {} as Foo));
-// reject keys unknown in either direction
 expectError(prop('c', {} as Foo));
 expectError(prop('a', { c: 'error' }));
 
