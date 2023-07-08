@@ -7,11 +7,16 @@ type Foo = {
   b: number;
 };
 
+const foo: Foo = { a: '1', b: 2 };
+
 // prop(key)(obj)
 // support objects
+foo.a;
 expectType<string>(prop('a')({} as Foo));
 expectType<number>(prop('b')({} as Foo));
 // reject keys unknown in either direction
+// @ts-expect-error
+foo.c;
 expectError(prop('c')({} as Foo));
 expectError(prop('a')({ c: 'error' }));
 
