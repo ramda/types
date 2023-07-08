@@ -1,1 +1,1 @@
-export function toPairsIn<S>(obj: Record<PropertyKey, S>): Array<[string, S]>;
+export function toPairsIn<O extends object>(obj: O): Array<{ [key in keyof O]: [key, O[key]] }[keyof O]>;
