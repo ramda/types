@@ -30,8 +30,8 @@ expectType<boolean>(
     age: 21,
     garlic_allergy: true,
     sun_allergy: true,
-    fast: false,
-    fear: true
+    fast: null,
+    fear: undefined
   })
 );
 
