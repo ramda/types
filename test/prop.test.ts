@@ -1,6 +1,6 @@
 import { expectError, expectType } from 'tsd';
 
-import { __, find, isNil, pipe, prop, tap } from '../es';
+import { __, find, isNil, pipe, prop, sum, tap } from '../es';
 
 type Foo = {
   a: string;
@@ -62,3 +62,12 @@ expectType<string>(pipe(
   }),
   prop('description')
 )(todos));
+
+type Obj = { foo: number[] };
+
+// if in your pipe you need to define the expected obj for what prop _should_ take,
+// use generic AFTER the prop
+expectType<(obj: Obj) => number>(pipe(
+  prop('foo')<Obj>,
+  sum
+));
