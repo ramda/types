@@ -1,6 +1,4 @@
-export function type(
-  val: any,
-):
+export function type(val: any):
 | 'Object'
 | 'Number'
 | 'Boolean'
@@ -9,6 +7,7 @@ export function type(
 | 'Array'
 | 'RegExp'
 | 'Function'
+| 'AsyncFunction'
 | 'Undefined'
 | 'Symbol'
 | 'Error'
