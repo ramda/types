@@ -1,6 +1,6 @@
 {
   "name": "types-ramda",
-  "version": "0.29.4",
+  "version": "0.29.5",
   "description": "Dedicated types library for ramda",
   "author": "Harris Miller <harrismillerconsulting@gmail.com>",
   "contributors": [
