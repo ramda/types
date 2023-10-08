@@ -1,5 +1,7 @@
 # `types-ramda`
 
+**Requires at least `typescript@5`**
+
 ## Official types library for ramda
 
 `@types/ramda` has been community driven for a long time. It is however very incomplete. The goal is this library is to improve the overall types for ramda by moving ownership in-house
