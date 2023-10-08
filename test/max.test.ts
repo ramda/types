@@ -8,7 +8,7 @@ expectType<1 | 2>(max(1, 2));
 const a: number = 1;
 const b: number = 2;
 expectType<number>(max(a, b));
-// so I don't have to make a bunch of variables, we can just do that cast inline
+// you can also upcast inline to get the same result
 expectType<number>(max(1 as number, 2 as number));
 // now check the other Ord types
 expectType<string>(max('a' as string, 'b' as string));

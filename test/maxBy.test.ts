@@ -14,7 +14,7 @@ expectType<1 | 2>(maxBy(Math.abs, 1, 2));
 const a: number = 1;
 const b: number = 2;
 expectType<number>(maxBy(Math.abs, a, b));
-// so can also upcast inline to get the same result
+// you can also upcast inline to get the same result
 expectType<number>(maxBy(Math.abs, 1 as number, 2 as number));
 // now check the other Ord types
 expectType<Obj>(maxBy(prop('str'), {} as Obj, {} as Obj));
