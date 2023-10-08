@@ -1,3 +1,5 @@
+import { Path } from './util/tools';
+
 export function path<S, K0 extends keyof S>(path: [K0], obj: S): S[K0];
 export function path<S, K0 extends keyof S, K1 extends keyof S[K0]>(path: [K0, K1], obj: S): S[K0][K1];
 export function path<
@@ -63,3 +65,5 @@ export function path<
   K7 extends keyof S[K0][K1][K2][K3][K4][K5][K6],
   K8 extends keyof S[K0][K1][K2][K3][K4][K5][K6][K7]
 >(path: [K0, K1, K2, K3, K4, K5, K6, K7, K8], obj: S): S[K0][K1][K2][K3][K4][K5][K6][K7][K8];
+// final backup
+export function path<T>(path: Path, obj: any): T | unknown;
