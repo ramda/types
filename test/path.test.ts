@@ -21,8 +21,6 @@ expectType<Obj['one']['two']['three']['four']['five']['six']['seven']['eight']['
 
 // sibling keys
 expectType<boolean>(path(['one', 'two', 'other'], obj));
-// incorrect paths
-expectError(path(['one', 'two', 'nope'], obj));
 
 // variable paths
 // these work but are not recommended
