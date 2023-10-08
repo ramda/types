@@ -1,4 +1,4 @@
-import { expectType, expectError } from 'tsd';
+import { expectType } from 'tsd';
 
 import { path } from '../es';
 
