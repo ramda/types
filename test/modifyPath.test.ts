@@ -1,5 +1,5 @@
 import { expectAssignable, expectType } from 'tsd';
-import { modifyPath, reverse, identity } from '../es';
+import { append, modifyPath, reverse, identity } from '../es';
 
 // test paths 1 to 7
 // with string -> number
@@ -14,6 +14,9 @@ type T4 = { t0: string; d0: { t1: string, d1: { t2: string, d2: { t3: string, d3
 type T5 = { t0: string; d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: string, d4: { t5: string } } } } } };
 type T6 = { t0: string; d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: string } } } } } } };
 type T7 = { t0: string; d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: string, d6: { t7: string } } } } } } } };
+
+// 0.29.1 supports passing an empty array as the first arg, in which the modify function acts direction on the subject
+expectType<string[]>(modifyPath([], append('foo'), [] as string[]));
 
 expectAssignable<
 { t0: number }
