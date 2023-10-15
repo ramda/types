@@ -13,10 +13,12 @@ type Obj = {
 // explanation
 // `obj.union` is type `'A' | 'B'` and `val` is `string`
 // typescript allows comparison because as long as one side extends the other, it's ok
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function doesEq(val: string, obj: Obj) {
   return obj.union === val;
 }
 // this is different from assignment that errors because`string` is too wide for `'A' | 'B'`
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function assign(val: string, obj: Obj) {
   // @ts-expect-error -- remove this to see the error (need this so `npm run test` pasts)
   obj.union = val;
@@ -30,20 +32,44 @@ expectType<boolean>(propEq('foo', 'union', {} as Obj));
 expectType<boolean>(propEq('else', 'union', {} as Obj));
 // completely different type fails
 expectError(propEq(2, 'union', {} as Obj));
+// other props work as expected
+expectType<boolean>(propEq(2, 'num', {} as Obj));
+expectError(propEq(2, 'u', {} as Obj));
+expectType<boolean>(propEq(2, 'num', {} as Obj));
+expectError(propEq(2, 'n', {} as Obj));
+expectType<boolean>(propEq(null, 'n', {} as Obj));
+expectError(propEq(2, 'n', {} as Obj));
+expectType<boolean>(propEq(undefined, 'u', {} as Obj));
 
 // propEq(val)(name)(obj)
 expectType<boolean>(propEq('foo')('union')({} as Obj));
 // any string works here, see the above explanation as to why
 expectType<boolean>(propEq('else')('union')({} as Obj));
 // completely different type fails
-expectError(propEq(2)('union')({} as Obj));
+expectError(propEq(2, 'union', {} as Obj));
+// other props work as expected
+expectType<boolean>(propEq(2, 'num', {} as Obj));
+expectError(propEq(2)('u')({} as Obj));
+expectType<boolean>(propEq(2)('num')({} as Obj));
+expectError(propEq(2)('n')({} as Obj));
+expectType<boolean>(propEq(null, 'n', {} as Obj));
+expectError(propEq(2)('n')({} as Obj));
+expectType<boolean>(propEq(undefined, 'u', {} as Obj));
 
-// propEq(val)(name), obj)
+// propEq(val)(name, obj)
 expectType<boolean>(propEq('foo')('union', {} as Obj));
 // 'nope' is inferred as 'string' here.
 expectType<boolean>(propEq('nope')('union', {} as Obj));
 // completely different type fails
 expectError(propEq(2)('union', {} as Obj));
+// other props work as expected
+expectType<boolean>(propEq(2)('num', {} as Obj));
+expectError(propEq(2)('u', {} as Obj));
+expectType<boolean>(propEq(2)('num', {} as Obj));
+expectError(propEq(2)('n', {} as Obj));
+expectType<boolean>(propEq(null)('n', {} as Obj));
+expectError(propEq(2)('n', {} as Obj));
+expectType<boolean>(propEq(undefined, 'u', {} as Obj));
 
 // propEq(val, name)(obj)
 expectType<boolean>(propEq('foo', 'union')({} as Obj));
@@ -51,3 +77,11 @@ expectType<boolean>(propEq('foo', 'union')({} as Obj));
 expectType<boolean>(propEq('else', 'union')({} as Obj));
 // completely different type fails
 expectError(propEq(2, 'union')({} as Obj));
+// other props work as expected
+expectType<boolean>(propEq(2, 'num')({} as Obj));
+expectError(propEq(2, 'u')({} as Obj));
+expectType<boolean>(propEq(2, 'num')({} as Obj));
+expectError(propEq(2, 'n')({} as Obj));
+expectType<boolean>(propEq(null, 'n')({} as Obj));
+expectError(propEq(2, 'n')({} as Obj));
+expectType<boolean>(propEq(undefined, 'u')({} as Obj));
