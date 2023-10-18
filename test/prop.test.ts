@@ -4,7 +4,7 @@ import { __, find, isNil, pipe, prop, sum, tap } from '../es';
 
 type Foo = {
   a: string;
-  b: number;
+  b?: number;
 };
 
 const foo: Foo = { a: '1', b: 2 };
@@ -12,11 +12,11 @@ const foo: Foo = { a: '1', b: 2 };
 // support objects
 foo.a;
 expectType<string>(prop('a')({} as Foo));
-expectType<number>(prop('b')({} as Foo));
+expectType<number | undefined>(prop('b')({} as Foo));
 expectType<string>(prop(__, {} as Foo)('a'));
-expectType<number>(prop(__, {} as Foo)('b'));
+expectType<number | undefined>(prop(__, {} as Foo)('b'));
 expectType<string>(prop('a', {} as Foo));
-expectType<number>(prop('b', {} as Foo));
+expectType<number | undefined>(prop('b', {} as Foo));
 
 // reject keys unknown in either direction
 // @ts-expect-error
