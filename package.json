@@ -40,13 +40,18 @@
   "types": "./es/index.d.ts",
   "typesVersions": {
     "<5": {
+      "index.d.ts": [
+        "ts4/index.d.ts"
+      ],
       "*": [
         "ts4/*"
       ]
     }
   },
   "scripts": {
-    "build": "node scripts/buildTypes.mjs",
+    "build": "npm run build:types && npm run build:ts4",
+    "build:types": "node scripts/buildTypes.mjs",
+    "build:ts4": "node scripts/buildTs4.mjs",
     "lint": "eslint . --max-warnings=0",
     "test": "tsd",
     "typecheck": "tsc -p tsconfig.types.json --noEmit"
