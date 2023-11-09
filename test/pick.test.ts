@@ -4,11 +4,13 @@ import { pick, KeysAsTuple } from '../es';
 
 const obj = { foo: 1, bar: '2', biz: false };
 
+expectType<{}>(pick([])(obj));
 expectType<{ foo: number; }>(pick(['foo'])(obj));
 expectType<{ foo: number; bar: string; }>(pick(['foo', 'bar'])(obj));
 expectType<{ foo: number; bar: string; biz: boolean }>(pick(['foo', 'bar', 'biz'])(obj));
 expectError(pick(['baz', 'bar', 'biz'])(obj));
 
+expectType<{}>(pick([], obj));
 expectType<{ foo: number; }>(pick(['foo'], obj));
 expectType<{ foo: number; bar: string; }>(pick(['foo', 'bar'], obj));
 expectType<{ foo: number; bar: string; biz: boolean }>(pick(['foo', 'bar', 'biz'], obj));
