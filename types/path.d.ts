@@ -1,5 +1,8 @@
 import { Path } from './util/tools';
 
+// need to evaluate how to do this curried, keep simple type for now
+export function path<T>(path: Path): (obj: any) => T | undefined;
+// full signatures
 export function path<S, K0 extends keyof S>(path: [K0], obj: S): S[K0];
 export function path<S, K0 extends keyof S, K1 extends keyof S[K0]>(path: [K0, K1], obj: S): S[K0][K1];
 export function path<
