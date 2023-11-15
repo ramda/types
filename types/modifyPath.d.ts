@@ -1,6 +1,7 @@
 import { DeepModify } from './util/deepModify';
 import { Path } from './util/tools';
 
+export function modifyPath<U, T>(path: [], fn: (value: U) => T, obj: U): T;
 export function modifyPath<K0 extends keyof U, U, T>(path: [K0], fn: (value: U[K0]) => T, obj: U): DeepModify<[K0], U, T>;
 export function modifyPath<
   K0 extends keyof U,
