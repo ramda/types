@@ -1,10 +1,10 @@
-import { expectType } from 'tsd';
+import { expectType, expectError } from 'tsd';
 import { head } from '../es';
 
+// empty string literal errors
+expectError(head(''));
 // string always return string
 expectType<string>(head('abc'));
-// emptyString still returns type string. this is due to ramda's implementation `''.chartAt(0) => ''`
-expectType<string>(head(''));
 
 // array literals will read the type of the first entry
 expectType<string>(head(['fi', 1, 'fum']));
