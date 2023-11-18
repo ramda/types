@@ -10,8 +10,13 @@ expectType<string>(head('abc'));
 expectType<string>(head(['fi', 1, 'fum']));
 // but if the array is typed as an `Array<T> or T[]`, then return type will be `T`
 expectType<string | number | undefined>(head(['fi', 1, 'fum'] as Array<string | number>));
-// empty array literals return never
-expectType<never>(head([]));
+// empty array literals return undefined
+expectType<undefined>(head([]));
+// empty tuple errors
+const emptyTuple: [] = [];
+expectError(head(emptyTuple));
+// as does `[] as const`
+expectError(head([] as const));
 // but if it is typed, it will be `T | undefined`
 expectType<number | undefined>(head([] as number[]));
 // const tuples return the literal type of the first entry
