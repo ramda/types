@@ -29,3 +29,30 @@ expectType<string>(head(['10', 10] as [string, number]));
 // typed arrays return `T | undefined`
 expectType<number | string | undefined>(head([10, 'ten'] as Array<number | string>));
 expectType<string | number | undefined>(head(['10', 10] as Array<string | number>));
+
+// cross function testing with isNotEmpty
+// test the type narrowing
+const readonlyArr: readonly number[] = [];
+if (isNotEmpty(readonlyArr)) {
+  expectType<number>(head(readonlyArr));
+}
+
+const readonlyArr2: readonly number[] = [];
+if (!isNotEmpty(readonlyArr2)) {
+  // no-op
+} else {
+  expectType<number>(head(readonlyArr2));
+}
+
+
+const arr: number[] = [];
+if (isNotEmpty(arr)) {
+  expectType<number>(head(arr));
+}
+
+const arr2: number[] = [];
+if (!isNotEmpty(arr2)) {
+// no-op
+} else {
+  expectType<number>(head(arr2));
+}
