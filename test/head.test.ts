@@ -1,5 +1,6 @@
 import { expectType, expectError } from 'tsd';
 import { head } from '../es';
+import { isNotEmpty } from '../types/isNotEmpty';
 
 // empty string literal errors
 expectError(head(''));
