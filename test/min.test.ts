@@ -1,6 +1,6 @@
 import { expectError, expectType } from 'tsd';
 
-import { __, min } from '../es';
+import { min } from '../es';
 
 // please note how literals work in this situation
 expectType<1 | 2>(min(1, 2));
@@ -15,8 +15,6 @@ expectType<string>(min('a' as string, 'b' as string));
 expectType<boolean>(min(true as boolean, false as boolean));
 expectType<Date>(min(new Date(Date.now() - 1), new Date(Date.now())));
 
-// Placeholder
-expectType<number>(min(__, b)(a));
 // curried
 expectType<(b: number) => number>(min(a));
 

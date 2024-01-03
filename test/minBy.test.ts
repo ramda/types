@@ -28,6 +28,7 @@ expectType<number>(minBy(__, 1 as number, 2 as number)(Math.abs));
 // notice how literals work fine here because `T` is pulled directly from Math.abs
 // in the full function typescript will hard union them, but here it cannot
 expectType<number>(minBy(Math.abs)(1)(2));
+expectType<number>(minBy(Math.abs)(1, 2));
 
 // don't allow different types
 expectError(minBy(Math.abs, 1, '2'));

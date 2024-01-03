@@ -22,12 +22,13 @@ expectType<Obj>(maxBy(prop('bool'), {} as Obj, {} as Obj));
 expectType<Obj>(maxBy(prop('date'), {} as Obj, {} as Obj));
 
 // Placeholder
-// expectType<number>(max(__, b)(a));
+// expectType<number>(max(__, a, b)(fn));
 expectType<number>(maxBy(__, 1 as number, 2 as number)(Math.abs));
 // curried
 // notice how literals work fine here because `T` is pulled directly from Math.abs
 // in the full function typescript will hard union them, but here it cannot
 expectType<number>(maxBy(Math.abs)(1)(2));
+expectType<number>(maxBy(Math.abs)(1, 2));
 
 // don't allow different types
 expectError(maxBy(Math.abs, 1, '2'));

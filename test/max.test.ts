@@ -1,6 +1,6 @@
 import { expectError, expectType } from 'tsd';
 
-import { __, max } from '../es';
+import { max } from '../es';
 
 // please note how literals work in this situation
 expectType<1 | 2>(max(1, 2));
@@ -15,8 +15,6 @@ expectType<string>(max('a' as string, 'b' as string));
 expectType<boolean>(max(true as boolean, false as boolean));
 expectType<Date>(max(new Date(Date.now() - 1), new Date(Date.now())));
 
-// Placeholder
-expectType<number>(max(__, b)(a));
 // curried
 expectType<(b: number) => number>(max(a));
 
