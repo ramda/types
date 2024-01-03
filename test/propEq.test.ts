@@ -23,28 +23,21 @@ expectType<boolean>(propEq('A')('literals')(obj));
 expectType<boolean>(propEq('A', 'literals')(obj));
 expectType<boolean>(propEq('A', 'literals', obj));
 
-// rejects if typeof val not U[K]
-expectError(propEq('C')('literals')(obj));
-expectError(propEq('C', 'literals')(obj));
+// accepts any type that obj[key] can be widened too
+expectType<boolean>(propEq('C')('literals')(obj));
+expectType<boolean>(propEq('C', 'literals')(obj));
+// only propEq(val, key, obj) requests non-widened types
 expectError(propEq('C', 'literals', obj));
 
+// rejects if type cannot be widened too
 expectError(propEq(2)('literals')(obj));
 expectError(propEq(2, 'literals')(obj));
 expectError(propEq(2, 'literals', obj));
 
-// works for variable literal of correct type
-expectType<boolean>(propEq(literalVar)('literals')(obj));
-expectType<boolean>(propEq(literalVar, 'literals')(obj));
-expectType<boolean>(propEq(literalVar, 'literals', obj));
-
-// works for variable typed to be same
-expectType<boolean>(propEq(typedVar)('literals')(obj));
-expectType<boolean>(propEq(typedVar, 'literals')(obj));
-expectType<boolean>(propEq(typedVar, 'literals', obj));
-
-// rejects if typeof val is too wide
-expectError(propEq('A' as string)('literals')(obj));
-expectError(propEq('A' as string, 'literals')(obj));
+// manually widened also works
+expectType<boolean>(propEq('A' as string)('literals')(obj));
+expectType<boolean>(propEq('A' as string, 'literals')(obj));
+// only rejects for propEq(val, key, obj), `string` is too wide for 'A' | 'B'
 expectError(propEq('A' as string, 'literals', obj));
 
 // rejects if key is not on obj

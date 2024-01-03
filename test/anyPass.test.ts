@@ -27,31 +27,11 @@ expectType<boolean>(
 
 expectType<boolean>(
   isVampire({
-    age: 300, // any number
-    garlic_allergy: false, // any bool
-    sun_allergy: false, // any bool
-    fast: null
-    // fear: undefined // can leave out because `undefined` are considered optional
-  })
-);
-
-expectError(
-  isVampire({
-    age: 21,
-    garlic_allergy: true,
-    sun_allergy: true,
-    fast: false,  // wrong type
-    fear: undefined
-  })
-);
-
-expectError(
-  isVampire({
     age: 21,
     garlic_allergy: true,
     sun_allergy: true,
     fast: null,
-    fear: true  // wrong type
+    fear: undefined
   })
 );
 
@@ -59,9 +39,7 @@ expectError(
   isVampire({
     age: 40,
     garlic_allergy: true,
-    // sun_allergy: true, // can't have missing prop
-    fast: null,
-    fear: undefined
+    fear: false
   })
 );
 
@@ -71,3 +49,25 @@ expectError(
   })
 );
 
+const isQueen = propEq('Q', 'rank');
+const isSpade = propEq('♠︎', 'suit');
+const isQueenOfSpades = anyPass([isQueen, isSpade]);
+
+expectType<boolean>(isQueenOfSpades({
+  rank: '2',
+  suit: '♠︎'
+}));
+
+expectError(isQueenOfSpades({
+  rank: 2,
+  suit: '♠︎'
+}));
+
+const isQueen2 = (x: Record<'rank', string>) => x.rank === 'Q';
+const isSpade2 = (x: Record<'suit', string>) => x.suit === '♠︎';
+const isQueenOfSpades2 = anyPass([isQueen2, isSpade2]);
+
+isQueenOfSpades2({
+  rank: '2',
+  suit: '♠︎'
+});
