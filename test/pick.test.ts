@@ -1,4 +1,4 @@
-import { expectType, expectError } from 'tsd';
+import { expectType, expectError, expectAssignable } from 'tsd';
 
 import { pick } from '../es';
 
@@ -15,8 +15,11 @@ expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b'>>(pick(['foo', 'b
 expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b' | 'c'>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c'])(obj));
 expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b' | 'c' | 'd'>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c', 'd'])(obj));
 expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b' | 'c' | 'd' | 'e'>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c', 'd', 'e'] as const)(obj));
-// this technically works, however doesn't give you any useful and should be avoided, also use `as const` instead
-expectType<Pick<Obj, keyof Obj>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c', 'd', 'e'])(obj));
+
+// while these technically work, they give back false positives, avoid their use
+expectAssignable<Pick<Obj, keyof Obj>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c', 'd', 'e'])(obj));
+expectType<Pick<Obj, keyof Obj>>(pick([] as (keyof Obj)[])(obj));
+
 expectError(pick(['what'])(obj));
 
 expectType<Pick<Obj, never>>(pick([], obj));
@@ -29,6 +32,10 @@ expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b'>>(pick(['foo', 'b
 expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b' | 'c'>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c'], obj));
 expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b' | 'c' | 'd'>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c', 'd'], obj));
 expectType<Pick<Obj, 'foo' | 'bar' | 'biz' | 'baz' | 'a' | 'b' | 'c' | 'd' | 'e'>>(pick(['foo', 'bar', 'biz', 'baz', 'a', 'b', 'c', 'd', 'e'] as const, obj));
+
+// while this technically work, they give back false positives, avoid their use
+expectType<Pick<Obj, keyof Obj>>(pick([] as (keyof Obj)[], obj));
+
 expectError(pick(['what'], obj));
 
 expectType<Record<string, number>>(pick(['foo'])({} as Record<string, number>));
