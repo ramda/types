@@ -27,7 +27,7 @@ expectType<boolean>(path(['one', 'two', 'other'], obj));
 const somePath: string[] = ['one', 'two', 'three'];
 expectType<unknown>(path(somePath, obj));
 // typing the generic will give you a better return, but will always be unions with `unknown`
-expectType<Obj['one']['two']['three'] | unknown>(path<Obj['one']['two']['three']>(somePath, obj));
+expectType<Obj['one']['two']['three'] | undefined>(path<Obj['one']['two']['three']>(somePath, obj));
 
 // curried type allows for any, and allows you to set the return type in the generic
 // notice return type is based just on the generic and is always `| undefined`
