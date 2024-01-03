@@ -11,9 +11,6 @@ type Obj = {
 
 const obj = {} as Obj;
 
-const literalVar = 'A';
-let typedVar: 'A' | 'B' = 'A';
-
 //
 // literals
 //
