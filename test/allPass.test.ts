@@ -48,3 +48,21 @@ expectError(
     nickname: 'Blade'
   })
 );
+
+const isQueen = propEq('Q', 'rank');
+const isSpade = propEq('♠︎', 'suit');
+const isQueenOfSpades = allPass([isQueen, isSpade]);
+
+isQueenOfSpades({
+  rank: '2',
+  suit: '♠︎'
+});
+
+const isQueen2 = (x: Record<'rank', string>) => x.rank === 'Q';
+const isSpade2 = (x: Record<'suit', string>) => x.suit === '♠︎';
+const isQueenOfSpades2 = allPass([isQueen2, isSpade2]);
+
+isQueenOfSpades2({
+  rank: '2',
+  suit: '♠︎'
+});

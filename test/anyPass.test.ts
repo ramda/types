@@ -25,13 +25,33 @@ expectType<boolean>(
   })
 );
 
+expectType<boolean>(
+  isVampire({
+    age: 300, // any number
+    garlic_allergy: false, // any bool
+    sun_allergy: false, // any bool
+    fast: null
+    // fear: undefined // can leave out because `undefined` are considered optional
+  })
+);
+
 expectError(
   isVampire({
     age: 21,
     garlic_allergy: true,
     sun_allergy: true,
-    fast: false,
-    fear: true
+    fast: false,  // wrong type
+    fear: undefined
+  })
+);
+
+expectError(
+  isVampire({
+    age: 21,
+    garlic_allergy: true,
+    sun_allergy: true,
+    fast: null,
+    fear: true  // wrong type
   })
 );
 
@@ -39,7 +59,9 @@ expectError(
   isVampire({
     age: 40,
     garlic_allergy: true,
-    fear: false
+    // sun_allergy: true, // can't have missing prop
+    fast: null,
+    fear: undefined
   })
 );
 
@@ -48,3 +70,4 @@ expectError(
     nickname: 'Blade'
   })
 );
+
