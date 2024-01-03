@@ -19,11 +19,8 @@ type T7 = { t0: string; d0: { t1: string, d1: { t2: string, d2: { t3: string, d3
 expectType<string[]>(modifyPath([], append('foo'), [] as string[]));
 expectType<number[]>(modifyPath([], map(parseInt), [] as string[]));
 
-// expectType<
-// {} & { t0: number }
-// >(modifyPath(['t0'], parseInt, {} as T0));
 expectAssignable<
-{ d0: { t1: string } } & { t0: number }
+{ t0: number, d0: { t1: string } }
 >(modifyPath(['t0'], parseInt, {} as T1));
 expectType<T0>(modifyPath(['t0'], reverse, {} as T0));
 expectType<T0>(modifyPath(['t0'], identity, {} as T0));
