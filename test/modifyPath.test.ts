@@ -1,5 +1,5 @@
 import { expectAssignable, expectType } from 'tsd';
-import { append, modifyPath, reverse, identity } from '../es';
+import { append, modifyPath, reverse, identity, map } from '../es';
 
 // test paths 1 to 7
 // with string -> number
@@ -17,55 +17,59 @@ type T7 = { t0: string; d0: { t1: string, d1: { t2: string, d2: { t3: string, d3
 
 // 0.29.1 supports passing an empty array as the first arg, in which the modify function acts direction on the subject
 expectType<string[]>(modifyPath([], append('foo'), [] as string[]));
+expectType<number[]>(modifyPath([], map(parseInt), [] as string[]));
 
+// expectType<
+// {} & { t0: number }
+// >(modifyPath(['t0'], parseInt, {} as T0));
 expectAssignable<
-{ t0: number }
->(modifyPath(['t0'], parseInt, {} as T0));
-expectAssignable<T0>(modifyPath(['t0'], reverse, {} as T0));
-expectAssignable<T0>(modifyPath(['t0'], identity, {} as T0));
+{ d0: { t1: string } } & { t0: number }
+>(modifyPath(['t0'], parseInt, {} as T1));
+expectType<T0>(modifyPath(['t0'], reverse, {} as T0));
+expectType<T0>(modifyPath(['t0'], identity, {} as T0));
 
 expectAssignable<
 { t0: string, d0: { t1: number } }
 >(modifyPath(['t0', 't1'], parseInt, {} as T1));
-expectAssignable<T0>(modifyPath(['t0', 't1'], reverse, {} as T1));
-expectAssignable<T0>(modifyPath(['t0', 't1'], identity, {} as T1));
+expectType<T1>(modifyPath(['d0', 't1'], reverse, {} as T1));
+expectType<T1>(modifyPath(['d0', 't1'], identity, {} as T1));
 
 expectAssignable<
 { t0: string, d0: { t1: string, d1: { t2: number } } }
 >(modifyPath(['t0', 't1', 't2'], parseInt, {} as T2));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2'], reverse, {} as T2));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2'], identity, {} as T2));
+expectType<T2>(modifyPath(['d0', 'd1', 't2'], reverse, {} as T2));
+expectType<T2>(modifyPath(['d0', 'd1', 't2'], identity, {} as T2));
 
 expectAssignable<
-{ t0: string, d0: { t1: string, d1: { t2: string, d3: { t3: number } } } }
->(modifyPath(['t0', 't1', 't2', 't3'], parseInt, {} as T3));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3'], reverse, {} as T3));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3'], identity, {} as T3));
+{ t0: string, d0: { t1: string, d1: { t2: string, d2: { t3: number } } } }
+>(modifyPath(['d0', 'd1', 'd2', 't3'], parseInt, {} as T3));
+expectType<T3>(modifyPath(['d0', 'd1', 'd2', 't3'], reverse, {} as T3));
+expectType<T3>(modifyPath(['d0', 'd1', 'd2', 't3'], identity, {} as T3));
 
 expectAssignable<
-{ t0: string, d0: { t1: string, d1: { t2: string, d3: { t3: string, d3: { t4: number } } } } }
->(modifyPath(['t0', 't1', 't2', 't3', 't4'], parseInt, {} as T4));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4'], reverse, {} as T4));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4'], identity, {} as T4));
+{ t0: string, d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: number } } } } }
+>(modifyPath(['d0', 'd1', 'd2', 'd3', 't4'], parseInt, {} as T4));
+expectType<T4>(modifyPath(['d0', 'd1', 'd2', 'd3', 't4'], reverse, {} as T4));
+expectType<T4>(modifyPath(['d0', 'd1', 'd2', 'd3', 't4'], identity, {} as T4));
 
 expectAssignable<
-{ t0: string, d0: { t1: string, d1: { t2: string, d3: { t3: string, d3: { t4: string, d4: { t5: number } } } } } }
->(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5'], parseInt, {} as T5));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5'], reverse, {} as T5));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5'], identity, {} as T5));
+{ t0: string, d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: string, d4: { t5: number } } } } } }
+>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 't5'], parseInt, {} as T5));
+expectType<T5>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 't5'], reverse, {} as T5));
+expectType<T5>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 't5'], identity, {} as T5));
 
 expectAssignable<
-{ t0: string, d0: { t1: string, d1: { t2: string, d3: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: number } } } } } } }
->(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6'], parseInt, {} as T6));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6'], reverse, {} as T6));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6'], identity, {} as T6));
+{ t0: string, d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: number } } } } } } }
+>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 'd5', 't6'], parseInt, {} as T6));
+expectType<T6>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 'd5', 't6'], reverse, {} as T6));
+expectType<T6>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 'd5', 't6'], identity, {} as T6));
 
 // we only have types up to 6, this one is to make sure that the backup type catches when there is more
 expectAssignable<
-{ t0: string, d0: { t1: string, d1: { t2: string, d3: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: string, d6: { t7: number } } } } } } } }
+{ t0: string, d0: { t1: string, d1: { t2: string, d2: { t3: string, d3: { t4: string, d4: { t5: string, d5: { t6: string, d6: { t7: number } } } } } } } }
 >(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], parseInt, {} as T7));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], reverse, {} as T7));
-expectAssignable<T0>(modifyPath(['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'], identity, {} as T7));
+expectType<T7>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 't7'], reverse, {} as T7));
+expectType<T7>(modifyPath(['d0', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 't7'], identity, {} as T7));
 
 
 // directly assignable input and return type
