@@ -12,7 +12,7 @@ expectType<{ foo: number; bar: string; }>(pick(['foo', 'bar'])(obj));
 expectType<{ foo: number; bar: string; biz?: boolean }>(pick(['foo', 'bar', 'biz'])(obj));
 // as long as some of the array has valid keys, it will accept it, but will return `never` if there are any invalid keys
 expectError(pick(['baz', 'bar', 'biz'])(obj));
-// if the array is only invalid keys, it will error
+// errors (with better message) with array of all unknown keys
 expectError(pick(['baz'])(obj));
 // make sure typed array works
 expectType<typeof obj>(pick([] as (keyof typeof obj)[])(obj));
@@ -26,4 +26,5 @@ expectError(pick(['baz', 'bar', 'biz'], obj));
 expectType<typeof obj>(pick([] as (keyof typeof obj)[], obj));
 
 // Record
+expectType<Record<string, number>>(pick(['foo', 'bar'])({} as Record<string, number>));
 expectType<Record<string, number>>(pick(['foo', 'bar'], {} as Record<string, number>));
