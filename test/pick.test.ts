@@ -26,5 +26,5 @@ expectError(pick(['baz', 'bar', 'biz'], obj));
 expectType<typeof obj>(pick([] as (keyof typeof obj)[], obj));
 
 // Record
-expectType<Record<string, number>>(pick(['foo', 'bar'])({} as Record<string, number>));
-expectType<Record<string, number>>(pick(['foo', 'bar'], {} as Record<string, number>));
+expectType<Pick<Record<string, number>, 'foo' | 'bar'>>(pick(['foo', 'bar'])({} as Record<string, number>));
+expectType<Pick<Record<string, number>, 'foo' | 'bar'>>(pick(['foo', 'bar'], {} as Record<string, number>));

@@ -26,5 +26,5 @@ expectError(omit(['baz', 'bar', 'biz'], obj));
 expectType<{}>(omit([] as (keyof typeof obj)[], obj));
 
 // Record
-expectType<Record<string, number>>(omit(['foo', 'bar'])({} as Record<string, number>));
-expectType<Record<string, number>>(omit(['foo', 'bar'], {} as Record<string, number>));
+expectType<Omit<Record<string, number>, 'foo' | 'bar'>>(omit(['foo', 'bar'])({} as Record<string, number>));
+expectType<Omit<Record<string, number>, 'foo' | 'bar'>>(omit(['foo', 'bar'], {} as Record<string, number>));
