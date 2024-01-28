@@ -1,5 +1,5 @@
 import { expectType } from 'tsd';
-import { isNotNil } from '../es';
+import { filter, isNotNil } from '../es';
 
 expectType<boolean>(isNotNil(1));
 expectType<boolean>(isNotNil('a'));
@@ -22,3 +22,5 @@ const r = maybeNumber();
 if (isNotNil(r)) {
   expectType<number>(r);
 }
+
+expectType<string[]>(filter(isNotNil, [] as (string | undefined)[]));
