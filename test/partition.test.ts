@@ -12,3 +12,6 @@ expectType<[boolean[], boolean[]]>(partition((v) => v, [true, false]));
 expectType<[true[], false[]]>(partition((v): v is true => !!v)([true, false]));
 // fn: (v) => bool
 expectType<[boolean[], boolean[]]>(partition((v) => !!v)([true, false]));
+const isBool = (v: any): v is boolean => typeof v === 'boolean';
+const extractBool = partition(isBool);
+expectType<[boolean[], number[]]>(extractBool([1, true]));
