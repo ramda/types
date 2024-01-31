@@ -1,5 +1,6 @@
 import { expectType } from 'tsd';
 import { zipObj } from '../types/zipObj';
+import { pipe } from '../types/pipe';
 
 const sym = Symbol.for('Symbol');
 
@@ -22,3 +23,9 @@ expectType<{a: boolean}>(zipObj(['a'])([true, false] as boolean[]));
 expectType<{[key: string]: boolean}>(zipObj(['a'] as string[])([true, false]));
 expectType<{bool: true, number: 1}>(zipObj(['bool', 'number'])([true, 1, 'string']));
 expectType<{bool: true, number: 1, missing: undefined}>(zipObj(['bool', 'number', 'missing'])([true, 1]));
+
+
+expectType<{string: string, number: number}>(pipe(
+  (a: [string, number]) => a,
+  zipObj(['string', 'number'])
+)(['a', 42]));
