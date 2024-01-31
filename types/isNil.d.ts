@@ -1,1 +1,1 @@
-export function isNil(value: any): value is null | undefined;
+export function isNil<T>(value: T): value is ((null | undefined) & T);
