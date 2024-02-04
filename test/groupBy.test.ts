@@ -1,4 +1,4 @@
-import { expectError, expectType } from 'tsd';
+import { expectType, expectNotType } from 'tsd';
 import { toPairs, groupBy, __ } from '../es';
 
 type Student = { score: number; name: string };
@@ -28,4 +28,4 @@ expectType<Record<'A' | 'B' | 'C' | 'D' | 'F', Student[]>>(grouped2);
 // toPairs returns expected
 const entries = toPairs({} as Record<string, Student[]>);
 expectType<[string, Student[]][]>(entries);
-expectError<[string, Student[] | undefined][]>(entries); // this assertion was true before when groupBy returned `Partial<Record<>>`
+expectNotType<[string, Student[] | undefined][]>(entries); // this assertion was true before when groupBy returned `Partial<Record<>>`
