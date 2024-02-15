@@ -35,11 +35,15 @@
   "sideEffects": false,
   "files": [
     "es",
-    "src"
+    "src",
+    "ts4"
   ],
   "types": "./es/index.d.ts",
   "scripts": {
-    "build": "node scripts/buildTypes.mjs",
+    "build": "npm run build:types && npm run build:ts4",
+    "build:types": "node scripts/buildTypes.mjs",
+    "build:ts4": "node scripts/buildTs4.mjs",
+    "clean": "rimraf es ts4",
     "lint": "eslint . --max-warnings=0",
     "test": "tsd",
     "typecheck": "tsc -p tsconfig.types.json --noEmit"
@@ -57,6 +61,7 @@
     "eslint": "^8.50.0",
     "eslint-plugin-import": "^2.28.1",
     "ramda": "^0.29.1",
+    "rimraf": "^5.0.5",
     "tsd": "^0.29.0",
     "typescript": "^5.2.2",
     "xyz": "^4.0.0"
