@@ -59,6 +59,30 @@ export function assoc<T, K extends string>(prop: K, val: T) : {
   <U>(obj: U): U & Record<K, T>;
 };
 
+// assoc(__, __, obj)
+export function assoc<U>(__: Placeholder, __2: Placeholder, obj: U): {
+  // assoc(__, __, obj)(key)
+  <K extends keyof U>(key: K): {
+    // assoc(__, __, obj)(key)(value), when K is keyof U and value types match
+    <T extends U[K]>(val: T): U;
+    // assoc(__, __, obj)(key)(value), when K is keyof U and value types do not match
+    <T>(val: T): Record<K, T> & Omit<U, K>
+  }
+  // assoc(__, __, obj)(key)(value), when K is not keyof U
+  <K extends string>(key: K): <T>(val: T) => U & Record<K, T>;
+  // assoc(__, __, obj)(__, value)
+  <T>(__: Placeholder, val: T): {
+    // assoc(__, __, obj)(__, value)(key), when obj has key prop, tests if val is typeof obj[prop] for best return type
+    <K extends keyof U>(key: K): U[K] extends T ? U : Record<K, T> & Omit<U, K>;
+    // assoc(__, __, obj)(__, value)(key) when obj does not have key prop
+    <K extends string>(key: K): U & Record<K, T>;
+  }
+  // assoc(__, __, obj)(key, value)
+  <K extends keyof U>(key: K, val: U[K]): U;
+  <K extends keyof U, T>(key: K, val: T): Record<K, T> & Omit<U, K>;
+  <K extends string, T>(key: K, val: T): U & Record<K, T>;
+};
+
 // assoc(__, val, obj)(prop), this tests if prop is keyof obj and if val is typeof obj[prop] for best return type
 export function assoc<T, U>(__: Placeholder, val: T, obj: U): <K extends string>(prop: K) => K extends keyof U ? T extends U[K] ? U : Record<K, T> & Omit<U, K> : U & Record<K, T>;
 // assoc(prop, __, obj)(val), when K is keyof obj, tests if val is typeof obj[prop] for best return type
