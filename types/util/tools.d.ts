@@ -502,6 +502,11 @@ export type WidenLiterals<T> =
         : T;
 
 /**
+ * Alias for the common result type for the `assoc` function
+ */
+export type AssocResults<K extends PropertyKey, T, U> = U extends Record<K, any> ? T extends U[K] ? U : Omit<U, K> & Record<K, T> : Omit<U, K> & Record<K, T>;
+
+/**
  * Extract the types from an array
  * Works with Tuples, eg `ElementOf<typeof ['p1', 'p2']>` => `'p1' | 'p2'`
  *

@@ -1,10 +1,13 @@
-export function modify<K extends string, A, P>(
-  prop: K,
-  fn: (a: A) => P,
-): <T extends Record<K, A>>(target: T) => Omit<T, K> & Record<K, P>;
+// modify(prop)
+export function modify<K extends PropertyKey>(prop: K): {
+  // modify(prop)(fn)(obj)
+  <T>(fn: (value: T) => T): <U extends Record<K, T>>(object: U) => U;
+  // modify(prop)(fn), obj)
+  <T, U extends Record<K, T>>(fn: (value: T) => T, object: U): U;
+};
 
-export function modify<T extends object, K extends keyof T, P>(
-  prop: K,
-  fn: (a: T[K]) => P,
-  obj: T,
-): Omit<T, K> & Record<K, P>;
+// modify(prop, fn)(obj)
+export function modify<K extends PropertyKey, T>(prop: K, fn: (value: T) => T): <U extends Record<K, T>>(object: U) => U;
+
+// modify(prop, fn, obj)
+export function modify<U, K extends keyof U>(prop: K, fn: (value: U[K]) => U[K], object: U): U;
