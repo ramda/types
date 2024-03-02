@@ -507,4 +507,4 @@ export type WidenLiterals<T> =
  *
  * <created by @harris-miller>
  */
-export type ElementOf<Type extends readonly any[]> = Type extends readonly (infer Values)[] ? Values : never;
+export type ElementOf<Type extends readonly any[]> = Type[number];
