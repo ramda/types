@@ -1,6 +1,7 @@
 export function reject<A, P extends A>(
   pred: (val: A) => val is P,
 ): {
+  <B extends A>(list: readonly B[]): Exclude<B, P>[];
   <B extends A>(dict: Record<string, B>): Record<string, Exclude<B, P>>;
   <B extends A>(list: readonly B[]): Exclude<B, P>[];
 };
