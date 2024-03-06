@@ -25,7 +25,10 @@ expectType<Foobar[]>(
 expectType<Required<Foobar>[]>(filter((x: Foobar): x is Required<Foobar> => isNotNil(x.foo))([] as Foobar[]));
 // can do isNil too
 expectType<undefined[]>(filter(isNil<string | undefined>)([] as (string | undefined)[]));
-// TODO: test pipe(filter)
+// combining with `pipe` requires same annotations
+expectType<string[]>(pipe(filter(isNotNil<string | undefined>))([] as (string | undefined)[]));
+// when using a function like gt5 which doesn't have a generic, passing filter to pipe has no negative consequences
+expectType<number[]>(pipe(filter(gt5))([] as number[]));
 
 // for when predicate doesn't type narrow
 
@@ -41,7 +44,12 @@ expectType<Values[]>(filter<Values>(x => gt5(x.value))([] as Values[]));
 expectType<Values[]>(filter((x: Values) => gt5(x.value))([] as Values[]));
 // using an inline `isNotNil` function that does not type narrow returns `number | undefined`, and not `number` like the tests above
 expectType<(number | undefined)[]>(filter((x: number | undefined) => x != null)([] as (number | undefined)[]));
-// TODO: test pipe(filter)
+// combining with `pipe` requires same annotations
+expectType<Values[]>(pipe(filter<Values>(x => gt5(x.value)))([] as Values[]));
+expectType<Values[]>(pipe(filter((x: Values) => gt5(x.value)))([] as Values[]));
+// when using a function like gt5 which doesn't have a generic, passing filter to pipe has no negative consequences
+expectType<number[]>(pipe(filter(gt5))([] as number[]));
+
 
 // filter(() => narrow)(dist)
 type Dict = Record<string, string | undefined>;
