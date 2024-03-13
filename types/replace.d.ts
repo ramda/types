@@ -24,7 +24,7 @@ export function replace(__: Placeholder, replacement: string | ((match: string, 
 export function replace(pattern: RegExp | string, replacement: string | ((match: string, ...args: readonly any[]) => string)): (str: string) => string;
 
 // replace(__, __, str)
-export function replace(__: Placeholder, __: Placeholder, str: string): {
+export function replace(__: Placeholder, __2: Placeholder, str: string): {
   // replace(__, __, str)(pattern)(replacement)
   (pattern: RegExp | string): (replacement: string | ((match: string, ...args: readonly any[]) => string)) => string;
   // replace(__, __, str)(__, replacement)(pattern)
