@@ -14,3 +14,8 @@ expectType<readonly number[]>(forEach(__, arrRO)(noop));
 
 expectType<number[]>(forEach(noop)(arr));
 expectType<readonly number[]>(forEach(noop)(arrRO));
+
+// inline arrow functions should get type inferred
+let someMutVar: number;
+expectType<number[]>(forEach(num => { someMutVar + num; }, arr));
+expectType<readonly number[]>(forEach(num => { someMutVar + num; }, arrRO));
