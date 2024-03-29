@@ -41,9 +41,6 @@
   "types": "./es/index.d.ts",
   "typesVersions": {
     "<5": {
-      "index.d.ts": [
-        "ts4/index.d.ts"
-      ],
       "*": [
         "ts4/*"
       ]
