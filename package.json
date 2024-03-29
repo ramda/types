@@ -39,6 +39,16 @@
     "ts4"
   ],
   "types": "./es/index.d.ts",
+  "typesVersions": {
+    "<5": {
+      "index.d.ts": [
+        "ts4/index.d.ts"
+      ],
+      "*": [
+        "ts4/*"
+      ]
+    }
+  },
   "scripts": {
     "build": "npm run build:types && npm run build:ts4",
     "build:types": "node scripts/buildTypes.mjs",
