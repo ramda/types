@@ -11,4 +11,5 @@ export function type(val: any):
 | 'Undefined'
 | 'Symbol'
 | 'Error'
-| 'Date';
+| 'Date'
+| 'BigInt';
