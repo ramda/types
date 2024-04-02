@@ -510,11 +510,13 @@ export type WidenLiterals<T> =
 export type ElementOf<Type extends readonly any[]> = Type[number];
 
 /**
- *
+ * A clever way to represent a non-empty array
+ * <created by @harris-miller>
  */
 export type NonEmptyArray<T> = [T, ...T[]];
 
 /**
- *
+ * A clever way to represent a readonly non-empty array
+ * <created by @harris-miller>
  */
 export type ReadonlyNonEmptyArray<T> = readonly [T, ...T[]];

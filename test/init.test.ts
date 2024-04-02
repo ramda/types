@@ -1,4 +1,7 @@
 import { expectType } from 'tsd';
+
+// TODO: check this import to '../es' once this function actually exists in ramda
+import { isNotEmpty } from '../types/isNotEmpty';
 import { init } from '../es';
 
 // string always return string
@@ -22,3 +25,12 @@ expectType<['10', 10]>(init(['10', 10, '10'] as const));
 // typed arrays return the same type
 expectType<Array<number | string>>(init([10, 'ten'] as Array<number | string>));
 expectType<Array<string | number>>(init(['10', 10] as Array<string | number>));
+
+// works correctly with isNotEmpty
+const arr = [1, 2, 3, 4];
+
+expectType<number[]>(init(arr));
+
+if (isNotEmpty(arr)) {
+  expectType<number[]>(init(arr));
+}
