@@ -1,9 +1,9 @@
-// string
-export function head(str: string): string;
-// empty tuple - purposefully `never`. `head` should never work on tuple type with no length
-export function head(list: readonly []): never;
-// non-empty tuple
-export function head<T1, TRest>(list: readonly [T1, ...TRest[]]): T1;
-// arrays, because these could be empty, they return `T | undefined`
-// this is no different than the tuple form since `T[]` can be empty at runtime
+import { ReadonlyNonEmptyArray } from '../es';
+
+export function head(str: string): string | undefined;
+// non-empty tuple - Readonly here catches regular tuples too
+export function head<T>(list: readonly [T, ...any[]]): T;
+// non-empty arrays - Readonly here catches regular arrays too
+export function head<T>(list: ReadonlyNonEmptyArray<T>): T;
+// arrays, because these could be empty, they return `T | undefined
 export function head<T>(list: readonly T[]): T | undefined;
