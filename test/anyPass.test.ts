@@ -25,7 +25,7 @@ expectType<boolean>(
   })
 );
 
-expectError(
+expectType<boolean>(
   isVampire({
     age: 21,
     garlic_allergy: true,
@@ -35,7 +35,7 @@ expectError(
   })
 );
 
-expectError(
+expectType<boolean>(
   isVampire({
     age: 40,
     garlic_allergy: true,
