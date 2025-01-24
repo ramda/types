@@ -10,10 +10,18 @@ export function filter<A, P extends A>(
   <B extends A>(list: readonly B[]): P[];
 };
 
-// filter(() => boolean)
+// filter(() => boolean)(list | dict)
 export function filter<T>(
   pred: (value: T) => boolean,
-): <P extends T, C extends readonly P[] | Record<string, P>>(collection: C) => C;
+): {
+  <K>(map: Map<K, T>): Map<K, T>;
+  <P extends T, C extends readonly P[] | Record<string, P>>(collection: C): C;
+};
+
+// filter(() => narrow, map)
+export function filter<K, T, P extends T>(pred: (val: T) => val is P, map: Map<K, T>): Map<K, P>;
+// filter(() => boolean, map)
+export function filter<K, T>(pred: (val: T) => boolean, map: Map<K, T>): Map<K, T>;
 
 // filter(() => narrow, list) - readonly T[] falls into Record<string T> for some reason, so list needs to come first
 export function filter<T, P extends T>(pred: (val: T) => val is P, list: readonly T[]): P[];

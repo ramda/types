@@ -90,3 +90,8 @@ expectType<(number | undefined)[]>(filter(x => x != null, [] as (number | undefi
 // filter(() => narrow, dist)
 // no need for type annotations when using full signature
 expectType<Record<string, string>>(filter(isNotNil, {} as Dict));
+
+
+// filter(() => narrow)(dist)
+expectType<Map<string, string>>(filter(isNotNil, new Map<string, string | undefined>()));
+expectType<Map<string, number>>(filter(gt5, new Map<string, number>()));
