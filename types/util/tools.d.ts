@@ -324,7 +324,7 @@ export type ObjPred<T = unknown> = (value: any, key: unknown extends T ? string 
 /**
  * Values that can be compared using the relational operators `<`/`<=`/`>`/`>=`
  */
-export type Ord = number | string | boolean | Date;
+export type Ord = number | string | boolean | Date | bigint;
 
 /**
  * `a` is less than `b`
