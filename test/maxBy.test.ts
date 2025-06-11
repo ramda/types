@@ -6,6 +6,7 @@ type Obj = {
   str: string;
   date: Date;
   bool: boolean;
+  bigint: bigint;
 };
 
 // please note how literals work in this situation
@@ -20,6 +21,7 @@ expectType<number>(maxBy(Math.abs, 1 as number, 2 as number));
 expectType<Obj>(maxBy(prop('str'), {} as Obj, {} as Obj));
 expectType<Obj>(maxBy(prop('bool'), {} as Obj, {} as Obj));
 expectType<Obj>(maxBy(prop('date'), {} as Obj, {} as Obj));
+expectType<Obj>(maxBy(prop('bigint'), {} as Obj, {} as Obj));
 
 // Placeholder
 // expectType<number>(max(__, a, b)(fn));

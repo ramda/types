@@ -14,6 +14,7 @@ expectType<number>(min(1 as number, 2 as number));
 expectType<string>(min('a' as string, 'b' as string));
 expectType<boolean>(min(true as boolean, false as boolean));
 expectType<Date>(min(new Date(Date.now() - 1), new Date(Date.now())));
+expectType<bigint>(min(1n as bigint, 2n as bigint));
 
 // curried
 expectType<(b: number) => number>(min(a));

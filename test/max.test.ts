@@ -14,6 +14,7 @@ expectType<number>(max(1 as number, 2 as number));
 expectType<string>(max('a' as string, 'b' as string));
 expectType<boolean>(max(true as boolean, false as boolean));
 expectType<Date>(max(new Date(Date.now() - 1), new Date(Date.now())));
+expectType<bigint>(max(1n as bigint, 2n as bigint));
 
 // curried
 expectType<(b: number) => number>(max(a));
