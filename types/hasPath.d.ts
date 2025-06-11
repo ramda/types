@@ -1,2 +1,4 @@
-export function hasPath(list: readonly string[]): <T>(obj: T) => boolean;
-export function hasPath<T>(list: readonly string[], obj: T): boolean;
+import { Path } from './util/tools';
+
+export function hasPath(list: Path): <T>(obj: T) => boolean;
+export function hasPath<T>(list: Path, obj: T): boolean;
