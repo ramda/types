@@ -22,3 +22,8 @@ const newObj3 = rebuild(([k, v]) => {
 }, oldObj);
 
 expectType<Record<string, Record<string, string>>>(newObj3);
+
+const diffValueTypes = { foo: 123, bar: 'blah' };
+
+const updated = rebuild(([k, v]) =>[[k, v]], diffValueTypes);
+expectType<Record<string, string | number>>(updated);
