@@ -520,3 +520,28 @@ export type NonEmptyArray<T> = [T, ...T[]];
  * <created by @harris-miller>
  */
 export type ReadonlyNonEmptyArray<T> = readonly [T, ...T[]];
+
+/**
+ * Prettify type into an object literal
+ * <created by @harris-miller>
+ */
+export type Prettify<T> = {[KeyType in keyof T]: T[KeyType]} & {};
+
+type TuplesFromObject<T> = {
+  [P in keyof T]: [P, T[P]];
+}[keyof T];
+
+type GetKeyByValue<T, V> =
+  TuplesFromObject<T> extends infer TT
+    ? TT extends [infer P, V]
+      ? P
+      : never
+    : never;
+
+/**
+ * Remap keys of one object to the values of mapping object
+ * <created by @RobinTail>
+ */
+export type Remap<T, U extends { [P in keyof T]?: string }> = {
+  [P in NonNullable<U[keyof U]>]: T[GetKeyByValue<U, P>];
+};
